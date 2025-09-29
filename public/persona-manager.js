@@ -240,33 +240,13 @@ You balance professionalism with warmth, keeping conversations natural, engaging
 class PersonaManager {
     constructor() {
         this.currentPersona = null;
-        this.chatWidget = null;
+        this.activeChats = new Set();
         this.init();
     }
 
     init() {
-        this.chatWidget = document.getElementById('persona-chatbot-widget');
-        this.setupPersonaCards();
-        this.setupSwitchPersonaButton();
-    }
-
-    setupPersonaCards() {
-        const connectButtons = document.querySelectorAll('.connect-btn');
-        connectButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const personaId = e.target.dataset.persona;
-                this.selectPersona(personaId);
-            });
-        });
-    }
-
-    setupSwitchPersonaButton() {
-        const switchButton = document.getElementById('persona-switch-chat');
-        if (switchButton) {
-            switchButton.addEventListener('click', () => {
-                this.showPersonaSelection();
-            });
-        }
+        // No need for chat widget setup since we integrated chat into cards
+        console.log('PersonaManager initialized with integrated chat system');
     }
 
     selectPersona(personaId) {
@@ -276,86 +256,14 @@ class PersonaManager {
         }
 
         this.currentPersona = AI_PERSONAS[personaId];
-        this.updateChatInterface();
-        this.showChatWidget();
-
-        // Scroll to chat widget
-        this.chatWidget.scrollIntoView({ behavior: 'smooth' });
-
-        // Show notification if widget is minimized
-        this.showNotification();
-    }
-
-    updateChatInterface() {
-        if (!this.currentPersona) return;
-
-        // Update avatar and name
-        document.getElementById('persona-avatar').textContent = this.currentPersona.avatar;
-        document.getElementById('persona-avatar-header').textContent = this.currentPersona.avatar;
-        document.getElementById('persona-name').textContent = this.currentPersona.name;
-
-        // Update welcome message
-        const welcomeAvatar = document.getElementById('persona-welcome-avatar');
-        const welcomeContent = document.getElementById('persona-welcome-content');
-
-        if (welcomeAvatar) welcomeAvatar.textContent = this.currentPersona.avatar;
-        if (welcomeContent) {
-            welcomeContent.innerHTML = `
-                <p>Hello! I'm your ${this.currentPersona.name}. ${this.currentPersona.description}</p>
-                <p>Click "Connect" to start our voice conversation!</p>
-            `;
-        }
-
-        // Update header color
-        const header = document.querySelector('.persona-header');
-        if (header) {
-            header.style.borderLeftColor = this.currentPersona.color;
-        }
-    }
-
-    showChatWidget() {
-        this.chatWidget.style.display = 'block';
-
-        // Auto-show the chat window
-        const chatWindow = document.getElementById('persona-chatbot-window');
-        if (chatWindow) {
-            chatWindow.style.display = 'flex';
-        }
+        console.log('Selected persona:', this.currentPersona.name);
 
         // Ensure the AI chat system knows about the selected persona
         if (window.aiPersonaChat) {
             window.aiPersonaChat.currentPersona = this.currentPersona;
         }
-    }
 
-    hideChatWidget() {
-        this.chatWidget.style.display = 'none';
-    }
-
-    showPersonaSelection() {
-        // Scroll back to personas section
-        document.getElementById('personas').scrollIntoView({ behavior: 'smooth' });
-
-        // Optionally hide the chat widget
-        const chatWindow = document.getElementById('persona-chatbot-window');
-        if (chatWindow) {
-            chatWindow.style.display = 'none';
-        }
-    }
-
-    showNotification() {
-        const notification = document.getElementById('persona-chat-notification');
-        if (notification) {
-            notification.style.display = 'block';
-            notification.textContent = '1';
-        }
-    }
-
-    hideNotification() {
-        const notification = document.getElementById('persona-chat-notification');
-        if (notification) {
-            notification.style.display = 'none';
-        }
+        return this.currentPersona;
     }
 
     getCurrentPersona() {
@@ -369,6 +277,23 @@ class PersonaManager {
     getPersonaVoice() {
         return this.currentPersona ? this.currentPersona.voice : 'alloy';
     }
+
+    getPersonaById(personaId) {
+        return AI_PERSONAS[personaId] || null;
+    }
+
+    // Track active chats
+    addActiveChat(personaId) {
+        this.activeChats.add(personaId);
+    }
+
+    removeActiveChat(personaId) {
+        this.activeChats.delete(personaId);
+    }
+
+    getActiveChats() {
+        return Array.from(this.activeChats);
+    }
 }
 
 // Initialize the persona manager
@@ -377,26 +302,135 @@ document.addEventListener('DOMContentLoaded', () => {
     personaManager = new PersonaManager();
 });
 
-// Widget toggle functionality
+// Enhanced chat functionality for integrated cards
+window.toggleChat = function(persona) {
+    const chatElement = document.getElementById(`chat-${persona}`);
+    const button = document.querySelector(`[data-persona="${persona}"] .connect-btn`);
+
+    if (!chatElement || !button) {
+        console.error('Chat elements not found for persona:', persona);
+        return;
+    }
+
+    if (chatElement.classList.contains('active')) {
+        // Close this chat
+        chatElement.classList.remove('active');
+        button.classList.remove('active');
+        button.textContent = 'Connect';
+
+        if (personaManager) {
+            personaManager.removeActiveChat(persona);
+        }
+    } else {
+        // Close other chats first
+        document.querySelectorAll('.persona-chat').forEach(chat => {
+            chat.classList.remove('active');
+        });
+        document.querySelectorAll('.connect-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.textContent = 'Connect';
+        });
+
+        // Open selected chat
+        chatElement.classList.add('active');
+        button.classList.add('active');
+        button.textContent = 'Connected';
+
+        // Set as current persona and track active chat
+        if (personaManager) {
+            personaManager.selectPersona(persona);
+            personaManager.addActiveChat(persona);
+        }
+
+        // Scroll the card into view
+        const personaCard = document.querySelector(`[data-persona="${persona}"]`);
+        if (personaCard) {
+            personaCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+};
+
+// Enhanced chat controls for each persona
 document.addEventListener('DOMContentLoaded', () => {
-    const chatToggle = document.getElementById('persona-chatbot-toggle');
-    const chatWindow = document.getElementById('persona-chatbot-window');
-    const minimizeBtn = document.getElementById('persona-minimize-chat');
+    // Setup chat controls for each persona
+    Object.keys(AI_PERSONAS).forEach(personaId => {
+        const startBtn = document.querySelector(`#chat-${personaId} .chat-btn-start`);
+        const stopBtn = document.querySelector(`#chat-${personaId} .chat-btn-stop`);
 
-    if (chatToggle && chatWindow) {
-        chatToggle.addEventListener('click', () => {
-            const isVisible = chatWindow.style.display === 'flex';
-            chatWindow.style.display = isVisible ? 'none' : 'flex';
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                // Connect to AI chat system
+                if (window.aiPersonaChat && personaManager) {
+                    const persona = personaManager.getPersonaById(personaId);
+                    if (persona) {
+                        window.aiPersonaChat.currentPersona = persona;
+                        window.aiPersonaChat.startChat();
+                    }
+                }
 
-            if (!isVisible && personaManager) {
-                personaManager.hideNotification();
-            }
-        });
-    }
+                // Update status
+                const statusElement = document.querySelector(`#chat-${personaId} .chat-status span`);
+                if (statusElement) {
+                    statusElement.textContent = 'Connected';
+                }
+            });
+        }
 
-    if (minimizeBtn && chatWindow) {
-        minimizeBtn.addEventListener('click', () => {
-            chatWindow.style.display = 'none';
-        });
-    }
+        if (stopBtn) {
+            stopBtn.addEventListener('click', () => {
+                // Disconnect from AI chat system
+                if (window.aiPersonaChat) {
+                    window.aiPersonaChat.stopChat();
+                }
+
+                // Update status
+                const statusElement = document.querySelector(`#chat-${personaId} .chat-status span`);
+                if (statusElement) {
+                    statusElement.textContent = 'Ready to connect';
+                }
+            });
+        }
+    });
 });
+
+// Global function to add messages to specific persona chats
+window.addPersonaMessage = function(personaId, message, isUser = false) {
+    const messagesContainer = document.querySelector(`#chat-${personaId} .chat-messages`);
+    if (!messagesContainer) return;
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message${isUser ? ' user-message' : ''}`;
+
+    const persona = AI_PERSONAS[personaId];
+    const avatarStyle = persona ? `background: var(--gradient-${persona.color.toLowerCase().replace('#', '')});` : '';
+
+    if (isUser) {
+        messageDiv.innerHTML = `
+            <div class="chat-content">${message}</div>
+        `;
+    } else {
+        const iconMap = {
+            'astrologer': 'sparkles',
+            'health': 'heart-pulse',
+            'counselor': 'heart-handshake',
+            'windows-sales': 'home',
+            'car-sales': 'car',
+            'general': 'message-circle'
+        };
+
+        messageDiv.innerHTML = `
+            <div class="chat-avatar" style="${avatarStyle}">
+                <i data-lucide="${iconMap[personaId] || 'bot'}"></i>
+            </div>
+            <div class="chat-content">${message}</div>
+        `;
+    }
+
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // Reinitialize Lucide icons for new content
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
+};

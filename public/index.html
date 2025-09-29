@@ -3,171 +3,840 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Persona Hub - Real-time Conversations</title>
+    <title>AlsaTalk - Enterprise Voice Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <nav class="navbar">
-                <div class="nav-brand">
-                    <h1>🤖 AI Persona Hub</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="#personas">Personas</a>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1>🤖 AI Persona Hub</h1>
-                <p>Experience real-time voice conversations with specialized AI personalities for every aspect of your life</p>
-                <div class="hero-cta">
-                    <button class="cta-button" onclick="document.getElementById('personas').scrollIntoView()">Choose Your AI Companion</button>
-                    <span class="demo-badge">🎙️ Real-time Voice Conversations!</span>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-container">
+                    <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="logo">
+                    <div class="brand-text">
+                        <h1>AlsaTalk</h1>
+                        <span class="brand-subtitle">Voice Intelligence</span>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <main class="main-content">
-            <!-- Personas Section -->
-            <section id="personas" class="personas-section">
-                <h2>Choose Your AI Persona</h2>
-                <div class="persona-grid">
-                    <div class="persona-card" data-persona="astrologer">
-                        <span class="persona-icon">🔮</span>
-                        <h3>Gold Astrologer</h3>
-                        <p>Mystical wisdom, cosmic guidance, and inspiring insights about your life path</p>
-                        <button class="connect-btn" data-persona="astrologer">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="health">
-                        <span class="persona-icon">🍎</span>
-                        <h3>Health & Dietitian</h3>
-                        <p>Science-based nutrition advice, fitness guidance, and healthy lifestyle tips</p>
-                        <button class="connect-btn" data-persona="health">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="counselor">
-                        <span class="persona-icon">💝</span>
-                        <h3>Emotional Support Friend</h3>
-                        <p>Warm, non-judgmental support to help you process emotions and feel heard</p>
-                        <button class="connect-btn" data-persona="counselor">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="windows-sales">
-                        <span class="persona-icon">🪟</span>
-                        <h3>Windows Sales Specialist</h3>
-                        <p>Expert guidance on aluminum & wooden windows, design, and energy efficiency</p>
-                        <button class="connect-btn" data-persona="windows-sales">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="car-sales">
-                        <span class="persona-icon">🚗</span>
-                        <h3>Car Sales Consultant</h3>
-                        <p>Enthusiastic help finding the perfect vehicle for your lifestyle and needs</p>
-                        <button class="connect-btn" data-persona="car-sales">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="general">
-                        <span class="persona-icon">💬</span>
-                        <h3>General Conversationalist</h3>
-                        <p>Versatile partner for casual chat, business brainstorming, and mentorship</p>
-                        <button class="connect-btn" data-persona="general">Connect</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- About Section -->
-            <section id="about" class="about-section">
-                <h2>About AI Persona Hub</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>Welcome to AI Persona Hub - your gateway to meaningful conversations with specialized AI personalities. Each persona is carefully crafted to provide authentic, helpful interactions tailored to specific aspects of your life and interests.</p>
-                        <div class="features">
-                            <div class="feature">
-                                <span class="feature-icon">🎙️</span>
-                                <span>Real-time Voice Conversations</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">🧠</span>
-                                <span>6 Specialized AI Personalities</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">🔒</span>
-                                <span>Private & Secure Conversations</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="contact-section">
-                <h2>Contact Us</h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <span class="contact-icon">📧</span>
-                            <span>support@aipersonahub.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <span class="contact-icon">💬</span>
-                            <span>Chat with any AI Persona 24/7</span>
-                        </div>
-                        <div class="contact-item">
-                            <span class="contact-icon">🛡️</span>
-                            <span>Privacy-first conversations</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- AI Persona Chat Widget -->
-        <div id="persona-chatbot-widget" class="chatbot-widget persona-widget" style="display: none;">
-            <div class="chatbot-toggle" id="persona-chatbot-toggle">
-                <span class="chatbot-icon" id="persona-avatar">🤖</span>
-                <span class="chatbot-notification" id="persona-chat-notification" style="display: none;">1</span>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">
+                    <i data-lucide="home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#solutions" class="nav-link">
+                    <i data-lucide="bot"></i>
+                    <span>Solutions</span>
+                </a>
+                <a href="#pricing" class="nav-link">
+                    <i data-lucide="credit-card"></i>
+                    <span>Pricing</span>
+                </a>
+                <a href="#about" class="nav-link">
+                    <i data-lucide="info"></i>
+                    <span>About</span>
+                </a>
             </div>
 
-            <div class="chatbot-window" id="persona-chatbot-window">
-                <div class="chatbot-header persona-header">
-                    <div class="chatbot-info">
-                        <span class="chatbot-avatar" id="persona-avatar-header">🤖</span>
-                        <div>
-                            <h4 id="persona-name">AI Assistant</h4>
-                            <span class="chatbot-status" id="persona-connection-status">Offline</span>
-                        </div>
-                    </div>
-                    <div class="chatbot-controls">
-                        <button id="persona-start-chat" class="btn btn-primary btn-sm">Connect</button>
-                        <button id="persona-stop-chat" class="btn btn-secondary btn-sm" disabled>Disconnect</button>
-                        <button id="persona-switch-chat" class="btn btn-tertiary btn-sm">Switch Persona</button>
-                        <button id="persona-minimize-chat" class="btn-minimize">−</button>
-                    </div>
-                </div>
+            <div class="nav-actions">
+                <button class="nav-btn-secondary">Sign In</button>
+                <button class="nav-btn-primary">Get Started</button>
+            </div>
 
-                <div class="chatbot-messages" id="persona-chat-messages">
-                    <div class="message bot-message" id="persona-welcome-message">
-                        <div class="message-avatar" id="persona-welcome-avatar">🤖</div>
-                        <div class="message-content" id="persona-welcome-content">
-                            <p>Choose a persona from the cards above to start a conversation!</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
 
-                <div class="chatbot-input">
-                    <div class="voice-indicator" id="persona-voice-indicator">
-                        <span class="mic-icon">🎤</span>
-                        <div class="voice-level" id="persona-voice-level"></div>
-                        <span class="voice-status" id="persona-voice-status">Ready to listen...</span>
-                    </div>
-                </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-nav-link">
+                <i data-lucide="home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#solutions" class="mobile-nav-link">
+                <i data-lucide="bot"></i>
+                <span>Solutions</span>
+            </a>
+            <a href="#pricing" class="mobile-nav-link">
+                <i data-lucide="credit-card"></i>
+                <span>Pricing</span>
+            </a>
+            <a href="#about" class="mobile-nav-link">
+                <i data-lucide="info"></i>
+                <span>About</span>
+            </a>
+            <div class="mobile-menu-actions">
+                <button class="mobile-btn-secondary">Sign In</button>
+                <button class="mobile-btn-primary">Get Started</button>
             </div>
         </div>
     </div>
 
-    <script src="persona-manager.js"></script>
-    <script src="ai-persona-chat.js"></script>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-pattern"></div>
+        </div>
+
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <div class="status-dot"></div>
+                    <span>AI-Powered Voice Intelligence</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Transform Your Business with
+                    <span class="hero-gradient-text">AlsaTalk</span>
+                </h1>
+
+                <p class="hero-description">
+                    Enterprise-grade AI voice automation that revolutionizes customer interactions,
+                    streamlines sales processes, and enhances internal communications.
+                    Built for scale, security, and seamless integration.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">&lt;150ms</span>
+                            <span class="stat-label">Response Time</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="globe"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">127+</span>
+                            <span class="stat-label">Languages</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <button class="hero-btn-primary" onclick="document.getElementById('solutions').scrollIntoView()">
+                        <span>Explore Solutions</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button class="hero-btn-secondary">
+                        <i data-lucide="play"></i>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="voice-visualizer">
+                    <div class="voice-circle">
+                        <div class="voice-inner">
+                            <i data-lucide="mic"></i>
+                        </div>
+                        <div class="voice-waves">
+                            <div class="wave wave-1"></div>
+                            <div class="wave wave-2"></div>
+                            <div class="wave wave-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="solutions-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">AI Voice Solutions</h2>
+                <p class="section-description">
+                    Choose from our specialized AI agents designed for different business needs
+                </p>
+            </div>
+
+            <div class="solutions-grid">
+                <!-- Customer Support Solution -->
+                <div class="solution-card" data-solution="customer-support">
+                    <div class="solution-header">
+                        <div class="solution-icon customer-support">
+                            <i data-lucide="headphones"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Customer Support AI</h3>
+                            <span class="solution-tag">24/7 Available</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Intelligent customer service automation with natural conversation capabilities
+                        and instant problem resolution.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Multi-language Support</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Sentiment Analysis</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>CRM Integration</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="toggleDemo('customer-support')">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-customer-support">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>AI Agent Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn">Start</button>
+                                <button class="demo-btn stop-btn">Stop</button>
+                                <button class="demo-btn close-btn" onclick="toggleDemo('customer-support')">×</button>
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="headphones"></i>
+                                </div>
+                                <div class="message-content">
+                                    Hello! I'm your AI customer support agent. How can I help you today?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales AI Solution -->
+                <div class="solution-card" data-solution="sales-ai">
+                    <div class="solution-header">
+                        <div class="solution-icon sales-ai">
+                            <i data-lucide="phone-call"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Sales AI Agent</h3>
+                            <span class="solution-tag">Lead Generation</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Intelligent sales automation with lead qualification, product consultation,
+                        and conversion optimization capabilities.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Lead Qualification</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Product Recommendations</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Pipeline Management</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="toggleDemo('sales-ai')">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-sales-ai">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Sales AI Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn">Start</button>
+                                <button class="demo-btn stop-btn">Stop</button>
+                                <button class="demo-btn close-btn" onclick="toggleDemo('sales-ai')">×</button>
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="phone-call"></i>
+                                </div>
+                                <div class="message-content">
+                                    Hi! I'm your AI sales representative. Ready to explore our enterprise solutions?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HR Assistant Solution -->
+                <div class="solution-card" data-solution="hr-assistant">
+                    <div class="solution-header">
+                        <div class="solution-icon hr-assistant">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>HR Assistant AI</h3>
+                            <span class="solution-tag">Employee Support</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Streamline HR processes with automated employee onboarding, policy assistance,
+                        and internal support services.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Employee Onboarding</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Policy Guidance</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Benefits Information</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="toggleDemo('hr-assistant')">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-hr-assistant">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>HR AI Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn">Start</button>
+                                <button class="demo-btn stop-btn">Stop</button>
+                                <button class="demo-btn close-btn" onclick="toggleDemo('hr-assistant')">×</button>
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <div class="message-content">
+                                    Hello! I'm your HR assistant. I can help with onboarding, policies, and employee support.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointment Scheduler Solution -->
+                <div class="solution-card" data-solution="scheduler">
+                    <div class="solution-header">
+                        <div class="solution-icon scheduler">
+                            <i data-lucide="calendar"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Smart Scheduler</h3>
+                            <span class="solution-tag">Automation</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Automated appointment booking and calendar management with intelligent
+                        scheduling optimization and conflict resolution.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Calendar Integration</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Smart Scheduling</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Automated Reminders</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="toggleDemo('scheduler')">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-scheduler">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Scheduler AI Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn">Start</button>
+                                <button class="demo-btn stop-btn">Stop</button>
+                                <button class="demo-btn close-btn" onclick="toggleDemo('scheduler')">×</button>
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="calendar"></i>
+                                </div>
+                                <div class="message-content">
+                                    Hi! I'm your appointment scheduler. I can help you book meetings and manage your calendar.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom AI Solution -->
+                <div class="solution-card" data-solution="custom-ai">
+                    <div class="solution-header">
+                        <div class="solution-icon custom-ai">
+                            <i data-lucide="settings"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Custom AI Agent</h3>
+                            <span class="solution-tag">Tailored</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Fully customizable AI agent tailored to your specific business requirements,
+                        workflows, and industry needs.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Custom Training</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Industry-Specific</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>API Integration</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="toggleDemo('custom-ai')">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-custom-ai">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Custom AI Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn">Start</button>
+                                <button class="demo-btn stop-btn">Stop</button>
+                                <button class="demo-btn close-btn" onclick="toggleDemo('custom-ai')">×</button>
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="settings"></i>
+                                </div>
+                                <div class="message-content">
+                                    Hello! I'm a custom AI agent tailored for your specific business needs. How can I assist?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enterprise Solution -->
+                <div class="solution-card" data-solution="enterprise">
+                    <div class="solution-header">
+                        <div class="solution-icon enterprise">
+                            <i data-lucide="building"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Enterprise Suite</h3>
+                            <span class="solution-tag">Full Package</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Complete enterprise voice intelligence platform with all AI agents,
+                        advanced analytics, and dedicated support.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>All AI Agents</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Advanced Analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Dedicated Support</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="toggleDemo('enterprise')">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-enterprise">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Enterprise AI Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn">Start</button>
+                                <button class="demo-btn stop-btn">Stop</button>
+                                <button class="demo-btn close-btn" onclick="toggleDemo('enterprise')">×</button>
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="building"></i>
+                                </div>
+                                <div class="message-content">
+                                    Welcome to AlsaTalk Enterprise! Access all our AI agents and advanced features.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose AlsaTalk?</h2>
+                <p class="section-description">
+                    Built for enterprise-grade performance, security, and scalability
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Sub-150ms response times with edge computing and optimized AI models</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>SOC2 compliant with end-to-end encryption and data privacy protection</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="globe"></i>
+                    </div>
+                    <h3>Global Scale</h3>
+                    <p>127+ languages with 99.9% uptime across worldwide data centers</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="puzzle"></i>
+                    </div>
+                    <h3>Easy Integration</h3>
+                    <p>RESTful APIs and SDKs for seamless integration with existing systems</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="footer-logo-img">
+                        <div>
+                            <h3>AlsaTalk</h3>
+                            <span>Enterprise Voice Intelligence</span>
+                        </div>
+                    </div>
+                    <p>Transforming business communication with AI-powered voice automation.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Solutions</h4>
+                        <a href="#customer-support">Customer Support</a>
+                        <a href="#sales-ai">Sales AI</a>
+                        <a href="#hr-assistant">HR Assistant</a>
+                        <a href="#enterprise">Enterprise</a>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#about">About Us</a>
+                        <a href="#careers">Careers</a>
+                        <a href="#press">Press</a>
+                        <a href="#contact">Contact</a>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="#documentation">Documentation</a>
+                        <a href="#support">Support</a>
+                        <a href="#api">API Reference</a>
+                        <a href="#status">Status</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 AlsaTalk. All rights reserved.</p>
+                <div class="footer-links-bottom">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#security">Security</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Demo toggle functionality
+        function toggleDemo(solution) {
+            const demoInterface = document.getElementById(`demo-${solution}`);
+            const solutionCard = document.querySelector(`[data-solution="${solution}"]`);
+
+            // Close all other demos
+            document.querySelectorAll('.demo-interface').forEach(demo => {
+                if (demo.id !== `demo-${solution}`) {
+                    demo.classList.remove('active');
+                }
+            });
+
+            // Toggle current demo
+            demoInterface.classList.toggle('active');
+            solutionCard.classList.toggle('demo-active');
+        }
+
+        // Voice level animation
+        function animateVoiceLevel() {
+            const voiceBars = document.querySelectorAll('.voice-bar');
+            voiceBars.forEach(bar => {
+                const randomWidth = Math.random() * 100;
+                bar.style.width = randomWidth + '%';
+            });
+        }
+
+        // Start voice level animation
+        setInterval(animateVoiceLevel, 200);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
