@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Persona Hub - Real-time Conversations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <h1>🤖 AI Persona Hub</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#personas">Personas</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>🤖 AI Persona Hub</h1>
+                <p>Experience real-time voice conversations with specialized AI personalities for every aspect of your life</p>
+                <div class="hero-cta">
+                    <button class="cta-button" onclick="document.getElementById('personas').scrollIntoView()">Choose Your AI Companion</button>
+                    <span class="demo-badge">🎙️ Real-time Voice Conversations!</span>
+                </div>
+            </div>
+        </section>
+
+        <main class="main-content">
+            <!-- Personas Section -->
+            <section id="personas" class="personas-section">
+                <h2>Choose Your AI Persona</h2>
+                <div class="persona-grid">
+                    <div class="persona-card" data-persona="astrologer">
+                        <span class="persona-icon">🔮</span>
+                        <h3>Gold Astrologer</h3>
+                        <p>Mystical wisdom, cosmic guidance, and inspiring insights about your life path</p>
+                        <button class="connect-btn" data-persona="astrologer">Connect</button>
+                    </div>
+                    <div class="persona-card" data-persona="health">
+                        <span class="persona-icon">🍎</span>
+                        <h3>Health & Dietitian</h3>
+                        <p>Science-based nutrition advice, fitness guidance, and healthy lifestyle tips</p>
+                        <button class="connect-btn" data-persona="health">Connect</button>
+                    </div>
+                    <div class="persona-card" data-persona="counselor">
+                        <span class="persona-icon">💝</span>
+                        <h3>Emotional Support Friend</h3>
+                        <p>Warm, non-judgmental support to help you process emotions and feel heard</p>
+                        <button class="connect-btn" data-persona="counselor">Connect</button>
+                    </div>
+                    <div class="persona-card" data-persona="windows-sales">
+                        <span class="persona-icon">🪟</span>
+                        <h3>Windows Sales Specialist</h3>
+                        <p>Expert guidance on aluminum & wooden windows, design, and energy efficiency</p>
+                        <button class="connect-btn" data-persona="windows-sales">Connect</button>
+                    </div>
+                    <div class="persona-card" data-persona="car-sales">
+                        <span class="persona-icon">🚗</span>
+                        <h3>Car Sales Consultant</h3>
+                        <p>Enthusiastic help finding the perfect vehicle for your lifestyle and needs</p>
+                        <button class="connect-btn" data-persona="car-sales">Connect</button>
+                    </div>
+                    <div class="persona-card" data-persona="general">
+                        <span class="persona-icon">💬</span>
+                        <h3>General Conversationalist</h3>
+                        <p>Versatile partner for casual chat, business brainstorming, and mentorship</p>
+                        <button class="connect-btn" data-persona="general">Connect</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="about-section">
+                <h2>About AI Persona Hub</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Welcome to AI Persona Hub - your gateway to meaningful conversations with specialized AI personalities. Each persona is carefully crafted to provide authentic, helpful interactions tailored to specific aspects of your life and interests.</p>
+                        <div class="features">
+                            <div class="feature">
+                                <span class="feature-icon">🎙️</span>
+                                <span>Real-time Voice Conversations</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">🧠</span>
+                                <span>6 Specialized AI Personalities</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">🔒</span>
+                                <span>Private & Secure Conversations</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="contact-section">
+                <h2>Contact Us</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-icon">📧</span>
+                            <span>support@aipersonahub.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">💬</span>
+                            <span>Chat with any AI Persona 24/7</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">🛡️</span>
+                            <span>Privacy-first conversations</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- AI Persona Chat Widget -->
+        <div id="persona-chatbot-widget" class="chatbot-widget persona-widget" style="display: none;">
+            <div class="chatbot-toggle" id="persona-chatbot-toggle">
+                <span class="chatbot-icon" id="persona-avatar">🤖</span>
+                <span class="chatbot-notification" id="persona-chat-notification" style="display: none;">1</span>
+            </div>
+
+            <div class="chatbot-window" id="persona-chatbot-window">
+                <div class="chatbot-header persona-header">
+                    <div class="chatbot-info">
+                        <span class="chatbot-avatar" id="persona-avatar-header">🤖</span>
+                        <div>
+                            <h4 id="persona-name">AI Assistant</h4>
+                            <span class="chatbot-status" id="persona-connection-status">Offline</span>
+                        </div>
+                    </div>
+                    <div class="chatbot-controls">
+                        <button id="persona-start-chat" class="btn btn-primary btn-sm">Connect</button>
+                        <button id="persona-stop-chat" class="btn btn-secondary btn-sm" disabled>Disconnect</button>
+                        <button id="persona-switch-chat" class="btn btn-tertiary btn-sm">Switch Persona</button>
+                        <button id="persona-minimize-chat" class="btn-minimize">−</button>
+                    </div>
+                </div>
+
+                <div class="chatbot-messages" id="persona-chat-messages">
+                    <div class="message bot-message" id="persona-welcome-message">
+                        <div class="message-avatar" id="persona-welcome-avatar">🤖</div>
+                        <div class="message-content" id="persona-welcome-content">
+                            <p>Choose a persona from the cards above to start a conversation!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chatbot-input">
+                    <div class="voice-indicator" id="persona-voice-indicator">
+                        <span class="mic-icon">🎤</span>
+                        <div class="voice-level" id="persona-voice-level"></div>
+                        <span class="voice-status" id="persona-voice-status">Ready to listen...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="persona-manager.js"></script>
+    <script src="ai-persona-chat.js"></script>
+</body>
+</html>
