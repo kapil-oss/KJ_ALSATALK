@@ -4,26 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AlsaTalk - Enterprise Voice Intelligence</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    backdropBlur: {
-                        'xs': '2px',
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-up': 'slideUp 0.6s ease-out',
-                        'bounce-gentle': 'bounceGentle 2s infinite',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <!-- Note: Lucide icons loaded from CDN for home page icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -774,20 +757,179 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 AlsaTalk by Alsatronix Solutions DMCC. All rights reserved.</p>
+                <p>&copy; 2025 AlsaTalk by Alsatronix Solutions DMCC. All rights reserved.</p>
                 <div class="footer-links-bottom">
-                    <a href="#privacy">Privacy Policy</a>
-                    <a href="#terms">Terms of Service</a>
-                    <a href="#security">Security</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('copyright')">Copyright</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('license')">License</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('disclaimer')">Disclaimer</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('legal')">Legal</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Legal Information Modal -->
+    <div id="legalModal" class="legal-modal">
+        <div class="legal-modal-content">
+            <div class="legal-modal-header">
+                <h2 id="legalModalTitle">Legal Information</h2>
+                <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+            </div>
+            <div class="legal-modal-body" id="legalModalBody">
+                <!-- Content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .legal-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .legal-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .legal-modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-2xl);
+            animation: slideUp 0.3s ease;
+        }
+
+        .legal-modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .legal-modal-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .legal-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color var(--transition-fast);
+            line-height: 1;
+        }
+
+        .legal-modal-close:hover {
+            color: var(--primary);
+        }
+
+        .legal-modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .legal-modal-body h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .legal-modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .legal-modal-body h4 {
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.75rem 0;
+        }
+
+        .legal-modal-body p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .legal-modal-body ul {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        .legal-modal-body ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-modal-body strong {
+            color: var(--text-primary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .legal-modal {
+                padding: 1rem;
+            }
+            .legal-modal-content {
+                max-height: 90vh;
+            }
+            .legal-modal-header {
+                padding: 1rem 1.5rem;
+            }
+            .legal-modal-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 
     <script>
         // Initialize Lucide icons
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
         // Check user auth status and display user info
         async function checkUserAuth() {
@@ -803,7 +945,7 @@
                     if (data.user.isAdmin) {
                         const adminLink = document.getElementById('adminLink');
                         adminLink.style.display = 'flex';
-                        lucide.createIcons();
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
                     }
 
                     // Show token usage
@@ -836,7 +978,7 @@
                         tokenUsage.style.display = 'flex';
                         tokenUsage.style.alignItems = 'center';
                         tokenUsage.style.gap = '0.5rem';
-                        lucide.createIcons();
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
                     }
                 }
             } catch (error) {
@@ -869,7 +1011,7 @@
                 </div>
             `;
             document.body.appendChild(alertDiv);
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
 
             setTimeout(() => {
                 alertDiv.style.animation = 'slideOutRight 0.3s ease-out';
@@ -902,7 +1044,7 @@
                 </div>
             `;
             document.body.appendChild(alertDiv);
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         // Call on page load
@@ -947,12 +1089,23 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                const href = this.getAttribute('href');
+
+                // If clicking home, scroll to top
+                if (href === '#home') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
                     });
+                } else {
+                    // For other links, scroll to the section
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
                 // Close mobile menu if open
                 document.getElementById('mobileMenu').classList.remove('active');
@@ -1018,6 +1171,160 @@
                 console.log('Demo modal closed');
             }
         }
+
+        // Legal Modal Functions
+        const legalContent = {
+            copyright: {
+                title: 'Copyright Notice',
+                content: `
+                    <h3>Copyright Notice</h3>
+                    <p><strong>Copyright © 2025 Alsatronix Solutions DMCC</strong></p>
+                    <p>All rights reserved. No part of this website, including but not limited to text, graphics, images, logos, audio clips, digital downloads, data compilations, and software, may be reproduced, distributed, transmitted, cached, or otherwise used, except with the prior written permission of Alsatronix Solutions DMCC.</p>
+
+                    <h4>Intellectual Property Rights</h4>
+                    <p>AlsaTalk and all related marks, logos, and designs are trademarks or registered trademarks of Alsatronix Solutions DMCC. All other trademarks, service marks, and trade names are the property of their respective owners.</p>
+
+                    <h4>Technology Patents</h4>
+                    <p>The AI voice technology, algorithms, and methodologies described herein may be subject to patent protection. Use of this technology without explicit permission is strictly prohibited.</p>
+
+                    <h4>Fair Use</h4>
+                    <p>Limited use for non-commercial, educational, or review purposes may be permitted under fair use provisions, provided proper attribution is given to Alsatronix Solutions DMCC and AlsaTalk.</p>
+                `
+            },
+            license: {
+                title: 'Software License Agreement',
+                content: `
+                    <h3>Software License Agreement</h3>
+
+                    <h4>Grant of License</h4>
+                    <p>Subject to the terms and conditions of this Agreement, Alsatronix Solutions DMCC grants you a limited, non-exclusive, non-transferable license to use AlsaTalk software and services in accordance with the purchased subscription plan.</p>
+
+                    <h4>Permitted Uses</h4>
+                    <ul>
+                        <li>Use the software for legitimate business purposes</li>
+                        <li>Access features according to your subscription tier</li>
+                        <li>Integrate with approved third-party applications</li>
+                        <li>Generate voice interactions within usage limits</li>
+                    </ul>
+
+                    <h4>Restrictions</h4>
+                    <ul>
+                        <li>No reverse engineering, decompiling, or disassembly</li>
+                        <li>No redistribution or resale of the software</li>
+                        <li>No use for illegal or unauthorized purposes</li>
+                        <li>No attempt to circumvent usage limitations</li>
+                        <li>No use in violation of applicable laws or regulations</li>
+                    </ul>
+
+                    <h4>API Usage</h4>
+                    <p>API access is governed by separate terms and rate limits. Commercial API usage requires appropriate licensing and may incur additional fees.</p>
+
+                    <h4>Termination</h4>
+                    <p>This license is effective until terminated. Your rights under this license will terminate automatically without notice if you fail to comply with any term herein.</p>
+                `
+            },
+            disclaimer: {
+                title: 'Legal Disclaimer',
+                content: `
+                    <h3>Legal Disclaimer</h3>
+
+                    <h4>No Warranty</h4>
+                    <p>AlsaTalk is provided "as is" without warranty of any kind, either express or implied. Alsatronix Solutions DMCC disclaims all warranties, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+                    <h4>AI Technology Limitations</h4>
+                    <p>AI-generated responses may not always be accurate, appropriate, or suitable for your specific needs. Users are responsible for reviewing and validating AI outputs before use in critical applications.</p>
+
+                    <h4>Limitation of Liability</h4>
+                    <p>In no event shall Alsatronix Solutions DMCC be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.</p>
+
+                    <h4>Service Availability</h4>
+                    <p>We strive for high availability but do not guarantee uninterrupted service. Maintenance, updates, or technical issues may temporarily affect service availability.</p>
+
+                    <h4>User Responsibility</h4>
+                    <p>Users are solely responsible for their use of AlsaTalk and must ensure compliance with all applicable laws, regulations, and third-party rights.</p>
+
+                    <h4>Data Privacy</h4>
+                    <p>While we implement security measures to protect your data, we cannot guarantee absolute security. Users should review our privacy policy for detailed information about data handling practices.</p>
+                `
+            },
+            legal: {
+                title: 'Legal Information',
+                content: `
+                    <h3>Legal Information</h3>
+
+                    <h4>Governing Law</h4>
+                    <p>These terms and your use of AlsaTalk shall be governed by and construed in accordance with the laws of the United Arab Emirates, without regard to its conflict of law provisions.</p>
+
+                    <h4>Jurisdiction</h4>
+                    <p>Any disputes arising from or relating to this agreement shall be subject to the exclusive jurisdiction of the courts of Dubai, United Arab Emirates.</p>
+
+                    <h4>Compliance Requirements</h4>
+                    <ul>
+                        <li>GDPR compliance for European users</li>
+                        <li>CCPA compliance for California residents</li>
+                        <li>UAE Data Protection Law compliance</li>
+                        <li>Industry-specific regulations as applicable</li>
+                    </ul>
+
+                    <h4>Export Control</h4>
+                    <p>AlsaTalk may be subject to export control laws and regulations. Users are responsible for ensuring compliance with all applicable export control requirements.</p>
+
+                    <h4>Indemnification</h4>
+                    <p>You agree to indemnify, defend, and hold harmless Alsatronix Solutions DMCC from and against any claims, damages, losses, costs, and expenses arising from your use of AlsaTalk or violation of these terms.</p>
+
+                    <h4>Severability</h4>
+                    <p>If any provision of these terms is found to be unenforceable or invalid, the remaining provisions will remain in full force and effect.</p>
+
+                    <h4>Contact Information</h4>
+                    <p>For legal inquiries, please contact:</p>
+                    <p>
+                        <strong>AlsaTalk</strong><br>
+                        Email: info@alsatalk.com<br>
+                        Tel: +971-443-32348
+                    </p>
+                    <p>
+                        <strong>Legal Entity:</strong><br>
+                        Alsatronix Solutions DMCC<br>
+                        2507 The Dome Tower, Cluster N<br>
+                        Jumeirah Lake Towers, Dubai, UAE
+                    </p>
+                `
+            }
+        };
+
+        function openLegalModal(type) {
+            const modal = document.getElementById('legalModal');
+            const title = document.getElementById('legalModalTitle');
+            const body = document.getElementById('legalModalBody');
+
+            const content = legalContent[type];
+            if (content) {
+                title.textContent = content.title;
+                body.innerHTML = content.content;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeLegalModal() {
+            const modal = document.getElementById('legalModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('legalModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLegalModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLegalModal();
+            }
+        });
     </script>
 
     <!-- Include persona scripts -->

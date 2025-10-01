@@ -2,30 +2,44 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-// Create PostgreSQL connection pool
+// Create PostgreSQL connection pool with optimized settings
 const pool = new Pool({
     connectionString: process.env.SUPABASE_URL,
     ssl: {
         rejectUnauthorized: false
+    },
+    max: 10, // Maximum number of clients in the pool
+    idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+    connectionTimeoutMillis: 10000, // Return an error after 10 seconds if connection can't be established
+    statement_timeout: 30000, // Query timeout 30 seconds
+});
+
+// Log only the first successful connection
+let firstConnection = true;
+pool.on('connect', () => {
+    if (firstConnection) {
+        console.log('✅ Database connection pool initialized');
+        firstConnection = false;
     }
 });
 
-// Test connection
-pool.on('connect', () => {
-    console.log('✅ Connected to PostgreSQL database');
-});
-
 pool.on('error', (err) => {
-    console.error('❌ Unexpected database error:', err);
+    console.error('❌ Unexpected database pool error:', err);
 });
 
-// Query helper function
+// Query helper function with reduced logging
 const query = async (text, params) => {
     const start = Date.now();
     try {
         const res = await pool.query(text, params);
         const duration = Date.now() - start;
-        console.log('Executed query', { text, duration, rows: res.rowCount });
+        // Only log slow queries (> 1000ms)
+        if (duration > 1000) {
+            console.log(`⚠ Slow query (${duration}ms)`, {
+                query: text.substring(0, 100),
+                rows: res.rowCount
+            });
+        }
         return res;
     } catch (error) {
         console.error('Database query error:', error);

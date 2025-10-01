@@ -13,8 +13,17 @@ passport.use(new LocalStrategy(
                 return done(null, false, { message: 'Invalid username or password' });
             }
 
+            // Check if user has a password hash (regular users with password login)
+            if (!user.password_hash) {
+                return done(null, false, { message: 'Invalid login method for this account' });
+            }
+
             if (!user.is_active) {
-                return done(null, false, { message: 'Account is inactive' });
+                return done(null, false, { message: 'Account is inactive. Please verify your email.' });
+            }
+
+            if (!user.email_verified) {
+                return done(null, false, { message: 'Please verify your email before logging in' });
             }
 
             const isValid = await User.verifyPassword(password, user.password_hash);

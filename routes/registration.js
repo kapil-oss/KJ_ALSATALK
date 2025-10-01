@@ -10,6 +10,7 @@ router.post('/api/register', async (req, res) => {
         const {
             email,
             username,
+            password,
             fullName,
             phoneNumber,
             whatsappNumber,
@@ -19,10 +20,15 @@ router.post('/api/register', async (req, res) => {
         } = req.body;
 
         // Validate required fields
-        if (!email || !username || !fullName || !phoneNumber || !address || !userType) {
+        if (!email || !username || !password || !fullName || !phoneNumber || !address || !userType) {
             return res.status(400).json({
-                error: 'Please provide all required fields: email, username, fullName, phoneNumber, address, userType'
+                error: 'Please provide all required fields: email, username, password, fullName, phoneNumber, address, userType'
             });
+        }
+
+        // Validate password strength
+        if (password.length < 6) {
+            return res.status(400).json({ error: 'Password must be at least 6 characters long' });
         }
 
         // Validate email format
@@ -52,6 +58,7 @@ router.post('/api/register', async (req, res) => {
         const user = await User.create({
             email,
             username,
+            password,
             fullName,
             phoneNumber,
             whatsappNumber: whatsappNumber || phoneNumber,

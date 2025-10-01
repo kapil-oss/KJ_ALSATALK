@@ -5,9 +5,11 @@ const { generateOTP, generateToken } = require('../services/emailService');
 class User {
     // Create a new user (registration - for client self-registration)
     static async create(userData) {
+        const bcrypt = require('bcrypt');
         const {
             email,
             username,
+            password,
             fullName,
             phoneNumber,
             whatsappNumber,
@@ -18,17 +20,23 @@ class User {
             isActive = false  // Default to inactive for new registrations
         } = userData;
 
+        // Hash password if provided
+        let passwordHash = null;
+        if (password) {
+            passwordHash = await bcrypt.hash(password, 10);
+        }
+
         // Generate verification token
         const verificationToken = generateToken();
         const verificationExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
 
         const sql = `
             INSERT INTO users (
-                email, username, full_name, phone_number, whatsapp_number,
+                email, username, password_hash, full_name, phone_number, whatsapp_number,
                 address, company_name, user_type, is_admin, is_active,
                 verification_token, verification_expires
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
             RETURNING id, email, username, full_name, phone_number, whatsapp_number,
                       address, company_name, user_type, is_admin, is_active,
                       email_verified, created_at
@@ -36,7 +44,7 @@ class User {
 
         try {
             const result = await query(sql, [
-                email, username, fullName, phoneNumber, whatsappNumber || phoneNumber,
+                email, username, passwordHash, fullName, phoneNumber, whatsappNumber || phoneNumber,
                 address, companyName, userType, isAdmin, isActive,
                 verificationToken, verificationExpires
             ]);

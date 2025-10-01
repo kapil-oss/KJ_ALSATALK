@@ -9,7 +9,10 @@
       "Read(//c/Users/Kapil/Desktop/new_voice/alsatalk_logo_kit/**)",
       "Read(//c/Users/Kapil/Desktop/new_voice/**)",
       "Bash(pnpm install:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(taskkill:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
