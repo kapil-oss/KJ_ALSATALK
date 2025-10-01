@@ -175,13 +175,16 @@ body::before {
 }
 
 .nav-actions {
-    display: none;
+    display: flex;
     gap: 1rem;
     align-items: center;
 }
 
 .nav-btn-secondary,
 .nav-btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-radius: var(--radius-md);
     font-size: 0.875rem;

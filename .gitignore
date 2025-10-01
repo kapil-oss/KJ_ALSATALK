@@ -1,11 +1,13 @@
 # Environment variables
 .env
-
+.claude
+settings.local.json
 # Node modules
 node_modules/
 
 # Logs
 *.log
+
 
 # Operating system files
 .DS_Store

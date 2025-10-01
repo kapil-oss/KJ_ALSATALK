@@ -7,7 +7,9 @@
       "Bash(git push:*)",
       "Bash(pnpm start:*)",
       "Read(//c/Users/Kapil/Desktop/new_voice/alsatalk_logo_kit/**)",
-      "Read(//c/Users/Kapil/Desktop/new_voice/**)"
+      "Read(//c/Users/Kapil/Desktop/new_voice/**)",
+      "Bash(pnpm install:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

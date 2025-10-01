@@ -59,8 +59,21 @@
             </div>
 
             <div class="nav-actions">
-                <button class="nav-btn-secondary">Sign In</button>
-                <button class="nav-btn-primary">Get Started</button>
+                <span id="userWelcome" style="color: var(--text-primary); font-size: 0.875rem; font-weight: 500;"></span>
+                <div id="tokenUsage" style="display: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8125rem; font-weight: 500; margin: 0 0.5rem;">
+                    <i data-lucide="coins" style="width: 14px; height: 14px; display: inline;"></i>
+                    <span id="tokenUsageText"></span>
+                </div>
+                <!-- <a href="/admin" id="adminLink" class="nav-btn-secondary" style="display: none;">
+                    <i data-lucide="shield"></i>
+                    <span>Admin Panel</span>
+                </a> -->
+                <form action="/logout" method="POST" style="display: inline-block;">
+                    <button type="submit" class="nav-btn-secondary">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -224,7 +237,7 @@
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="toggleDemo('astrologer')">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=astrologer'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -304,7 +317,7 @@
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="toggleDemo('health')">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=health'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -384,7 +397,7 @@
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="toggleDemo('counselor')">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=counselor'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -464,7 +477,7 @@
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="toggleDemo('windows-sales')">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=windows-sales'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -544,7 +557,7 @@
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="toggleDemo('car-sales')">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=car-sales'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -624,7 +637,7 @@
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="toggleDemo('general')">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=general'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -731,26 +744,37 @@
                         <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="footer-logo-img">
                         <div>
                             <h3>AlsaTalk</h3>
-                            <span>Enterprise Voice Intelligence</span>
+                            <span>by Alsatronix Solutions DMCC</span>
                         </div>
                     </div>
-                    <p>Transforming business communication with AI-powered voice automation.</p>
+                    <p>Next-generation AI voice technology for sales conversations, customer support, personal companionship, and intelligent assistance.</p>
                 </div>
 
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h4>Solutions</h4>
-                        <a href="#customer-support">Customer Support</a>
-                        <a href="#sales-ai">Sales AI</a>
-                        <a href="#hr-assistant">HR Assistant</a>
-                        <a href="#enterprise">Enterprise</a>
+                        <h4>Contact Us</h4>
+                        <p style="margin: 0.5rem 0; line-height: 1.8;">
+                            <strong>Alsatronix Solutions DMCC</strong><br>
+                            2507 The Dome Tower, Cluster N<br>
+                            Jumeirah Lake Towers<br>
+                            P.O.Box 502432, Dubai<br>
+                            United Arab Emirates
+                        </p>
+                        <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                            <a href="tel:+971-443-32348" style="color: var(--text-secondary); text-decoration: none;">+971-443-32348</a>
+                        </p>
+                        <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                            <a href="mailto:info@alsatalk.com" style="color: var(--text-secondary); text-decoration: none;">info@alsatalk.com</a>
+                        </p>
                     </div>
 
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 AlsaTalk. All rights reserved.</p>
+                <p>&copy; 2024 AlsaTalk by Alsatronix Solutions DMCC. All rights reserved.</p>
                 <div class="footer-links-bottom">
                     <a href="#privacy">Privacy Policy</a>
                     <a href="#terms">Terms of Service</a>
@@ -764,6 +788,125 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Check user auth status and display user info
+        async function checkUserAuth() {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+
+                if (data.authenticated && data.user) {
+                    const userWelcome = document.getElementById('userWelcome');
+                    userWelcome.textContent = `Welcome, ${data.user.fullName || data.user.username}!`;
+
+                    // Show admin link if user is admin
+                    if (data.user.isAdmin) {
+                        const adminLink = document.getElementById('adminLink');
+                        adminLink.style.display = 'flex';
+                        lucide.createIcons();
+                    }
+
+                    // Show token usage
+                    if (data.tokenStatus && !data.user.isAdmin) {
+                        const tokenUsage = document.getElementById('tokenUsage');
+                        const tokenUsageText = document.getElementById('tokenUsageText');
+                        const percentage = data.tokenStatus.percentageUsed;
+
+                        tokenUsageText.textContent = `${data.tokenStatus.used.toLocaleString()} / ${data.tokenStatus.limit.toLocaleString()} tokens`;
+
+                        // Color based on usage
+                        if (data.tokenStatus.exceeded) {
+                            tokenUsage.style.background = 'rgba(239, 68, 68, 0.15)';
+                            tokenUsage.style.color = '#ef4444';
+                            tokenUsage.style.border = '1px solid #ef4444';
+                            showTokenLimitAlert();
+                        } else if (percentage >= 80) {
+                            tokenUsage.style.background = 'rgba(251, 146, 60, 0.15)';
+                            tokenUsage.style.color = '#fb923c';
+                            tokenUsage.style.border = '1px solid #fb923c';
+                            if (percentage >= 90) {
+                                showTokenWarning(data.tokenStatus.remaining);
+                            }
+                        } else {
+                            tokenUsage.style.background = 'rgba(6, 182, 212, 0.15)';
+                            tokenUsage.style.color = '#06b6d4';
+                            tokenUsage.style.border = '1px solid #06b6d4';
+                        }
+
+                        tokenUsage.style.display = 'flex';
+                        tokenUsage.style.alignItems = 'center';
+                        tokenUsage.style.gap = '0.5rem';
+                        lucide.createIcons();
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking auth:', error);
+            }
+        }
+
+        function showTokenWarning(remaining) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: rgba(251, 146, 60, 0.95);
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: start; gap: 1rem;">
+                    <i data-lucide="alert-triangle" style="width: 24px; height: 24px; flex-shrink: 0;"></i>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Token Limit Warning</div>
+                        <div style="font-size: 0.875rem;">You have ${remaining.toLocaleString()} tokens remaining. Please contact <a href="mailto:administrator@alsatronix.com" style="color: white; text-decoration: underline;">administrator@alsatronix.com</a> to increase your limit.</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => alertDiv.remove(), 300);
+            }, 8000);
+        }
+
+        function showTokenLimitAlert() {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                padding: 1.5rem;
+                background: rgba(239, 68, 68, 0.95);
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: start; gap: 1rem;">
+                    <i data-lucide="x-circle" style="width: 24px; height: 24px; flex-shrink: 0;"></i>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Token Limit Exceeded</div>
+                        <div style="font-size: 0.875rem;">You have exceeded your token limit. Voice features are disabled. Please contact <a href="mailto:administrator@alsatronix.com" style="color: white; text-decoration: underline;">administrator@alsatronix.com</a> to increase your limit.</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            lucide.createIcons();
+        }
+
+        // Call on page load
+        checkUserAuth();
 
         // Mobile menu toggle
         function toggleMobileMenu() {
