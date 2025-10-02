@@ -43,10 +43,6 @@
 
             <div class="nav-actions">
                 <span id="userWelcome" style="color: var(--text-primary); font-size: 0.875rem; font-weight: 500;"></span>
-                <div id="tokenUsage" style="display: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8125rem; font-weight: 500; margin: 0 0.5rem;">
-                    <i data-lucide="coins" style="width: 14px; height: 14px; display: inline;"></i>
-                    <span id="tokenUsageText"></span>
-                </div>
                 <!-- <a href="/admin" id="adminLink" class="nav-btn-secondary" style="display: none;">
                     <i data-lucide="shield"></i>
                     <span>Admin Panel</span>
@@ -152,23 +148,65 @@
                         <span>Explore Solutions</span>
                         <i data-lucide="arrow-right"></i>
                     </button>
-                    <button class="hero-btn-secondary">
-                        <i data-lucide="play"></i>
-                        <span>Watch Demo</span>
+                    <button class="hero-btn-demo" onclick="window.location.href='/demo-suite-premium.html'">
+                        <span class="demo-badge">NEW</span>
+                        <i data-lucide="play-circle"></i>
+                        <span>Watch Interactive Demo</span>
+                        <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
                     </button>
                 </div>
             </div>
 
             <div class="hero-visual">
                 <div class="voice-visualizer">
-                    <div class="voice-circle">
-                        <div class="voice-inner">
-                            <i data-lucide="mic"></i>
+                    <!-- Particles Background -->
+                    <div class="particle-field">
+                        <div class="particle" style="--x: 20%; --y: 30%; --delay: 0s; --duration: 3s;"></div>
+                        <div class="particle" style="--x: 80%; --y: 20%; --delay: 0.5s; --duration: 4s;"></div>
+                        <div class="particle" style="--x: 50%; --y: 60%; --delay: 1s; --duration: 3.5s;"></div>
+                        <div class="particle" style="--x: 30%; --y: 80%; --delay: 1.5s; --duration: 4.5s;"></div>
+                        <div class="particle" style="--x: 70%; --y: 70%; --delay: 2s; --duration: 3.8s;"></div>
+                        <div class="particle" style="--x: 15%; --y: 50%; --delay: 0.8s; --duration: 4.2s;"></div>
+                    </div>
+
+                    <!-- 3D Card Display -->
+                    <div class="voice-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="mic-container">
+                                <i data-lucide="mic"></i>
+                                <div class="sound-rings">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="voice-text">
+                                <h3>Voice AI Active</h3>
+                                <p>Listening & Processing</p>
+                            </div>
+                            <div class="waveform">
+                                <span style="--i: 1;"></span>
+                                <span style="--i: 2;"></span>
+                                <span style="--i: 3;"></span>
+                                <span style="--i: 4;"></span>
+                                <span style="--i: 5;"></span>
+                                <span style="--i: 6;"></span>
+                                <span style="--i: 7;"></span>
+                            </div>
                         </div>
-                        <div class="voice-waves">
-                            <div class="wave wave-1"></div>
-                            <div class="wave wave-2"></div>
-                            <div class="wave wave-3"></div>
+                    </div>
+
+                    <!-- Orbiting Icons -->
+                    <div class="orbit-container">
+                        <div class="orbit-icon" style="--angle: 0deg;">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 120deg;">
+                            <i data-lucide="brain"></i>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 240deg;">
+                            <i data-lucide="message-circle"></i>
                         </div>
                     </div>
                 </div>
@@ -945,39 +983,6 @@
                     if (data.user.isAdmin) {
                         const adminLink = document.getElementById('adminLink');
                         adminLink.style.display = 'flex';
-                        if (typeof lucide !== 'undefined') lucide.createIcons();
-                    }
-
-                    // Show token usage
-                    if (data.tokenStatus && !data.user.isAdmin) {
-                        const tokenUsage = document.getElementById('tokenUsage');
-                        const tokenUsageText = document.getElementById('tokenUsageText');
-                        const percentage = data.tokenStatus.percentageUsed;
-
-                        tokenUsageText.textContent = `${data.tokenStatus.used.toLocaleString()} / ${data.tokenStatus.limit.toLocaleString()} tokens`;
-
-                        // Color based on usage
-                        if (data.tokenStatus.exceeded) {
-                            tokenUsage.style.background = 'rgba(239, 68, 68, 0.15)';
-                            tokenUsage.style.color = '#ef4444';
-                            tokenUsage.style.border = '1px solid #ef4444';
-                            showTokenLimitAlert();
-                        } else if (percentage >= 80) {
-                            tokenUsage.style.background = 'rgba(251, 146, 60, 0.15)';
-                            tokenUsage.style.color = '#fb923c';
-                            tokenUsage.style.border = '1px solid #fb923c';
-                            if (percentage >= 90) {
-                                showTokenWarning(data.tokenStatus.remaining);
-                            }
-                        } else {
-                            tokenUsage.style.background = 'rgba(6, 182, 212, 0.15)';
-                            tokenUsage.style.color = '#06b6d4';
-                            tokenUsage.style.border = '1px solid #06b6d4';
-                        }
-
-                        tokenUsage.style.display = 'flex';
-                        tokenUsage.style.alignItems = 'center';
-                        tokenUsage.style.gap = '0.5rem';
                         if (typeof lucide !== 'undefined') lucide.createIcons();
                     }
                 }

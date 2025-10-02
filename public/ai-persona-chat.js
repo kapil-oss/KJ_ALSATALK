@@ -390,6 +390,17 @@ class AIPersonaChat {
                 case 'response.done':
                     this.updateVoiceStatus('Ready to listen...');
                     this.isCreatingResponse = false; // Reset flag when response is done
+
+                    // Track token usage if available
+                    if (message.response?.usage) {
+                        const usage = message.response.usage;
+                        const totalTokens = (usage.input_tokens || 0) + (usage.output_tokens || 0);
+
+                        if (totalTokens > 0) {
+                            // Send token usage to backend
+                            this.trackTokenUsage(totalTokens);
+                        }
+                    }
                     break;
 
                 case 'session.updated':
@@ -484,6 +495,27 @@ class AIPersonaChat {
             type: 'response.create'
         };
         this.dc.send(JSON.stringify(responseEvent));
+    }
+
+    async trackTokenUsage(tokensUsed) {
+        try {
+            const response = await fetch('/api/track-tokens', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tokensUsed })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to track token usage:', await response.text());
+            } else {
+                const data = await response.json();
+                console.log(`✅ Tracked ${tokensUsed} tokens. Total: ${data.tokens_used}/${data.token_limit}`);
+            }
+        } catch (error) {
+            console.error('Error tracking token usage:', error);
+        }
     }
 }
 

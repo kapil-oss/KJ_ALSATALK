@@ -30,12 +30,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session configuration
+// Session configuration with better error handling
+const sessionStore = new pgSession({
+  pool: pool,
+  tableName: 'sessions',
+  pruneSessionInterval: 60 * 60, // Prune sessions every hour (in seconds)
+  errorLog: (err) => {
+    // Silently handle pruning errors if database is temporarily unavailable
+    if (err.code === 'ENOTFOUND' || err.message.includes('getaddrinfo')) {
+      // DNS/network error - don't spam logs
+      return;
+    }
+    console.error('Session store error:', err.message);
+  }
+});
+
 app.use(session({
-  store: new pgSession({
-    pool: pool,
-    tableName: 'sessions'
-  }),
+  store: sessionStore,
   secret: process.env.SESSION_SECRET || 'alsatalk-secret-key-change-in-production',
   resave: false,
   saveUninitialized: false,
@@ -79,8 +90,13 @@ app.use('/', registrationRoutes);
 // Serve only specific public assets (CSS, JS, images) without protection
 app.use('/logo_large_1024.png', express.static(path.join(__dirname, 'public', 'logo_large_1024.png')));
 app.use('/styles.css', express.static(path.join(__dirname, 'public', 'styles.css')));
+app.get('/icons.svg', isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'icons.svg'));
+});
+
 app.use('/persona-manager.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'persona-manager.js')));
 app.use('/ai-persona-chat.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'ai-persona-chat.js')));
+app.use('/demo-data.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'demo-data.js')));
 
 // Serve other dataset files with authentication
 app.get('/datasets/:filename', isAuthenticated, (req, res) => {
@@ -116,6 +132,35 @@ app.get('/token', isAuthenticated, checkTokenLimit, (req, res) => {
   res.json(response);
 });
 
+// API endpoint to track token usage
+app.post('/api/track-tokens', isAuthenticated, async (req, res) => {
+  try {
+    const { tokensUsed } = req.body;
+    const userId = req.user.id;
+
+    if (!userId || !tokensUsed || tokensUsed <= 0) {
+      return res.status(400).json({ error: 'Invalid token usage data' });
+    }
+
+    const { trackTokenUsage } = require('./middleware/tokenTracking');
+    const result = await trackTokenUsage(userId, tokensUsed);
+
+    if (result) {
+      res.json({
+        success: true,
+        tokens_used: result.tokens_used,
+        token_limit: result.token_limit,
+        remaining: result.token_limit - result.tokens_used
+      });
+    } else {
+      res.status(500).json({ error: 'Failed to track token usage' });
+    }
+  } catch (error) {
+    console.error('Token tracking API error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Protected: Serve the main voice app page
 app.get('/', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -129,6 +174,11 @@ app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
 // Protected: Persona chat page
 app.get('/persona-chat', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'persona-chat.html'));
+});
+
+// Protected: Demo suite page
+app.get('/demo-suite-premium.html', isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'demo-suite-premium.html'));
 });
 
 // Catch-all: redirect to login if not authenticated (excluding public routes)

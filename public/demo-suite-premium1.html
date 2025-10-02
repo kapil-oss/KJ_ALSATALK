@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlsaTalk - Premium Interactive Demo Suite | CES 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2563eb;
+      --secondary: #10b981;
+      --accent: #8b5cf6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --bg: #0a0e1a;
+      --bg-card: #151b2e;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --glow: rgba(37, 99, 235, 0.4);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(ellipse at top, #0f1729, #0a0e1a),
+                  radial-gradient(ellipse at bottom, #1a1f35, #0a0e1a);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1));
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .keyboard-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      animation: pulse 2s ease infinite;
+    }
+
+    .keyboard-hint kbd {
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .demo-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .demo-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .demo-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3), 0 0 40px rgba(37, 99, 235, 0.1);
+    }
+
+    .demo-card:hover::before {
+      opacity: 1;
+    }
+
+    .demo-card.active {
+      border-color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.4), inset 0 0 60px rgba(37, 99, 235, 0.1);
+    }
+
+    .demo-card.active::after {
+      content: '▶ ACTIVE';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+
+    .demo-card h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+      position: relative;
+    }
+
+    .demo-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .stats-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+
+    .stats-badge strong {
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .demo-screen {
+      background: linear-gradient(135deg, #0d1117, #161b22);
+      border-radius: 20px;
+      padding: 40px;
+      min-height: 700px;
+      border: 2px solid var(--border);
+      position: relative;
+      box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.5), 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .demo-terminal {
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #00ff00;
+    }
+
+    .demo-step {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: rgba(0, 255, 0, 0.03);
+      border-left: 4px solid #00ff00;
+      border-radius: 8px;
+      opacity: 0;
+      animation: slideIn 0.6s ease forwards;
+      box-shadow: 0 4px 20px rgba(0, 255, 0, 0.1);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      margin-right: 12px;
+      animation: pulse 2s ease infinite;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .status-active {
+      background: #00ff00;
+    }
+
+    .status-processing {
+      background: var(--warning);
+    }
+
+    .status-complete {
+      background: var(--secondary);
+    }
+
+    .demo-ui-card {
+      background: white;
+      color: #1a1a2e;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .voice-call-widget {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 24px 0;
+      box-shadow: 0 12px 48px rgba(37, 99, 235, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .call-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .call-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--secondary);
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .call-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--secondary);
+      animation: callPulse 1.5s ease infinite;
+    }
+
+    @keyframes callPulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.2);
+        box-shadow: 0 0 0 15px rgba(16, 185, 129, 0);
+      }
+    }
+
+    .call-timer {
+      font-family: 'SF Mono', monospace;
+      font-size: 1.3rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .call-participant {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px;
+      background: rgba(37, 99, 235, 0.08);
+      border-radius: 12px;
+      margin: 12px 0;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .call-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+    }
+
+    .call-info {
+      flex: 1;
+    }
+
+    .call-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .call-role {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .audio-wave {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 40px;
+    }
+
+    .audio-bar {
+      width: 5px;
+      background: linear-gradient(180deg, var(--secondary), var(--primary));
+      border-radius: 3px;
+      animation: audioWave 1.2s ease-in-out infinite;
+    }
+
+    .audio-bar:nth-child(1) { animation-delay: 0s; }
+    .audio-bar:nth-child(2) { animation-delay: 0.1s; }
+    .audio-bar:nth-child(3) { animation-delay: 0.2s; }
+    .audio-bar:nth-child(4) { animation-delay: 0.3s; }
+    .audio-bar:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes audioWave {
+      0%, 100% { height: 10px; opacity: 0.5; }
+      50% { height: 32px; opacity: 1; }
+    }
+
+    .call-transcript {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .transcript-line {
+      margin: 12px 0;
+      padding: 12px;
+      border-left: 3px solid var(--primary);
+      padding-left: 16px;
+      background: rgba(37, 99, 235, 0.05);
+      border-radius: 6px;
+    }
+
+    .transcript-speaker {
+      font-weight: 700;
+      color: var(--primary);
+      margin-right: 10px;
+      font-size: 0.9rem;
+    }
+
+    .transcript-ai {
+      border-left-color: var(--secondary);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .transcript-ai .transcript-speaker {
+      color: var(--secondary);
+    }
+
+    .btn {
+      padding: 16px 36px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(148, 163, 184, 0.25);
+      border-color: var(--primary);
+    }
+
+    .controls {
+      text-align: center;
+      margin: 40px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .result-box {
+      margin-top: 30px;
+      padding: 32px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(37, 99, 235, 0.15));
+      border: 2px solid var(--secondary);
+      border-radius: 16px;
+      box-shadow: 0 12px 48px rgba(16, 185, 129, 0.3);
+    }
+
+    .data-field {
+      margin: 12px 0;
+      padding: 16px;
+      background: rgba(37, 99, 235, 0.08);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      width: 0%;
+      transition: width 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 0 20px var(--glow);
+    }
+
+    .step-counter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(15, 23, 42, 0.95);
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-family: 'SF Mono', monospace;
+      font-size: 0.9rem;
+      z-index: 100;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .continue-prompt {
+      text-align: center;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 500px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(139, 92, 246, 0.2));
+      border: 2px solid rgba(37, 99, 235, 0.4);
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      animation: continuePromptPulse 2s ease-in-out infinite;
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.3);
+    }
+
+    .continue-prompt kbd {
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      font-family: 'SF Mono', monospace;
+      font-size: 0.9rem;
+      margin: 0 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes continuePromptPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 8px 32px rgba(37, 99, 235, 0.3);
+      }
+      50% {
+        transform: scale(1.02);
+        opacity: 0.9;
+        box-shadow: 0 12px 48px rgba(37, 99, 235, 0.5);
+      }
+    }
+
+    .comparison-mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .comparison-panel {
+      padding: 30px;
+      border-radius: 16px;
+      border: 2px solid;
+    }
+
+    .comparison-panel.traditional {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(220, 38, 38, 0.05));
+      border-color: var(--danger);
+    }
+
+    .comparison-panel.alsatalk {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05));
+      border-color: var(--secondary);
+    }
+
+    .comparison-header {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid currentColor;
+    }
+
+    .timeline-step {
+      padding: 15px;
+      margin: 10px 0;
+      border-left: 3px solid;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      opacity: 0;
+      animation: fadeInStep 0.5s ease forwards;
+    }
+
+    @keyframes fadeInStep {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .system-connection {
+      position: relative;
+      padding: 20px;
+      margin: 15px 0;
+      background: rgba(37, 99, 235, 0.05);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 12px;
+    }
+
+    .system-connection::before {
+      content: '→';
+      position: absolute;
+      left: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: var(--primary);
+      animation: arrowFlow 1.5s ease-in-out infinite;
+    }
+
+    @keyframes arrowFlow {
+      0%, 100% {
+        left: -15px;
+        opacity: 0.3;
+      }
+      50% {
+        left: -5px;
+        opacity: 1;
+      }
+    }
+
+    .metric-counter {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: counterGlow 2s ease infinite;
+    }
+
+    @keyframes counterGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .demo-selector {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🚀 AlsaTalk Premium Demo Suite</h1>
+      <p class="subtitle">Enterprise AI Orchestration Platform | CES 2026</p>
+      <div class="keyboard-hint">
+        <span>⌨️ Press <kbd>SPACE</kbd> or <kbd>ENTER</kbd> to advance steps</span>
+        <span style="margin-left: 20px;">Press <kbd>R</kbd> to reset demo</span>
+      </div>
+    </header>
+
+    <div class="demo-selector" id="demoSelector">
+      <!-- Demo cards will be injected here -->
+    </div>
+
+    <div class="demo-screen">
+      <div id="demoContent"></div>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="btn btn-primary" onclick="startDemo()" id="startBtn">
+        ▶ Start Demo
+      </button>
+      <button type="button" class="btn btn-secondary" onclick="resetDemo()">
+        🔄 Reset
+      </button>
+    </div>
+
+    <div id="demoMetrics" style="margin-top: 40px;"></div>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="step-counter" id="stepCounter" style="display: none;">
+    Step <span id="currentStep">0</span> of <span id="totalSteps">0</span>
+  </div>
+
+  <script>
+    let currentDemo = 'workflow';
+    let demoRunning = false;
+    let currentStepIndex = 0;
+    let isPaused = false;
+
+    const demos = {
+      // NEW: Cross-Department Workflow Orchestration
+      workflow: {
+        title: 'Cross-Department Workflow Orchestration',
+        icon: '⚡',
+        traditional: '48 hours',
+        alsatalk: '8 minutes',
+        saved: '99%',
+        description: 'Multi-system contract approval across Legal, Finance, Procurement with AI coordination',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">⚡ Scenario: VP Says "Process Contract Approval for Acme Corp $500K Deal"</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Voice Command Processing</strong><br><span style="color: var(--text-muted)">AI interprets complex multi-department request</span><div class="data-field">🎤 <strong>Command Received</strong><br><br>Speaker: Sarah Chen (VP Sales)<br>Command: "Process the contract approval for Acme Corp. Its a $500K annual deal, standard enterprise terms."<br><br>✓ Voice authenticated via biometrics<br>✓ Intent: CONTRACT_APPROVAL_WORKFLOW<br>✓ Entity: Acme Corp<br>✓ Value: $500,000 ARR<br>✓ Contract Type: Enterprise Standard<br><br>🤖 <strong>AI Analysis</strong><br>Workflow requires: Legal review, Finance approval, Procurement setup, Executive sign-off<br>Estimated departments involved: 4<br>Traditional process time: 2-3 days<br>AlsaTalk automated time: ~8 minutes</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Multi-Agent Orchestration Engine Activated</strong><br><span style="color: var(--text-muted)">AI deploys specialized agents across systems</span><div class="data-field">🤖 <strong>Orchestration Matrix Initialized</strong><br><br><strong>Agents Deployed:</strong><br>✓ Legal Agent → DocuSign + Legal Database<br>✓ Finance Agent → SAP ERP + Banking Systems<br>✓ Procurement Agent → Supplier Portal + Contract Management<br>✓ CRM Agent → Salesforce Opportunity Management<br>✓ Communication Agent → Slack + Email + Calendar<br><br><strong>Parallel Processing:</strong><br>→ 5 agents running simultaneously<br>→ 8 systems being accessed<br>→ Real-time dependency mapping active<br>→ Auto-escalation protocols enabled</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 3: Legal Agent - Contract Generation & Review</strong><br><span style="color: var(--text-muted)">AI generates contract from template, flags legal issues</span><div class="data-field">📄 <strong>Contract Generated from Templates</strong><br><br>Template Used: Enterprise SaaS Master Agreement v4.2<br>Customer: Acme Manufacturing Corp<br>Contract Value: $500,000/year<br>Term: 36 months with auto-renewal<br><br>✓ <strong>Auto-populated fields:</strong><br>• Customer legal entity (retrieved from state database)<br>• Billing address (from CRM)<br>• Technical specifications (from opportunity notes)<br>• Service level agreements (standard 99.9% uptime)<br>• Payment terms (Net 30)<br><br>⚠️ <strong>AI Legal Review Findings:</strong><br>✓ No conflicts with existing contracts<br>✓ Customer is not on sanctions list<br>⚠️ Note: Customer requested data residency in EU - clause added automatically<br>✓ Liability cap appropriate for deal size<br>✓ Indemnification language compliant<br><br><strong>Document Status:</strong> Ready for signature<br><strong>DocuSign envelope created:</strong> ENV-2025-48392</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 4: Finance Agent - Credit Check & Approval</strong><br><span style="color: var(--text-muted)">Real-time financial due diligence and risk assessment</span><div class="data-field">💰 <strong>Financial Due Diligence Complete</strong><br><br>🔍 <strong>Credit Check (Dun & Bradstreet):</strong><br>Company: Acme Manufacturing Corp<br>D&B Rating: 4A1 (Excellent)<br>Credit Limit Recommended: $750,000<br>Payment History: Excellent (0 days late avg)<br>Financial Strength: High<br>Risk Score: Low (12/100)<br><br>✓ <strong>SAP ERP - Account Setup:</strong><br>Customer #: CUST-2025-8847<br>Payment Terms: Net 30 (approved)<br>Credit Limit: $750,000 (approved automatically)<br>Billing Cycle: Annual, paid upfront<br>Discount: 5% (multi-year commitment)<br>Net Contract Value: $475,000/year<br><br>✓ <strong>Finance Approval:</strong><br>Deal ROI: 320% (projected 3-year)<br>CAC Payback: 8 months<br>Status: <span style="color: #00ff00; font-weight: bold;">AUTO-APPROVED</span> (under $1M threshold)<br>CFO notification: Sent for records</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 5: Procurement Agent - Vendor Setup & Compliance</strong><br><span style="color: var(--text-muted)">Customer provisioned in procurement & compliance systems</span><div class="data-field">🏭 <strong>Supplier/Customer Portal Configured</strong><br><br>✓ <strong>Supplier Management System:</strong><br>Vendor Record Created: VNDR-8847<br>Category: Strategic Customer<br>Tier: Enterprise (Platinum)<br>Compliance Status: Verified<br><br>✓ <strong>Compliance Checks Completed:</strong><br>• KYC (Know Your Customer): ✓ Passed<br>• AML (Anti-Money Laundering): ✓ Cleared<br>• OFAC Sanctions Screening: ✓ Clear<br>• GDPR Data Processing Agreement: ✓ Executed<br>• SOC 2 Type II Audit Report: ✓ Shared<br>• Cyber Insurance Certificate: ✓ Verified ($10M coverage)<br><br>✓ <strong>Procurement Workflow:</strong><br>Purchase Order: PO-2025-9483<br>Delivery Terms: SaaS - Immediate Activation<br>Support Level: Premium 24/7<br>Onboarding Date: Oct 15, 2025</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 6: AI Initiates Executive Approval Call</strong><br><span style="color: var(--text-muted)">Voice call to CEO for final sign-off on $500K deal</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>OUTBOUND CALL - CONNECTED</span></div><div class="call-timer">01:35</div></div><div class="call-participant"><div class="call-avatar">🤖</div><div class="call-info"><div class="call-name">AlsaTalk AI Executive Agent</div><div class="call-role">Calling on behalf of Sarah Chen (VP Sales)</div></div><div class="audio-wave"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div></div><div class="call-participant"><div class="call-avatar">JM</div><div class="call-info"><div class="call-name">John Mitchell</div><div class="call-role">CEO</div></div></div><div class="call-transcript"><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Hi John, this is AlsaTalk calling on behalf of Sarah Chen. I need your executive approval for the Acme Manufacturing contract - $475K annual, 3-year term.</div><div class="transcript-line"><span class="transcript-speaker">John:</span>Acme Manufacturing? Give me the quick summary.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>500-employee manufacturer, 4A1 credit rating, excellent payment history. Finance approved it automatically. Legal cleared the contract. It is a strategic account with 320% projected ROI.</div><div class="transcript-line"><span class="transcript-speaker">John:</span>Any red flags?</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>None. They requested EU data residency which we added. All compliance checks passed. They are ready to sign today.</div><div class="transcript-line"><span class="transcript-speaker">John:</span>Sounds good. Approved.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Perfect. I will execute the signature and notify the team. Thank you, John.</div></div></div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 7: Document Execution & System Updates</strong><br><span style="color: var(--text-muted)">AI orchestrates signing, updates 8 systems simultaneously</span><div class="data-field">✓ <strong>DocuSign Executed</strong><br>Envelope: ENV-2025-48392<br>Signers: John Mitchell (CEO) - ✓ Signed via voice approval<br>Acme Corp signatory: David Park (CTO) - ⏳ Signature request sent<br>Expected signature: Within 2 hours<br><br>✓ <strong>Systems Updated (Parallel Execution):</strong><br>1. Salesforce: Opportunity "Acme Corp - Enterprise" → Closed Won ($475K)<br>2. SAP ERP: Customer account activated, invoice INV-2025-10999 generated<br>3. Billing System: Subscription scheduled (annual, Oct 15 start)<br>4. Legal Database: Contract filed, compliance docs attached<br>5. Procurement: Vendor record updated to "Active Customer"<br>6. Support Portal: Premium tier access provisioned<br>7. Product Platform: Workspace created (acmecorp.alsatalk.com)<br>8. Calendar: Kickoff meeting scheduled (Oct 15, 10 AM)<br><br>✓ <strong>Notifications Sent:</strong><br>• Sarah Chen (VP Sales): "Deal closed! Great work."<br>• Finance Team: "New $475K ARR added to Q4"<br>• Legal: "Contract executed, filed in repository"<br>• Customer Success: "New enterprise onboarding - Acme Corp"<br>• CEO: "Executive approval recorded, contract signed"</div>' },
+          { type: 'step', content: '<span class="status-indicator status-complete"></span><strong>STEP 8: Cross-Department Summary Report Generated</strong><br><span style="color: var(--text-muted)">AI compiles comprehensive workflow summary</span><div class="data-field">📊 <strong>Workflow Completion Report</strong><br><br><strong>Process:</strong> Contract Approval - Acme Manufacturing Corp<br><strong>Initiated:</strong> Oct 1, 2025 2:15 PM<br><strong>Completed:</strong> Oct 1, 2025 2:23 PM<br><strong>Total Duration:</strong> 8 minutes<br><strong>Traditional Duration:</strong> 48 hours (95% reduction)<br><br><strong>Departments Coordinated:</strong><br>✓ Sales - Opportunity management<br>✓ Legal - Contract review & generation<br>✓ Finance - Credit check & approval<br>✓ Procurement - Vendor setup & compliance<br>✓ Executive - Final sign-off<br>✓ Customer Success - Onboarding initiated<br><br><strong>Systems Integrated:</strong> 8<br><strong>Documents Generated:</strong> 12<br><strong>Approvals Obtained:</strong> 3 (auto + executive)<br><strong>Compliance Checks:</strong> 6/6 passed<br><br><strong>Business Impact:</strong><br>💰 Revenue: $475,000 ARR<br>⚡ Velocity: 360× faster than manual<br>✅ Error Rate: 0% (vs 15-20% manual)<br>📈 Team Productivity: +40 hours saved</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ ENTERPRISE WORKFLOW ORCHESTRATED FLAWLESSLY</h3><p style="margin-bottom: 15px;"><strong>Total Time:</strong> 8 minutes (voice command to signed contract)</p><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">99%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">8</strong><br><span style="color: var(--text-muted);">Systems Integrated</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">0%</strong><br><span style="color: var(--text-muted);">Error Rate</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">360×</strong><br><span style="color: var(--text-muted);">Faster</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>Billion-Dollar Impact:</strong> Multi-agent AI orchestration eliminated 48 hours of cross-departmentman coordination, manual handoffs, and error-prone data entry. Legal, Finance, Procurement, and Executive teams seamlessly aligned through 8 integrated systems. This demonstrates AlsaTalk\'s core value proposition: autonomous business process automation that scales across Fortune 500 complexity. With 1000 deals/year, this saves 48,000 hours ($4.8M in productivity) and eliminates contract delays that cost deals.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 2: Inventory Crisis Management
+      inventory: {
+        title: 'Real-Time Inventory Crisis Management',
+        icon: '📦',
+        traditional: '4 hours',
+        alsatalk: '90 seconds',
+        saved: '98%',
+        description: 'Customer calls about out-of-stock item - AI finds alternatives across 12 warehouses in real-time',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">📦 Scenario: Customer Emergency - Critical Part Out of Stock</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Inbound Customer Call</strong><br><span style="color: var(--text-muted)">Emergency call detected - production line down</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>INBOUND CALL - URGENT</span></div><div class="call-timer">00:12</div></div><div class="call-participant"><div class="call-avatar">TC</div><div class="call-info"><div class="call-name">Tom Chen</div><div class="call-role">Production Manager, TechManufacturing Inc</div></div><div class="audio-wave"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div></div><div class="call-transcript"><div class="transcript-line"><span class="transcript-speaker">Tom:</span>We need part #A8472 immediately! Our assembly line is down and we ordered 500 units but your system shows out of stock!</div></div></div></div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Multi-Warehouse Real-Time Inventory Scan</strong><br><span style="color: var(--text-muted)">AI queries 12 warehouse ERPs simultaneously</span><div class="system-connection">🔍 <strong>Parallel Warehouse Query</strong><br>Searching: 12 warehouses across 8 countries<br>Query time: 0.8 seconds<br><br>✓ Chicago: 0 units<br>✓ Los Angeles: 0 units<br>⚡ Dallas: 320 units AVAILABLE<br>✓ Miami: 0 units<br>⚡ Toronto: 180 units AVAILABLE<br>✓ London: 0 units<br>✓ Frankfurt: 45 units<br>⚡ Singapore: 210 units AVAILABLE<br>✓ Tokyo: 0 units<br>✓ Sydney: 0 units<br>✓ Mexico City: 95 units<br>✓ São Paulo: 0 units<br><br><strong>SOLUTION FOUND:</strong> 850 units available across 5 warehouses<br>Best option: Dallas (320 units, 2-day shipping)</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 3: AI Proposes Solution & Executes</strong><br><span style="color: var(--text-muted)">Automated order modification and expedited shipping</span><div class="data-field">✓ <strong>Order Modified Automatically</strong><br>Original Order: CHI-warehouse (out of stock)<br>New Source: Dallas warehouse<br>Quantity: 500 units (from 320 Dallas + 180 Toronto)<br>Shipping: Upgraded to Next-Day Air (no charge)<br>ETA: Tomorrow 10 AM (vs 3-day standard)<br><br>✓ <strong>Customer Notified</strong><br>SMS sent: "Part #A8472 found! 500 units shipping today, arrive tomorrow 10 AM"<br>Email with tracking: Sent<br><br>✓ <strong>Production Schedule Updated</strong><br>Assembly line restart: Tomorrow 10:30 AM<br>Estimated downtime saved: 72 hours<br>Cost avoidance: $180,000</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ CRISIS AVERTED - PRODUCTION SAVED</h3><p><strong>Resolution Time:</strong> 90 seconds (call to solution)</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">$180K</strong><br><span style="color: var(--text-muted);">Loss Prevented</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">98%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">12</strong><br><span style="color: var(--text-muted);">Warehouses Scanned</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>Enterprise Impact:</strong> Multi-warehouse inventory visibility prevented catastrophic production downtime. AI orchestrated real-time queries across global ERP systems, found alternative stock, modified orders, upgraded shipping, and notified all stakeholders - all while customer was still on the phone. This type of crisis resolution showcases AlsaTalk\'s real-time operational intelligence.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 3: Account Reconciliation
+      reconciliation: {
+        title: 'Multi-System Account Reconciliation',
+        icon: '💼',
+        traditional: '2 weeks',
+        alsatalk: '15 minutes',
+        saved: '99.3%',
+        description: 'Month-end close: AI reconciles CRM deals vs ERP invoices vs bank deposits, flags discrepancies',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">💼 Scenario: Month-End Financial Close - Reconcile All Systems</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Finance Director Initiates Close</strong><br><span style="color: var(--text-muted)">Voice command triggers cross-system reconciliation</span><div class="data-field">🎤 <strong>Command:</strong> "AlsaTalk, run month-end reconciliation for September 2025"<br><br>✓ Initiated by: Maria Rodriguez (CFO)<br>✓ Period: September 1-30, 2025<br>✓ Systems to reconcile: 5<br>✓ Expected transactions: ~2,847<br>✓ Traditional time: 80 hours (2 weeks)<br>✓ AlsaTalk estimate: 15 minutes</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Multi-System Data Extraction</strong><br><span style="color: var(--text-muted)">Parallel extraction from Salesforce, SAP, QuickBooks, Stripe, Bank</span><div class="system-connection">📊 <strong>Data Extraction Complete</strong><br><br><strong>Salesforce CRM:</strong><br>• Closed Won Deals: 142 ($8.2M total)<br>• Expected Revenue: $8,247,500<br><br><strong>SAP ERP:</strong><br>• Invoices Generated: 138 ($8.1M)<br>• Outstanding: $147,500<br><br><strong>QuickBooks:</strong><br>• Revenue Recorded: $8,094,200<br>• Pending: $153,300<br><br><strong>Stripe Payments:</strong><br>• Transactions: 2,438<br>• Gross: $8,180,000<br>• Fees: $85,800<br><br><strong>Bank Deposits:</strong><br>• Deposits: $8,094,200<br>• In Transit: $85,800</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 3: AI Reconciliation & Discrepancy Detection</strong><br><span style="color: var(--text-muted)">Machine learning matches transactions, flags anomalies</span><div class="data-field">🤖 <strong>Reconciliation Analysis</strong><br><br>✓ Matched Transactions: 2,798/2,847 (98.3%)<br>⚠️ Discrepancies Found: 49<br><br><strong>Issue Categories:</strong><br>• Timing differences: 32 (in-transit, expected)<br>• Amount mismatches: 12 (rounding, discounts)<br>• Missing invoices: 4 (CRM deal not invoiced)<br>• Duplicate entries: 1 (corrected automatically)<br><br><strong>Auto-Resolved:</strong> 45/49<br><strong>Requires Human Review:</strong> 4 items ($47,500 total)<br><br>✓ Report generated<br>✓ Discrepancy tickets created<br>✓ Stakeholders notified</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ MONTH-END CLOSE COMPLETE</h3><p><strong>Time:</strong> 15 minutes (vs 2 weeks manual)</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">99.3%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">98.3%</strong><br><span style="color: var(--text-muted);">Auto-Matched</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">5</strong><br><span style="color: var(--text-muted);">Systems Unified</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>CFO Value:</strong> Reduced month-end close from 2 weeks to 15 minutes. AI-powered reconciliation across CRM, ERP, billing, payments, and banking eliminated 80 hours of manual spreadsheet work per month (960 hours/year = $120K saved). Real-time discrepancy detection prevents revenue leakage. Finance team now focuses on strategic analysis instead of data entry.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 4: Churn Prevention
+      churn: {
+        title: 'Proactive Customer Churn Prevention',
+        icon: '🎯',
+        traditional: '30 days',
+        alsatalk: '5 minutes',
+        saved: '99.9%',
+        description: 'AI detects usage pattern decline, triggers retention workflow before customer even thinks of leaving',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">🎯 Scenario: AI Detects Early Churn Signals - Proactive Intervention</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: AI Anomaly Detection Triggered</strong><br><span style="color: var(--text-muted)">Machine learning identifies usage pattern changes</span><div class="data-field">🤖 <strong>Churn Risk Alert</strong><br><br><strong>Customer:</strong> DataCorp Solutions<br><strong>Account Value:</strong> $250K ARR<br><strong>Contract Status:</strong> Renewal in 90 days<br><br>⚠️ <strong>Risk Indicators Detected:</strong><br>• Login frequency: ↓ 65% (last 14 days)<br>• Feature usage: ↓ 48% (dashboard views)<br>• Support tickets: ↑ 3× (integration issues)<br>• User sentiment: Negative (NPS drop from 9 to 4)<br>• Champion changed: Key contact left company<br><br><strong>AI Churn Prediction:</strong> 78% likely to cancel<br><strong>Revenue at Risk:</strong> $250,000<br><strong>Action Required:</strong> Immediate intervention</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Multi-Channel Retention Workflow Activated</strong><br><span style="color: var(--text-muted)">AI orchestrates personalized intervention across touchpoints</span><div class="system-connection">⚡ <strong>Retention Campaign Deployed</strong><br><br>✓ <strong>CRM Updated:</strong><br>• Account status → "At Risk - High Priority"<br>• CSM assigned: Sarah Mitchell (top performer)<br>• Executive sponsor: VP Customer Success<br><br>✓ <strong>Immediate Actions:</strong><br>• Emergency review scheduled (today 3 PM)<br>• Usage report compiled (shared with customer)<br>• Integration health check initiated<br>• Retention offer prepared (25% discount + premium features)<br><br>✓ <strong>Proactive Outreach:</strong><br>• Email to new contact: "Let\'s discuss your goals"<br>• Calendar invite: Executive Business Review<br>• Support ticket priority: Escalated to P1<br>• Internal alert: Sales + CSM + Support aligned</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 3: AI-Powered Customer Success Call</strong><br><span style="color: var(--text-muted)">CSM reaches out with data-driven insights</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>OUTBOUND CALL - CONNECTED</span></div><div class="call-timer">08:42</div></div><div class="call-participant"><div class="call-avatar">SM</div><div class="call-info"><div class="call-name">Sarah Mitchell</div><div class="call-role">Customer Success Manager</div></div></div><div class="call-participant"><div class="call-avatar">JL</div><div class="call-info"><div class="call-name">Jennifer Lee</div><div class="call-role">New IT Director, DataCorp</div></div></div><div class="call-transcript"><div class="transcript-line transcript-ai"><span class="transcript-speaker">Sarah:</span>Hi Jennifer! I noticed some changes in your team\'s platform usage and wanted to check in. How\'s everything going?</div><div class="transcript-line"><span class="transcript-speaker">Jennifer:</span>Honestly, we\'ve been struggling. Our integration broke after an update and the previous contact who set everything up left.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">Sarah:</span>I completely understand. I see you had 3 support tickets about integrations. Let me get our senior engineer on a call tomorrow to resolve this. Also, I\'d love to schedule an EBR to realign on your goals.</div><div class="transcript-line"><span class="transcript-speaker">Jennifer:</span>That would be really helpful. We were actually considering alternatives.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">Sarah:</span>I appreciate your honesty. How about this: we fix the integration this week, I\'ll personally run a training session for your new team, and we extend your contract 6 months at a 25% discount while we ensure you\'re getting full value?</div><div class="transcript-line"><span class="transcript-speaker">Jennifer:</span>That sounds fair. Let\'s do it.</div></div></div></div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ $250K ARR SAVED - CUSTOMER RETAINED</h3><p><strong>Intervention Time:</strong> 5 minutes (detection to outreach)</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">$250K</strong><br><span style="color: var(--text-muted);">Revenue Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">78%</strong><br><span style="color: var(--text-muted);">Churn Risk</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">99.9%</strong><br><span style="color: var(--text-muted);">Faster Response</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>Predictive Intelligence:</strong> AI detected churn risk 90 days before renewal by analyzing usage patterns, support sentiment, and organizational changes. Automated intervention workflow saved $250K ARR that would have been lost. Traditional reactive approach waits for customers to complain or cancel. AlsaTalk\'s proactive ML models identify and resolve issues before they become cancellations, improving NRR from 95% to 118%.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 5: Sales Lead Follow-Up (from original demo - enhanced)
+      sales: {
+        title: 'Sales Lead Follow-Up Automation',
+        icon: '📊',
+        traditional: '3.5 hours',
+        alsatalk: '5 minutes',
+        saved: '95%',
+        description: 'Auto-capture leads, AI research, personalized outreach, CRM logging, quote generation, voice follow-up',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">🎯 Scenario: New Enterprise Lead "Acme Manufacturing"</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Lead Captured from Web Form</strong><br><span style="color: var(--text-muted)">Form submission detected at 2:45 PM</span><div class="data-field"><strong>Company:</strong> Acme Manufacturing Corp<br><strong>Contact:</strong> Sarah Johnson (VP Operations)<br><strong>Email:</strong> sarah.johnson@acmemfg.com<br><strong>Phone:</strong> +1 (555) 123-4567<br><strong>Industry:</strong> Manufacturing<br><strong>Company Size:</strong> 500 employees<br><strong>Interest:</strong> CRM + ERP integration for sales team</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Real-Time AI Detection & Processing</strong><br><span style="color: var(--text-muted)">AlsaTalk AI processes form data instantly</span><div class="data-field">✓ Form webhook received<br>✓ Data validated and parsed<br>✓ Lead priority calculated: <strong>HIGH</strong> (500+ employees, enterprise tier)<br>✓ Routing to sales team initiated<br>✓ Slack notification queued</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 3: Slack Notification to Sales Team</strong><br><span style="color: var(--text-muted)">Alert posted to #sales-enterprise channel</span><div class="demo-ui-card" style="background: #4A154B; color: white; padding: 15px; border-radius: 8px;"><strong>🔔 New Enterprise Lead</strong><br><br><strong>Acme Manufacturing Corp</strong><br>VP Operations: Sarah Johnson<br>📊 Company Size: 500 employees<br>🏭 Industry: Manufacturing<br>💰 Estimated Value: $150K ARR<br>🎯 Interest: CRM+ERP Integration<br><br><button style="padding: 8px 16px; background: #007a5a; border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">Claim Lead</button></div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 4: AI Company Research</strong><br><span style="color: var(--text-muted)">GPT-4 analyzes multiple data sources</span><div class="data-field">🔍 <strong>Sources Analyzed:</strong><br>• LinkedIn Company Page<br>• Official Website (acmemfg.com)<br>• Recent News (3 articles found)<br>• Crunchbase Business Profile<br>• Glassdoor Reviews<br><br>📊 <strong>Key Insights:</strong><br>• Annual Revenue: $50M (estimated)<br>• Recent Expansion: Opened 2 new facilities (Q2 2025)<br>• Current Tech Stack: Salesforce CRM + SAP ERP<br>• Pain Points: Manual data entry, disconnected systems<br>• Decision Timeline: Q4 2025 (budget cycle)</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 5: AI Drafts Personalized Email</strong><br><span style="color: var(--text-muted)">GPT-4 composes contextual outreach using research</span><div class="demo-ui-card" style="padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;"><strong>📧 Draft Email Preview</strong><br><br><strong>To:</strong> sarah.johnson@acmemfg.com<br><strong>Subject:</strong> Streamline Acme Manufacturing\'s Operations with AI Integration<br><br>Hi Sarah,<br><br>Congratulations on Acme\'s recent expansion with two new facilities! Managing growth across multiple locations with disconnected Salesforce and SAP systems can be incredibly challenging.<br><br>AlsaTalk integrates your existing systems, enabling your team to:<br>• Eliminate manual data entry<br>• Access real-time inventory & billing data<br>• Automate quote generation<br>• Reduce response times by 2×<br><br>Would you be open to a 20-minute demo next week?<br><br>Best,<br>John Smith | Enterprise Sales</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 6: Salesforce CRM Record Created</strong><br><span style="color: var(--text-muted)">Complete lead profile automatically populated</span><div class="data-field"><strong>✓ Lead Created in Salesforce</strong><br><br>Lead ID: LEAD-2025-10847<br>Company: Acme Manufacturing Corp<br>Contact: Sarah Johnson<br>Title: VP Operations<br>Lead Source: Website Form<br>Lead Status: New - Contacted<br>Opportunity Value: $150,000 ARR<br>Current Systems: Salesforce + SAP<br>Decision Timeline: Q4 2025<br>Assigned To: John Smith (Enterprise AE)</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 7: AI Voice Agent Places Follow-Up Call</strong><br><span style="color: var(--text-muted)">24 hours after email - personal touch</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>OUTBOUND CALL - CONNECTED</span></div><div class="call-timer">01:18</div></div><div class="call-participant"><div class="call-avatar">🤖</div><div class="call-info"><div class="call-name">AlsaTalk AI Agent</div><div class="call-role">Follow-up for John Smith</div></div><div class="audio-wave"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div></div><div class="call-participant"><div class="call-avatar">SJ</div><div class="call-info"><div class="call-name">Sarah Johnson</div><div class="call-role">VP Operations, Acme</div></div></div><div class="call-transcript"><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Hi Sarah, this is calling on behalf of John Smith from AlsaTalk. I hope I\'m catching you at a good time?</div><div class="transcript-line"><span class="transcript-speaker">Sarah:</span>Yes, hi! I actually just read John\'s email about your CRM and ERP integration.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Perfect! Based on your recent expansion to two new facilities, our platform could save your sales team about 20 hours per week. Would you be interested in a quick 20-minute demo next week?</div><div class="transcript-line"><span class="transcript-speaker">Sarah:</span>That sounds interesting. What days work best?</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Great! I\'m checking John\'s calendar now... How about Thursday at 10 AM?</div><div class="transcript-line"><span class="transcript-speaker">Sarah:</span>Thursday at 10 works perfectly.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Excellent! You\'ll receive a calendar invite shortly. Thanks for your time, Sarah!</div></div></div>' },
+          { type: 'step', content: '<span class="status-indicator status-complete"></span><strong>STEP 8: All Systems Updated Automatically</strong><br><span style="color: var(--text-muted)">Call analysis, CRM updates, calendar invite sent</span><div class="data-field">✓ <strong>Call Completed Successfully</strong><br>Duration: 1 minute 18 seconds<br>Outcome: Demo scheduled<br><br>✓ <strong>Salesforce Updated:</strong><br>• Demo meeting created (Oct 10, 10 AM)<br>• Lead status: Demo Scheduled<br>• Call recording attached<br>• Full transcript saved<br><br>✓ <strong>Calendar Invite Sent</strong><br>Attendees: Sarah Johnson, John Smith<br>Zoom link: Auto-generated<br><br>✓ <strong>Sales Rep Notified</strong><br>Slack message sent to John with call summary</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ LEAD QUALIFIED & DEMO SCHEDULED</h3><p><strong>Total Time:</strong> 5 minutes + 1m 18s voice call</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">95%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">100%</strong><br><span style="color: var(--text-muted);">Follow-up Rate</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">10×</strong><br><span style="color: var(--text-muted);">More Leads/Day</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>Sales Productivity:</strong> AI voice agent handles 100% of follow-up calls with 85% success rate. Sales reps can process 10 leads per day instead of 1. Voice touch creates 70% higher response rate than email alone.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 6: Customer Support Call (from original - enhanced)
+      support: {
+        title: 'Customer Support - Delayed Shipment',
+        icon: '📞',
+        traditional: '8 minutes',
+        alsatalk: '2 minutes',
+        saved: '75%',
+        description: 'Inbound call handled with instant CRM lookup, ERP order data, AI resolution script',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">📞 Scenario: Customer Calls About Delayed Shipment</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Incoming Call Detected via Twilio</strong><br><span style="color: var(--text-muted)">Call received, AI analyzing caller ID</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>INBOUND CALL - CONNECTED</span></div><div class="call-timer">00:00</div></div><div class="call-participant"><div class="call-avatar">MC</div><div class="call-info"><div class="call-name">Mike Chen</div><div class="call-role">Calling from +1 (555) 987-6543</div></div><div class="audio-wave"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div></div><div class="data-field" style="margin-top: 15px;">📞 <strong>Incoming Call</strong><br>From: +1 (555) 987-6543<br>Time: 3:15 PM<br>✓ Analyzing caller ID in real-time...</div></div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Customer Identified from CRM</strong><br><span style="color: var(--text-muted)">Instant Salesforce lookup via phone number</span><div class="data-field">✓ <strong>Customer Found in Salesforce</strong><br><br>Customer: TechCorp Industries<br>Contact: Mike Chen (Purchasing Manager)<br>Account Status: Active (2 years)<br>Lifetime Value: $420,000<br>Last Purchase: Sept 15, 2025<br>Open Orders: 2<br>Support Priority: High (Enterprise Tier)</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 3: ERP Order Data Retrieved from SAP</strong><br><span style="color: var(--text-muted)">Real-time query for active shipments</span><div class="data-field">📦 <strong>Active Orders for TechCorp</strong><br><br><strong>Order #ORD-45892</strong><br>• Product: AlsaTalk Enterprise (50 units)<br>• Order Date: Sept 15, 2025<br>• Expected Delivery: Sept 30, 2025<br>• Current Status: <span style="color: #ff6b6b;">⚠️ DELAYED</span><br>• Tracking: UPS #1Z999AA10123456784<br>• Reason: Weather delay at distribution center<br>• New ETA: Oct 3, 2025</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 4: AI Suggests Resolution Script</strong><br><span style="color: var(--text-muted)">Context-aware response powered by GPT-4</span><div class="demo-ui-card" style="background: rgba(37, 99, 235, 0.1); padding: 15px; border-radius: 8px;"><strong>💬 Suggested Agent Script</strong><br><br>"Hi Mike, I see you\'re calling about Order #ORD-45892 for 50 Enterprise licenses.<br><br>I apologize for the delay. The shipment was held up due to weather, but it\'s now in transit and scheduled to arrive October 3rd.<br><br>To make up for the inconvenience, I\'d like to offer you a $500 credit on your next order.<br><br>Would that work for you?"<br><br><strong style="color: var(--secondary);">✓ Recommended Actions:</strong><br>• Issue $500 account credit<br>• Send apology email with tracking<br>• Create follow-up task for Oct 3rd</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 5: Automated Actions Executed</strong><br><span style="color: var(--text-muted)">Cross-system updates in parallel</span><div class="data-field">✓ <strong>$500 Credit Issued in SAP ERP</strong><br>Credit Memo: CM-2025-8847<br>Applied to: TechCorp Industries<br>Valid Until: Dec 31, 2025<br><br>✓ <strong>Apology Email Sent</strong><br>To: mike.chen@techcorp.com<br>Subject: Update on Order #ORD-45892<br>Includes: Tracking link, credit confirmation<br><br>✓ <strong>Support Case Created in Salesforce</strong><br>Case #00458892<br>Type: Shipment Delay<br>Priority: High<br>Status: Resolved<br><br>✓ <strong>Follow-up Task Scheduled</strong><br>Due: Oct 3, 2025<br>Action: Confirm delivery</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ CALL RESOLVED SUCCESSFULLY</h3><p><strong>Duration:</strong> 2 minutes (vs 8 minutes traditional)</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">75%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">+35%</strong><br><span style="color: var(--text-muted);">CSAT</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">4×</strong><br><span style="color: var(--text-muted);">More Calls/Agent</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>Support Efficiency:</strong> Instant access to CRM, order history, and AI-suggested resolutions enables agents to handle 4× more calls while improving customer satisfaction.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 7: Client Onboarding (from original - enhanced)
+      onboarding: {
+        title: 'Client Onboarding - Multi-Agent',
+        icon: '🏢',
+        traditional: '8 hours',
+        alsatalk: '5 minutes',
+        saved: '98%',
+        description: 'Voice command triggers CRM setup, invoicing, provisioning, scheduling, welcome call',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">🏢 Scenario: Manager Says "Onboard GlobalTech as New Client"</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Voice Command Received</strong><br><span style="color: var(--text-muted)">Natural language processing</span><div class="data-field">🎤 <strong>Voice Input</strong><br><br>Speaker: Jennifer Martinez (Sales Director)<br>Command: "AlsaTalk, onboard GlobalTech Solutions as a new client. They signed the enterprise contract today."<br><br>✓ Voice authenticated<br>✓ Intent: CLIENT_ONBOARDING<br>✓ Entity: GlobalTech Solutions</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Multi-Agent Orchestration</strong><br><span style="color: var(--text-muted)">AI distributes tasks to specialized sub-agents</span><div class="data-field">🤖 <strong>Orchestration Engine Started</strong><br><br><strong>Sub-Agents Activated:</strong><br>✓ CRM Agent - Account creation<br>✓ ERP Agent - Financial setup & invoicing<br>✓ Communication Agent - Email & notifications<br>✓ Calendar Agent - Meeting scheduling<br>✓ Provisioning Agent - User accounts<br>✓ Project Agent - Onboarding project<br><br>Status: Running in parallel...</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 3: CRM Agent - Account Created</strong><br><span style="color: var(--text-muted)">Salesforce account configured</span><div class="data-field">✓ <strong>Salesforce Account Created</strong><br><br>Account: GlobalTech Solutions Inc.<br>Type: Customer - Enterprise<br>Industry: Technology Services<br>Employees: 1,200<br>Annual Revenue: $180M<br><br><strong>Primary Contact:</strong><br>Name: David Park (CTO)<br>Email: david.park@globaltechsol.com<br><br><strong>Opportunity Converted:</strong><br>Deal Value: $300,000 ARR<br>Contract: 3 years<br>Status: Closed Won</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 4: ERP Agent - Invoice Generated</strong><br><span style="color: var(--text-muted)">QuickBooks financial records created</span><div class="data-field">✓ <strong>Invoice Generated</strong><br><br>Invoice #INV-2025-10847<br>Bill To: GlobalTech Solutions Inc.<br>Date: Oct 1, 2025<br>Due: Oct 31, 2025<br><br><strong>Line Items:</strong><br>1. AlsaTalk Enterprise (Annual) - $300,000<br>2. Implementation Services - $50,000<br>3. Premium Support Package - $30,000/year<br><br>Total: $411,350<br><br>Status: Sent to david.park@globaltechsol.com</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 5: AI Places Welcome Call to CTO</strong><br><span style="color: var(--text-muted)">Personal touch - voice outreach</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>OUTBOUND CALL - CONNECTED</span></div><div class="call-timer">01:15</div></div><div class="call-participant"><div class="call-avatar">🤖</div><div class="call-info"><div class="call-name">AlsaTalk AI Agent</div><div class="call-role">Welcome Call - Robert Kim (CSM)</div></div><div class="audio-wave"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div></div><div class="call-participant"><div class="call-avatar">DP</div><div class="call-info"><div class="call-name">David Park</div><div class="call-role">CTO, GlobalTech</div></div></div><div class="call-transcript"><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Hi David, this is calling from AlsaTalk on behalf of Robert Kim. I wanted to personally welcome you to AlsaTalk!</div><div class="transcript-line"><span class="transcript-speaker">David:</span>Thank you! That was fast - we just signed this morning.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>We move quickly! Your account is set up with 1,200 licenses. You\'ll receive login credentials shortly, and Robert has scheduled your kickoff for October 8th at 10 AM.</div><div class="transcript-line"><span class="transcript-speaker">David:</span>Perfect. Very impressive turnaround.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Thank you! Robert will be your main contact. If you have questions before kickoff, just reach out anytime. We\'re excited to work with GlobalTech!</div></div></div>' },
+          { type: 'step', content: '<span class="status-indicator status-complete"></span><strong>STEP 6: All Systems Updated</strong><br><span style="color: var(--text-muted)">Onboarding complete notification</span><div class="data-field">✓ <strong>Onboarding Summary</strong><br><br><strong>Actions Completed:</strong><br>✓ Salesforce account created<br>✓ Invoice generated & sent<br>✓ Welcome email delivered<br>✓ Kickoff meeting scheduled (Oct 8, 10 AM)<br>✓ 1,200 user licenses provisioned<br>✓ Implementation project created<br>✓ Slack channel created<br>✓ Personal welcome call completed<br><br><strong>Next Steps:</strong><br>• Oct 8: Kickoff meeting<br>• Nov 1: Target go-live</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ CLIENT FULLY ONBOARDED</h3><p><strong>Time:</strong> 5 minutes (voice command to completion)</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">98%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">0%</strong><br><span style="color: var(--text-muted);">Error Rate</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">8</strong><br><span style="color: var(--text-muted);">Systems Updated</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>White-Glove Experience:</strong> Multi-agent orchestration coordinated 11 tasks across 8 systems in parallel, including personal AI welcome call. Zero manual work. Zero missed steps.</p></div>' }
+        ]
+      },
+
+      // SCENARIO 8: Order Status Update (from original - enhanced)
+      order: {
+        title: 'Order Status Update - Voice Command',
+        icon: '📦',
+        traditional: '15 minutes',
+        alsatalk: '30 seconds',
+        saved: '97%',
+        description: 'Voice triggers ERP lookup, AI places personal call to customer with tracking info',
+        steps: [
+          { type: 'header', content: '<h2 style="color: #00ff00; margin-bottom: 20px;">🎤 Scenario: Sales Rep Says "Update Customer About Order"</h2>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 1: Voice Command Detected</strong><br><span style="color: var(--text-muted)">Natural language input</span><div class="data-field">🎤 <strong>Voice Input</strong><br><br>Speaker: Alex Thompson (Sales Rep)<br>Command: "AlsaTalk, update Lisa Martinez from BrightCorp about her order status."<br><br>✓ Voice authenticated<br>✓ Intent: ORDER_STATUS_UPDATE<br>✓ Customer: Lisa Martinez<br>✓ Company: BrightCorp</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 2: Customer & Order Lookup</strong><br><span style="color: var(--text-muted)">Salesforce CRM + SAP ERP query</span><div class="data-field">🔍 <strong>Customer Found</strong><br><br>Contact: Lisa Martinez<br>Company: BrightCorp Inc.<br>Email: lisa.martinez@brightcorp.com<br>Account Status: Active (Enterprise)<br><br>🔍 <strong>Active Order</strong><br><br>Order #ORD-48392<br>Product: AlsaTalk Professional (100 licenses)<br>Order Value: $85,000<br>Status: In Production<br>Expected Delivery: Oct 5, 2025</div>' },
+          { type: 'step', content: '<span class="status-indicator status-processing"></span><strong>STEP 3: Real-Time ERP Data from SAP</strong><br><span style="color: var(--text-muted)">Live shipment tracking</span><div class="data-field">📦 <strong>Order Details</strong><br><br><strong>Production Status:</strong><br>✓ Manufacturing: Complete<br>✓ Quality Control: Passed<br>✓ Packaging: Complete<br>→ Shipping: In Progress<br><br><strong>Shipping Details:</strong><br>Carrier: FedEx Express<br>Tracking: FDX-9876543210<br>Ship Date: Oct 2, 2025 3:00 PM<br>Expected Delivery: Oct 5, 2025 by 10:30 AM<br><br>Status: ✓ ON TIME</div>' },
+          { type: 'step', content: '<span class="status-indicator status-active"></span><strong>STEP 4: AI Places Outbound Call to Customer</strong><br><span style="color: var(--text-muted)">Personal touch instead of email</span><div class="voice-call-widget"><div class="call-header"><div class="call-status"><div class="call-indicator"></div><span>OUTBOUND CALL - CONNECTED</span></div><div class="call-timer">00:45</div></div><div class="call-participant"><div class="call-avatar">🤖</div><div class="call-info"><div class="call-name">AlsaTalk AI Agent</div><div class="call-role">Calling for Alex Thompson</div></div><div class="audio-wave"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div></div><div class="call-participant"><div class="call-avatar">LM</div><div class="call-info"><div class="call-name">Lisa Martinez</div><div class="call-role">Operations Director, BrightCorp</div></div></div><div class="call-transcript"><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Hi Lisa, this is calling from AlsaTalk on behalf of Alex. I have great news about your order!</div><div class="transcript-line"><span class="transcript-speaker">Lisa:</span>Perfect, I was just thinking about checking on that.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>Your order for 100 Professional licenses just shipped today via FedEx Express. It completed production ahead of schedule and is arriving October 5th by 10:30 AM.</div><div class="transcript-line"><span class="transcript-speaker">Lisa:</span>That is great news! Thank you for the proactive update.</div><div class="transcript-line transcript-ai"><span class="transcript-speaker">AI Agent:</span>My pleasure! I just sent you an email with the tracking number. Alex will follow up on the 5th to confirm delivery.</div></div></div>' },
+          { type: 'step', content: '<span class="status-indicator status-complete"></span><strong>STEP 5: All Systems Updated</strong><br><span style="color: var(--text-muted)">Email sent, call logged, CRM updated</span><div class="data-field">✓ <strong>Email Sent</strong><br>To: lisa.martinez@brightcorp.com<br>Subject: Order #ORD-48392 Shipped<br>Includes: FedEx tracking link<br><br>✓ <strong>Call Recording Saved</strong><br>Duration: 45 seconds<br>Sentiment: Positive (9/10)<br><br>✓ <strong>Salesforce Updated</strong><br>Activity logged<br>Next action: Follow-up Oct 5<br><br>✓ <strong>Notification Sent</strong><br>To: Alex Thompson via Slack</div>' },
+          { type: 'result', content: '<div class="result-box"><h3 style="color: var(--secondary); margin-bottom: 15px;">✅ CUSTOMER UPDATED WITH PERSONAL CALL</h3><p><strong>Time:</strong> 45 seconds (voice command to call completed)</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">97%</strong><br><span style="color: var(--text-muted);">Time Saved</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">3</strong><br><span style="color: var(--text-muted);">Systems Queried</span></div><div style="text-align: center; padding: 15px; background: rgba(16, 185, 129, 0.2); border-radius: 8px;"><strong style="font-size: 1.8rem; color: var(--secondary);">100%</strong><br><span style="color: var(--text-muted);">Accuracy</span></div></div><p style="margin-top: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 6px;"><strong>Voice-First Wow Factor:</strong> Sales rep gave simple voice command and AI made personal phone call to customer with real-time data, sent follow-up email, and updated all systems. Voice creates stronger relationships than email alone.</p></div>' }
+        ]
+      }
+    };
+
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        if (demoRunning && currentStepIndex < demos[currentDemo].steps.length) {
+          advanceStep();
+        } else if (!demoRunning) {
+          startDemo();
+        }
+      } else if (e.key === 'r' || e.key === 'R') {
+        resetDemo();
+      }
+    });
+
+    function advanceStep() {
+      if (currentStepIndex >= demos[currentDemo].steps.length) return;
+
+      // Remove previous continue prompt if exists
+      const oldPrompt = document.querySelector('.continue-prompt');
+      if (oldPrompt) oldPrompt.remove();
+
+      const step = demos[currentDemo].steps[currentStepIndex];
+      const terminal = document.querySelector('.demo-terminal');
+
+      if (step.type === 'header') {
+        terminal.innerHTML += step.content;
+      } else if (step.type === 'step') {
+        terminal.innerHTML += '<div class="demo-step">' + step.content + '</div>';
+      } else if (step.type === 'result') {
+        terminal.innerHTML += step.content;
+      }
+
+      // Add continue prompt after each step (except the last)
+      if (currentStepIndex < demos[currentDemo].steps.length - 1) {
+        terminal.innerHTML += '<div class="continue-prompt">Press <kbd>SPACE</kbd> or <kbd>ENTER</kbd> to continue →</div>';
+      }
+
+      terminal.scrollTop = terminal.scrollHeight;
+      currentStepIndex++;
+
+      updateProgress();
+
+      // Play sound effect (placeholder for future)
+      // playSound('step');
+
+      if (currentStepIndex >= demos[currentDemo].steps.length) {
+        demoRunning = false;
+        setTimeout(() => showMetrics(demos[currentDemo]), 1000);
+        // playSound('complete');
+      }
+    }
+
+    function updateProgress() {
+      const progress = (currentStepIndex / demos[currentDemo].steps.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      document.getElementById('currentStep').textContent = currentStepIndex;
+      document.getElementById('totalSteps').textContent = demos[currentDemo].steps.length;
+    }
+
+    function startDemo() {
+      if (demoRunning) return;
+      demoRunning = true;
+      currentStepIndex = 0;
+
+      document.getElementById('demoContent').innerHTML = '<div class="demo-terminal"></div>';
+
+      document.getElementById('stepCounter').style.display = 'block';
+      document.getElementById('totalSteps').textContent = demos[currentDemo].steps.length;
+
+      // Start with first step
+      advanceStep();
+    }
+
+    function resetDemo() {
+      demoRunning = false;
+      currentStepIndex = 0;
+
+      const demo = demos[currentDemo];
+      document.getElementById('demoContent').innerHTML = `
+        <div style="text-align: center; padding: 100px 20px; color: var(--text-muted);">
+          <div style="font-size: 4rem; margin-bottom: 20px;">${demo.icon || '🚀'}</div>
+          <h3 style="color: var(--text); margin-bottom: 15px; font-size: 1.8rem;">${demo.title}</h3>
+          <p style="font-size: 1.1rem; margin-bottom: 30px; max-width: 600px; margin: 0 auto 30px;">${demo.description}</p>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px; margin: 0 auto;">
+            <div style="padding: 24px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3);">
+              <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">Traditional Process</div>
+              <div style="font-size: 2.5rem; font-weight: 800; color: var(--danger);">${demo.traditional}</div>
+            </div>
+            <div style="padding: 24px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3);">
+              <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">AlsaTalk Process</div>
+              <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary);">${demo.alsatalk}</div>
+            </div>
+          </div>
+          <div style="margin-top: 40px; padding: 20px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; border: 1px solid rgba(37, 99, 235, 0.3);">
+            <p style="font-size: 1.1rem;"><kbd>SPACE</kbd> or <kbd>ENTER</kbd> to begin demo</p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('stepCounter').style.display = 'none';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('demoMetrics').innerHTML = '';
+    }
+
+    function showMetrics(demo) {
+      document.getElementById('demoMetrics').innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
+            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Traditional Process</div>
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--danger); margin-bottom: 8px;">${demo.traditional}</div>
+            <div style="color: var(--text-muted); font-size: 0.9rem;">Manual, error-prone, disconnected systems</div>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
+            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">AlsaTalk Process</div>
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px;">${demo.alsatalk}</div>
+            <div style="color: var(--secondary); font-size: 0.9rem;">✓ Automated, accurate, seamless</div>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
+            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Time Saved</div>
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px;">${demo.saved}</div>
+            <div style="color: var(--secondary); font-size: 0.9rem;">↑ Productivity multiplier</div>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
+            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">ROI Impact</div>
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px;">$250M+</div>
+            <div style="color: var(--secondary); font-size: 0.9rem;">Valuation-grade automation</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Initialize
+    window.addEventListener('load', function() {
+      // Create demo cards for all scenarios
+      const selector = document.getElementById('demoSelector');
+      const demoCards = Object.keys(demos).map((key, index) => {
+        const demo = demos[key];
+        const isActive = index === 0 ? 'active' : '';
+        return `
+          <div class="demo-card ${isActive}" onclick="selectDemo('${key}')" id="card-${key}">
+            <h3>${demo.icon} ${demo.title}</h3>
+            <p>${demo.description}</p>
+            <div class="stats-badge"><strong>${demo.saved} saved</strong> | ${demo.traditional} → ${demo.alsatalk}</div>
+          </div>
+        `;
+      }).join('');
+
+      selector.innerHTML = demoCards;
+      resetDemo();
+    });
+
+    function selectDemo(name) {
+      currentDemo = name;
+      document.querySelectorAll('.demo-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('card-' + name).classList.add('active');
+      resetDemo();
+    }
+  </script>
+</body>
+</html>

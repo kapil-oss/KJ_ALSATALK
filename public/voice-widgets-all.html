@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Widget Options - AlsaTalk (All 10 Designs)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --primary-light: #67e8f9;
+            --secondary: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            --radius-xl: 1rem;
+            --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 3rem 2rem;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            font-size: 1.125rem;
+        }
+
+        .widgets-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 4rem;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .widget-section {
+            text-align: center;
+        }
+
+        .widget-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-light);
+        }
+
+        .widget-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 450px;
+            position: relative;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Widget 1: 3D Card with Orbit */
+        .widget-1 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-card {
+            position: relative;
+            width: 280px;
+            height: 340px;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-2xl);
+            overflow: hidden;
+            z-index: 2;
+            animation: card-float 4s ease-in-out infinite;
+        }
+
+        @keyframes card-float {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-15px) rotateY(2deg); }
+        }
+
+        .card-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+            animation: glow-rotate 8s linear infinite;
+        }
+
+        @keyframes glow-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-content {
+            position: relative;
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1;
+        }
+
+        .mic-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+        }
+
+        .mic-container .icon {
+            color: white;
+            width: 40px;
+            height: 40px;
+        }
+
+        .sound-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sound-rings span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(6, 182, 212, 0.6);
+            border-radius: 50%;
+            animation: ring-pulse 2s ease-out infinite;
+        }
+
+        .sound-rings span:nth-child(1) { width: 120%; height: 120%; animation-delay: 0s; }
+        .sound-rings span:nth-child(2) { width: 140%; height: 140%; animation-delay: 0.4s; }
+        .sound-rings span:nth-child(3) { width: 160%; height: 160%; animation-delay: 0.8s; }
+
+        @keyframes ring-pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+        }
+
+        .voice-text {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .voice-text h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .voice-text p {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .waveform {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 60px;
+            width: 100%;
+        }
+
+        .waveform span {
+            width: 8px;
+            background: linear-gradient(180deg, var(--primary-light), var(--primary));
+            border-radius: 4px;
+            animation: waveform-bounce 1.2s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        @keyframes waveform-bounce {
+            0%, 100% { height: 20%; }
+            50% { height: 100%; }
+        }
+
+        .orbit-container {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbit-rotate 20s linear infinite;
+        }
+
+        @keyframes orbit-rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .orbit-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-175px) rotate(calc(-1 * var(--angle)));
+            box-shadow: var(--shadow-xl);
+        }
+
+        .orbit-icon .icon {
+            color: var(--primary);
+        }
+
+        /* Widget 2: Circular Spectrum */
+        .widget-2 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spectrum-circle {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .spectrum-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.5);
+            z-index: 2;
+        }
+
+        .spectrum-center .icon {
+            color: white;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 0.5rem;
+        }
+
+        .spectrum-center span {
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .spectrum-bars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: spectrum-rotate 15s linear infinite;
+        }
+
+        @keyframes spectrum-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spectrum-bar {
+            position: absolute;
+            width: 8px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--primary-light), transparent);
+            border-radius: 4px;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-150px);
+            animation: spectrum-pulse 1.5s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.05s);
+        }
+
+        @keyframes spectrum-pulse {
+            0%, 100% { height: 30px; opacity: 0.4; }
+            50% { height: 60px; opacity: 1; }
+        }
+
+        /* Widget 3: Hexagon Grid */
+        .widget-3 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hexagon-grid {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hex-cell {
+            width: 60px;
+            height: 60px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+            animation: hex-pulse 2s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        .hex-cell.center {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.5);
+        }
+
+        .hex-cell.center .icon {
+            color: white;
+            width: 50px;
+            height: 50px;
+        }
+
+        @keyframes hex-pulse {
+            0%, 100% {
+                background: var(--glass-bg);
+                border-color: var(--glass-border);
+            }
+            50% {
+                background: rgba(6, 182, 212, 0.2);
+                border-color: var(--primary);
+            }
+        }
+
+        /* Widget 4: Particle Sphere */
+        .widget-4 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .particle-sphere {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .sphere-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 1) 0%, rgba(8, 145, 178, 0.8) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 60px rgba(6, 182, 212, 0.8);
+            animation: core-pulse 3s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .sphere-core .icon {
+            color: white;
+            width: 50px;
+            height: 50px;
+        }
+
+        @keyframes core-pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 60px rgba(6, 182, 212, 0.8);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 0 80px rgba(6, 182, 212, 1);
+            }
+        }
+
+        .sphere-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+            animation: sphere-orbit 8s linear infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        @keyframes sphere-orbit {
+            0% {
+                transform: translate(-50%, -50%)
+                    rotateY(0deg) rotateX(var(--rot-x)) translateZ(var(--radius));
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%)
+                    rotateY(360deg) rotateX(var(--rot-x)) translateZ(var(--radius));
+                opacity: 0;
+            }
+        }
+
+        /* Widget 5: Minimal Waves */
+        .widget-5 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimal-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .minimal-icon {
+            width: 140px;
+            height: 140px;
+            background: var(--gradient-primary);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
+            animation: minimal-float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes minimal-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .minimal-icon::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        .minimal-icon .icon {
+            color: white;
+            width: 60px;
+            height: 60px;
+            z-index: 1;
+        }
+
+        .wave-lines {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            height: 80px;
+        }
+
+        .wave-line {
+            width: 6px;
+            background: linear-gradient(180deg, var(--primary-light), var(--primary));
+            border-radius: 3px;
+            animation: wave-line-bounce 1s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.08s);
+        }
+
+        @keyframes wave-line-bounce {
+            0%, 100% { height: 20%; }
+            50% { height: 100%; }
+        }
+
+        .minimal-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .minimal-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: ring-expand 3s ease-out infinite;
+            animation-delay: calc(var(--i) * 0.5s);
+        }
+
+        @keyframes ring-expand {
+            0% {
+                width: 140px;
+                height: 140px;
+                opacity: 0.8;
+            }
+            100% {
+                width: 350px;
+                height: 350px;
+                opacity: 0;
+            }
+        }
+
+        /* Widget 6: DNA Helix */
+        .widget-6 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dna-container {
+            position: relative;
+            width: 120px;
+            height: 350px;
+        }
+
+        .dna-strand {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .dna-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary);
+            animation: dna-helix 4s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        @keyframes dna-helix {
+            0%, 100% {
+                left: 0;
+                transform: translateY(var(--y)) scale(1);
+            }
+            25% {
+                left: 50%;
+                transform: translateY(calc(var(--y) + 40px)) translateX(-50%) scale(0.7);
+            }
+            50% {
+                left: 100%;
+                transform: translateY(calc(var(--y) + 80px)) translateX(-100%) scale(1);
+            }
+            75% {
+                left: 50%;
+                transform: translateY(calc(var(--y) + 120px)) translateX(-50%) scale(0.7);
+            }
+        }
+
+        .dna-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.6);
+            z-index: 10;
+        }
+
+        .dna-center .icon {
+            color: white;
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Widget 7: Radar Scan */
+        .widget-7 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+            border: 2px solid var(--glass-border);
+        }
+
+        .radar-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .radar-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 50%;
+        }
+
+        .radar-ring:nth-child(1) { width: 80%; height: 80%; }
+        .radar-ring:nth-child(2) { width: 60%; height: 60%; }
+        .radar-ring:nth-child(3) { width: 40%; height: 40%; }
+
+        .radar-sweep {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(6, 182, 212, 0.3) 45deg,
+                rgba(6, 182, 212, 0.1) 90deg,
+                transparent 90deg
+            );
+            border-radius: 50%;
+            animation: radar-spin 4s linear infinite;
+        }
+
+        @keyframes radar-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .radar-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.8);
+            z-index: 2;
+        }
+
+        .radar-center .icon {
+            color: white;
+            width: 45px;
+            height: 45px;
+        }
+
+        .radar-blip {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary);
+            animation: blip-fade 2s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.3s);
+        }
+
+        @keyframes blip-fade {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Widget 8: Matrix Grid */
+        .widget-8 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .matrix-grid {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .matrix-cell {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            animation: matrix-glow 3s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.05s);
+        }
+
+        @keyframes matrix-glow {
+            0%, 100% {
+                background: var(--glass-bg);
+                box-shadow: none;
+            }
+            50% {
+                background: rgba(6, 182, 212, 0.3);
+                box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+            }
+        }
+
+        .matrix-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 60px rgba(6, 182, 212, 0.8);
+            animation: matrix-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes matrix-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .matrix-center .icon {
+            color: white;
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Widget 9: Liquid Morph */
+        .widget-9 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .liquid-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .liquid-blob {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: liquid-morph 8s ease-in-out infinite;
+        }
+
+        .liquid-blob:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .liquid-blob:nth-child(2) {
+            width: 180px;
+            height: 180px;
+            bottom: 0;
+            right: 0;
+            background: var(--secondary);
+            animation-delay: 2s;
+        }
+
+        .liquid-blob:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+
+        @keyframes liquid-morph {
+            0%, 100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: translate(0, 0);
+            }
+            25% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                transform: translate(20px, -20px);
+            }
+            50% {
+                border-radius: 40% 60% 60% 40% / 70% 50% 60% 30%;
+                transform: translate(-20px, 20px);
+            }
+            75% {
+                border-radius: 70% 30% 50% 50% / 30% 70% 40% 60%;
+                transform: translate(20px, 20px);
+            }
+        }
+
+        .liquid-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        .liquid-center .icon {
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+        }
+
+        /* Widget 10: Neon Rings */
+        .widget-10 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .neon-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+        }
+
+        .neon-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            box-shadow:
+                0 0 20px var(--primary),
+                inset 0 0 20px var(--primary);
+            animation: neon-rotate 10s linear infinite;
+        }
+
+        .neon-ring:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            animation-delay: 0s;
+        }
+
+        .neon-ring:nth-child(2) {
+            width: 240px;
+            height: 240px;
+            border-color: var(--secondary);
+            box-shadow:
+                0 0 20px var(--secondary),
+                inset 0 0 20px var(--secondary);
+            animation-delay: -3.3s;
+        }
+
+        .neon-ring:nth-child(3) {
+            width: 180px;
+            height: 180px;
+            animation-delay: -6.6s;
+        }
+
+        @keyframes neon-rotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+                border-radius: 50%;
+            }
+            25% {
+                border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(180deg);
+                border-radius: 50%;
+            }
+            75% {
+                border-radius: 55% 45% 50% 50% / 50% 55% 45% 50%;
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+                border-radius: 50%;
+            }
+        }
+
+        .neon-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110px;
+            height: 110px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 40px var(--primary),
+                0 0 80px rgba(6, 182, 212, 0.5);
+            animation: neon-pulse 2s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% {
+                box-shadow:
+                    0 0 40px var(--primary),
+                    0 0 80px rgba(6, 182, 212, 0.5);
+            }
+            50% {
+                box-shadow:
+                    0 0 60px var(--primary),
+                    0 0 120px rgba(6, 182, 212, 0.8);
+            }
+        }
+
+        .neon-center .icon {
+            color: white;
+            width: 50px;
+            height: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .widgets-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .widget-wrapper {
+                min-height: 350px;
+            }
+
+            .widget-1, .widget-2, .widget-3, .widget-4, .widget-5,
+            .widget-6, .widget-7, .widget-8, .widget-9, .widget-10 {
+                width: 320px;
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <object data="icons.svg" type="image/svg+xml" style="display: none;" id="svg-icons"></object>
+
+    <h1>Voice Widget Options</h1>
+    <p class="subtitle">Choose your favorite design for the AlsaTalk landing page - 10 unique designs with local icons</p>
+
+    <div class="widgets-container">
+        <!-- Widget 1: 3D Card with Orbit -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 1: 3D Card with Orbit</h2>
+            <div class="widget-wrapper">
+                <div class="widget-1">
+                    <div class="voice-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="mic-container">
+                                <svg class="icon"><use href="icons.svg#icon-mic"/></svg>
+                                <div class="sound-rings">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="voice-text">
+                                <h3>Voice AI Active</h3>
+                                <p>Listening & Processing</p>
+                            </div>
+                            <div class="waveform">
+                                <span style="--i: 1;"></span>
+                                <span style="--i: 2;"></span>
+                                <span style="--i: 3;"></span>
+                                <span style="--i: 4;"></span>
+                                <span style="--i: 5;"></span>
+                                <span style="--i: 6;"></span>
+                                <span style="--i: 7;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="orbit-container">
+                        <div class="orbit-icon" style="--angle: 0deg;">
+                            <svg class="icon"><use href="icons.svg#icon-zap"/></svg>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 120deg;">
+                            <svg class="icon"><use href="icons.svg#icon-brain"/></svg>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 240deg;">
+                            <svg class="icon"><use href="icons.svg#icon-message"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 2: Circular Spectrum -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 2: Circular Spectrum</h2>
+            <div class="widget-wrapper">
+                <div class="widget-2">
+                    <div class="spectrum-circle">
+                        <div class="spectrum-center">
+                            <svg class="icon"><use href="icons.svg#icon-mic"/></svg>
+                            <span>AI Voice</span>
+                        </div>
+                        <div class="spectrum-bars">
+                            <div class="spectrum-bar" style="--angle: 0deg; --i: 0;"></div>
+                            <div class="spectrum-bar" style="--angle: 15deg; --i: 1;"></div>
+                            <div class="spectrum-bar" style="--angle: 30deg; --i: 2;"></div>
+                            <div class="spectrum-bar" style="--angle: 45deg; --i: 3;"></div>
+                            <div class="spectrum-bar" style="--angle: 60deg; --i: 4;"></div>
+                            <div class="spectrum-bar" style="--angle: 75deg; --i: 5;"></div>
+                            <div class="spectrum-bar" style="--angle: 90deg; --i: 6;"></div>
+                            <div class="spectrum-bar" style="--angle: 105deg; --i: 7;"></div>
+                            <div class="spectrum-bar" style="--angle: 120deg; --i: 8;"></div>
+                            <div class="spectrum-bar" style="--angle: 135deg; --i: 9;"></div>
+                            <div class="spectrum-bar" style="--angle: 150deg; --i: 10;"></div>
+                            <div class="spectrum-bar" style="--angle: 165deg; --i: 11;"></div>
+                            <div class="spectrum-bar" style="--angle: 180deg; --i: 12;"></div>
+                            <div class="spectrum-bar" style="--angle: 195deg; --i: 13;"></div>
+                            <div class="spectrum-bar" style="--angle: 210deg; --i: 14;"></div>
+                            <div class="spectrum-bar" style="--angle: 225deg; --i: 15;"></div>
+                            <div class="spectrum-bar" style="--angle: 240deg; --i: 16;"></div>
+                            <div class="spectrum-bar" style="--angle: 255deg; --i: 17;"></div>
+                            <div class="spectrum-bar" style="--angle: 270deg; --i: 18;"></div>
+                            <div class="spectrum-bar" style="--angle: 285deg; --i: 19;"></div>
+                            <div class="spectrum-bar" style="--angle: 300deg; --i: 20;"></div>
+                            <div class="spectrum-bar" style="--angle: 315deg; --i: 21;"></div>
+                            <div class="spectrum-bar" style="--angle: 330deg; --i: 22;"></div>
+                            <div class="spectrum-bar" style="--angle: 345deg; --i: 23;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 3: Hexagon Grid -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 3: Hexagon Grid</h2>
+            <div class="widget-wrapper">
+                <div class="widget-3">
+                    <div class="hexagon-grid">
+                        <div class="hex-cell" style="--i: 0;"></div>
+                        <div class="hex-cell" style="--i: 1;"></div>
+                        <div class="hex-cell" style="--i: 2;"></div>
+                        <div class="hex-cell" style="--i: 3;"></div>
+                        <div class="hex-cell" style="--i: 4;"></div>
+                        <div class="hex-cell" style="--i: 5;"></div>
+                        <div class="hex-cell" style="--i: 6;"></div>
+                        <div class="hex-cell" style="--i: 7;"></div>
+                        <div class="hex-cell" style="--i: 8;"></div>
+                        <div class="hex-cell" style="--i: 9;"></div>
+                        <div class="hex-cell" style="--i: 10;"></div>
+                        <div class="hex-cell" style="--i: 11;"></div>
+                        <div class="hex-cell center">
+                            <svg class="icon"><use href="icons.svg#icon-mic"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 4: Particle Sphere -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 4: Particle Sphere</h2>
+            <div class="widget-wrapper">
+                <div class="widget-4">
+                    <div class="particle-sphere">
+                        <div class="sphere-core">
+                            <svg class="icon"><use href="icons.svg#icon-mic"/></svg>
+                        </div>
+                        <div class="sphere-particle" style="--i: 0; --radius: 120px; --rot-x: 0deg;"></div>
+                        <div class="sphere-particle" style="--i: 1; --radius: 130px; --rot-x: 30deg;"></div>
+                        <div class="sphere-particle" style="--i: 2; --radius: 110px; --rot-x: 60deg;"></div>
+                        <div class="sphere-particle" style="--i: 3; --radius: 140px; --rot-x: 90deg;"></div>
+                        <div class="sphere-particle" style="--i: 4; --radius: 125px; --rot-x: 120deg;"></div>
+                        <div class="sphere-particle" style="--i: 5; --radius: 115px; --rot-x: 150deg;"></div>
+                        <div class="sphere-particle" style="--i: 6; --radius: 135px; --rot-x: 180deg;"></div>
+                        <div class="sphere-particle" style="--i: 7; --radius: 120px; --rot-x: 210deg;"></div>
+                        <div class="sphere-particle" style="--i: 8; --radius: 130px; --rot-x: 240deg;"></div>
+                        <div class="sphere-particle" style="--i: 9; --radius: 125px; --rot-x: 270deg;"></div>
+                        <div class="sphere-particle" style="--i: 10; --radius: 140px; --rot-x: 300deg;"></div>
+                        <div class="sphere-particle" style="--i: 11; --radius: 115px; --rot-x: 330deg;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 5: Minimal Waves -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 5: Minimal Waves</h2>
+            <div class="widget-wrapper">
+                <div class="widget-5">
+                    <div class="minimal-container">
+                        <div class="minimal-icon">
+                            <svg class="icon"><use href="icons.svg#icon-mic"/></svg>
+                        </div>
+                        <div class="wave-lines">
+                            <span class="wave-line" style="--i: 0;"></span>
+                            <span class="wave-line" style="--i: 1;"></span>
+                            <span class="wave-line" style="--i: 2;"></span>
+                            <span class="wave-line" style="--i: 3;"></span>
+                            <span class="wave-line" style="--i: 4;"></span>
+                            <span class="wave-line" style="--i: 5;"></span>
+                            <span class="wave-line" style="--i: 6;"></span>
+                            <span class="wave-line" style="--i: 7;"></span>
+                            <span class="wave-line" style="--i: 8;"></span>
+                            <span class="wave-line" style="--i: 9;"></span>
+                            <span class="wave-line" style="--i: 10;"></span>
+                            <span class="wave-line" style="--i: 11;"></span>
+                            <span class="wave-line" style="--i: 12;"></span>
+                        </div>
+                        <div class="minimal-rings">
+                            <div class="minimal-ring" style="--i: 0;"></div>
+                            <div class="minimal-ring" style="--i: 1;"></div>
+                            <div class="minimal-ring" style="--i: 2;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 6: DNA Helix -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 6: DNA Helix</h2>
+            <div class="widget-wrapper">
+                <div class="widget-6">
+                    <div class="dna-container">
+                        <div class="dna-strand">
+                            <div class="dna-dot" style="--i: 0; --y: 0px;"></div>
+                            <div class="dna-dot" style="--i: 1; --y: 40px;"></div>
+                            <div class="dna-dot" style="--i: 2; --y: 80px;"></div>
+                            <div class="dna-dot" style="--i: 3; --y: 120px;"></div>
+                            <div class="dna-dot" style="--i: 4; --y: 160px;"></div>
+                            <div class="dna-dot" style="--i: 5; --y: 200px;"></div>
+                            <div class="dna-dot" style="--i: 6; --y: 240px;"></div>
+                            <div class="dna-dot" style="--i: 7; --y: 280px;"></div>
+                        </div>
+                        <div class="dna-center">
+                            <svg class="icon"><use href="icons.svg#icon-mic"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 7: Radar Scan -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 7: Radar Scan</h2>
+            <div class="widget-wrapper">
+                <div class="widget-7">
+                    <div class="radar-container">
+                        <div class="radar-rings">
+                            <div class="radar-ring"></div>
+                            <div class="radar-ring"></div>
+                            <div class="radar-ring"></div>
+                        </div>
+                        <div class="radar-sweep"></div>
+                        <div class="radar-center">
+                            <svg class="icon"><use href="icons.svg#icon-radio"/></svg>
+                        </div>
+                        <div class="radar-blip" style="--i: 0; top: 20%; left: 30%;"></div>
+                        <div class="radar-blip" style="--i: 1; top: 60%; left: 70%;"></div>
+                        <div class="radar-blip" style="--i: 2; top: 40%; left: 80%;"></div>
+                        <div class="radar-blip" style="--i: 3; top: 70%; left: 25%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 8: Matrix Grid -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 8: Matrix Grid</h2>
+            <div class="widget-wrapper">
+                <div class="widget-8">
+                    <div class="matrix-grid">
+                        <div class="matrix-cell" style="--i: 0;"></div>
+                        <div class="matrix-cell" style="--i: 1;"></div>
+                        <div class="matrix-cell" style="--i: 2;"></div>
+                        <div class="matrix-cell" style="--i: 3;"></div>
+                        <div class="matrix-cell" style="--i: 4;"></div>
+                        <div class="matrix-cell" style="--i: 5;"></div>
+                        <div class="matrix-cell" style="--i: 6;"></div>
+                        <div class="matrix-cell" style="--i: 7;"></div>
+                        <div class="matrix-cell" style="--i: 8;"></div>
+                        <div class="matrix-cell" style="--i: 9;"></div>
+                        <div class="matrix-cell" style="--i: 10;"></div>
+                        <div class="matrix-cell" style="--i: 11;"></div>
+                        <div class="matrix-cell" style="--i: 12;"></div>
+                        <div class="matrix-cell" style="--i: 13;"></div>
+                        <div class="matrix-cell" style="--i: 14;"></div>
+                        <div class="matrix-cell" style="--i: 15;"></div>
+                        <div class="matrix-cell" style="--i: 16;"></div>
+                        <div class="matrix-cell" style="--i: 17;"></div>
+                        <div class="matrix-cell" style="--i: 18;"></div>
+                        <div class="matrix-cell" style="--i: 19;"></div>
+                        <div class="matrix-cell" style="--i: 20;"></div>
+                        <div class="matrix-cell" style="--i: 21;"></div>
+                        <div class="matrix-cell" style="--i: 22;"></div>
+                        <div class="matrix-cell" style="--i: 23;"></div>
+                        <div class="matrix-cell" style="--i: 24;"></div>
+                        <div class="matrix-cell" style="--i: 25;"></div>
+                        <div class="matrix-cell" style="--i: 26;"></div>
+                        <div class="matrix-cell" style="--i: 27;"></div>
+                        <div class="matrix-cell" style="--i: 28;"></div>
+                        <div class="matrix-cell" style="--i: 29;"></div>
+                        <div class="matrix-cell" style="--i: 30;"></div>
+                        <div class="matrix-cell" style="--i: 31;"></div>
+                        <div class="matrix-cell" style="--i: 32;"></div>
+                        <div class="matrix-cell" style="--i: 33;"></div>
+                        <div class="matrix-cell" style="--i: 34;"></div>
+                        <div class="matrix-cell" style="--i: 35;"></div>
+                        <div class="matrix-cell" style="--i: 36;"></div>
+                        <div class="matrix-cell" style="--i: 37;"></div>
+                        <div class="matrix-cell" style="--i: 38;"></div>
+                        <div class="matrix-cell" style="--i: 39;"></div>
+                        <div class="matrix-cell" style="--i: 40;"></div>
+                        <div class="matrix-cell" style="--i: 41;"></div>
+                        <div class="matrix-cell" style="--i: 42;"></div>
+                        <div class="matrix-cell" style="--i: 43;"></div>
+                        <div class="matrix-cell" style="--i: 44;"></div>
+                        <div class="matrix-cell" style="--i: 45;"></div>
+                        <div class="matrix-cell" style="--i: 46;"></div>
+                        <div class="matrix-cell" style="--i: 47;"></div>
+                        <div class="matrix-cell" style="--i: 48;"></div>
+                    </div>
+                    <div class="matrix-center">
+                        <svg class="icon"><use href="icons.svg#icon-cpu"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 9: Liquid Morph -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 9: Liquid Morph</h2>
+            <div class="widget-wrapper">
+                <div class="widget-9">
+                    <div class="liquid-container">
+                        <div class="liquid-blob"></div>
+                        <div class="liquid-blob"></div>
+                        <div class="liquid-blob"></div>
+                        <div class="liquid-center">
+                            <svg class="icon"><use href="icons.svg#icon-waves"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget 10: Neon Rings -->
+        <div class="widget-section">
+            <h2 class="widget-title">Option 10: Neon Rings</h2>
+            <div class="widget-wrapper">
+                <div class="widget-10">
+                    <div class="neon-container">
+                        <div class="neon-ring"></div>
+                        <div class="neon-ring"></div>
+                        <div class="neon-ring"></div>
+                        <div class="neon-center">
+                            <svg class="icon"><use href="icons.svg#icon-wifi"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

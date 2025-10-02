@@ -8,11 +8,23 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* Icon styles */
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
         .chat-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            padding-top: 6rem;
+            padding-top: 10rem;
         }
 
         .persona-header {
@@ -119,7 +131,7 @@
             font-size: 1.125rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-top: 0.5rem;
+            margin-top: 1.25rem;
         }
 
         /* Pulse animation for active button */
@@ -236,13 +248,13 @@
 
             <div class="nav-actions">
                 <a href="/" class="nav-btn-secondary">
-                    <i data-lucide="arrow-left"></i>
+                    <svg class="icon"><use href="icons.svg#icon-arrow-left"/></svg>
                     <span>Back to Home</span>
                 </a>
                 <span id="userWelcome" style="color: var(--text-primary); font-size: 0.875rem; font-weight: 500;"></span>
                 <form action="/logout" method="POST" style="display: inline-block;">
                     <button type="submit" class="nav-btn-secondary">
-                        <i data-lucide="log-out"></i>
+                        <svg class="icon"><use href="icons.svg#icon-log-out"/></svg>
                         <span>Logout</span>
                     </button>
                 </form>
@@ -266,7 +278,7 @@
             <!-- Chat Controls -->
             <div class="chat-controls">
                 <button class="control-btn-circular start-btn" id="controlBtn" onclick="toggleSession()">
-                    <i data-lucide="play" id="controlIcon"></i>
+                    <svg class="icon" id="controlIcon" style="width: 48px; height: 48px;"><use href="icons.svg#icon-play"/></svg>
                 </button>
                 <span class="control-label" id="controlLabel">Start Conversation</span>
 
@@ -293,9 +305,6 @@
     </div>
 
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-
         // Get persona ID from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const personaId = urlParams.get('persona');
@@ -360,9 +369,7 @@
 
             const iconElement = document.getElementById('personaIcon');
             iconElement.style.background = persona.color;
-            iconElement.innerHTML = `<i data-lucide="${persona.icon}" style="width: 40px; height: 40px; color: white;"></i>`;
-
-            lucide.createIcons();
+            iconElement.innerHTML = `<svg class="icon" style="width: 40px; height: 40px; color: white;"><use href="icons.svg#icon-${persona.icon}"/></svg>`;
 
             document.title = `AlsaTalk - ${persona.name}`;
         }
@@ -417,9 +424,8 @@
                     // Change button to stop with animations
                     controlBtn.classList.remove('start-btn');
                     controlBtn.classList.add('stop-btn', 'active');
-                    controlIcon.setAttribute('data-lucide', 'square');
+                    controlIcon.querySelector('use').setAttribute('href', 'icons.svg#icon-square');
                     controlLabel.textContent = 'End Conversation';
-                    lucide.createIcons();
 
                     // Show animations
                     voiceWaves.classList.remove('hidden');
@@ -448,9 +454,8 @@
             // Change button back to start
             controlBtn.classList.remove('stop-btn', 'active');
             controlBtn.classList.add('start-btn');
-            controlIcon.setAttribute('data-lucide', 'play');
+            controlIcon.querySelector('use').setAttribute('href', 'icons.svg#icon-play');
             controlLabel.textContent = 'Start Conversation';
-            lucide.createIcons();
 
             // Hide animations
             voiceWaves.classList.add('hidden');
