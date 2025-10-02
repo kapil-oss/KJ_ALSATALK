@@ -10,7 +10,7 @@ class AIPersonaChat {
         this.currentPersona = null;
         this.isCreatingResponse = false;
 
-        // UI elements
+        // UI elements - these may not exist, so we handle gracefully
         this.startButton = document.getElementById('persona-start-chat');
         this.stopButton = document.getElementById('persona-stop-chat');
         this.switchButton = document.getElementById('persona-switch-chat');
@@ -54,7 +54,9 @@ class AIPersonaChat {
 
         try {
             this.updateStatus('Connecting...', 'connecting');
-            this.startButton.disabled = true;
+            if (this.startButton) {
+                this.startButton.disabled = true;
+            }
             this.currentPersona = personaManager.getCurrentPersona();
 
             console.log('Selected persona:', this.currentPersona);
@@ -146,7 +148,9 @@ class AIPersonaChat {
 
             this.isConnected = true;
             this.updateStatus('Connected', 'connected');
-            this.stopButton.disabled = false;
+            if (this.stopButton) {
+                this.stopButton.disabled = false;
+            }
             this.updateVoiceStatus('Ready to listen...');
 
             this.addMessage('system', `🟢 Connected to ${this.currentPersona.name}! Start speaking...`);
@@ -155,7 +159,9 @@ class AIPersonaChat {
             console.error('Failed to start session:', error);
             this.addMessage('system', `❌ Connection failed: ${error.message}`);
             this.updateStatus('Connection failed', 'disconnected');
-            this.startButton.disabled = false;
+            if (this.startButton) {
+                this.startButton.disabled = false;
+            }
         }
     }
 
@@ -177,8 +183,12 @@ class AIPersonaChat {
 
         this.isConnected = false;
         this.updateStatus('Disconnected', 'disconnected');
-        this.startButton.disabled = false;
-        this.stopButton.disabled = true;
+        if (this.startButton) {
+            this.startButton.disabled = false;
+        }
+        if (this.stopButton) {
+            this.stopButton.disabled = true;
+        }
         this.updateVoiceStatus('Disconnected');
 
         const personaName = this.currentPersona ? this.currentPersona.name : 'AI Assistant';
@@ -317,8 +327,6 @@ class AIPersonaChat {
                     }
                 },
                 instructions: this.currentPersona.prompt,
-                // temperature: 0.8,
-                // max_response_output_tokens: 4096
             }
         };
 
@@ -326,33 +334,10 @@ class AIPersonaChat {
             this.dc.send(JSON.stringify(systemPrompt));
             console.log('Sent persona prompt for:', this.currentPersona.name);
 
-            // Send an initial greeting to trigger the persona
+            // Send an initial greeting to trigger the persona immediately
             setTimeout(() => {
-                if (!this.isCreatingResponse) {
-                    this.isCreatingResponse = true;
-
-                    const greetingMessage = {
-                        type: 'conversation.item.create',
-                        item: {
-                            type: 'message',
-                            role: 'user',
-                            content: [{
-                                type: 'input_text',
-                                text: 'Hello! Please introduce yourself and tell me how you can help me.'
-                            }]
-                        }
-                    };
-                    this.dc.send(JSON.stringify(greetingMessage));
-
-                    // Trigger response generation
-                    setTimeout(() => {
-                        const responseEvent = {
-                            type: 'response.create'
-                        };
-                        this.dc.send(JSON.stringify(responseEvent));
-                    }, 500);
-                }
-            }, 1500);
+                this.sendInitialGreeting();
+            }, 1000);
         } else {
             console.error('Data channel not ready');
         }
@@ -405,6 +390,17 @@ class AIPersonaChat {
                 case 'response.done':
                     this.updateVoiceStatus('Ready to listen...');
                     this.isCreatingResponse = false; // Reset flag when response is done
+
+                    // Track token usage if available
+                    if (message.response?.usage) {
+                        const usage = message.response.usage;
+                        const totalTokens = (usage.input_tokens || 0) + (usage.output_tokens || 0);
+
+                        if (totalTokens > 0) {
+                            // Send token usage to backend
+                            this.trackTokenUsage(totalTokens);
+                        }
+                    }
                     break;
 
                 case 'session.updated':
@@ -433,6 +429,46 @@ class AIPersonaChat {
         }
     }
 
+    sendInitialGreeting() {
+        if (!this.dc || this.dc.readyState !== 'open') {
+            console.error('Data channel not ready for initial greeting');
+            return;
+        }
+
+        if (this.isCreatingResponse) {
+            console.log('Already creating a response, skipping initial greeting');
+            return;
+        }
+
+        this.isCreatingResponse = true;
+        console.log('Sending initial greeting to trigger persona introduction...');
+
+        const greetingMessage = {
+            type: 'conversation.item.create',
+            item: {
+                type: 'message',
+                role: 'user',
+                content: [{
+                    type: 'input_text',
+                    text: 'Hello! Please introduce yourself and tell me how you can help me.'
+                }]
+            }
+        };
+
+        this.dc.send(JSON.stringify(greetingMessage));
+
+        // Trigger response generation after a short delay
+        setTimeout(() => {
+            if (this.dc && this.dc.readyState === 'open') {
+                const responseEvent = {
+                    type: 'response.create'
+                };
+                this.dc.send(JSON.stringify(responseEvent));
+                console.log('Triggered AI response generation');
+            }
+        }, 300);
+    }
+
     sendTextMessage(text) {
         if (!this.dc || this.dc.readyState !== 'open') {
             this.addMessage('system', 'Not connected. Please start a session first.');
@@ -459,6 +495,27 @@ class AIPersonaChat {
             type: 'response.create'
         };
         this.dc.send(JSON.stringify(responseEvent));
+    }
+
+    async trackTokenUsage(tokensUsed) {
+        try {
+            const response = await fetch('/api/track-tokens', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tokensUsed })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to track token usage:', await response.text());
+            } else {
+                const data = await response.json();
+                console.log(`✅ Tracked ${tokensUsed} tokens. Total: ${data.tokens_used}/${data.token_limit}`);
+            }
+        } catch (error) {
+            console.error('Error tracking token usage:', error);
+        }
     }
 }
 

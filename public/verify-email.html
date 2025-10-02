@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - AlsaTalk</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .verify-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .verify-card {
+            max-width: 500px;
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-2xl);
+            text-align: center;
+        }
+
+        .verify-header {
+            margin-bottom: 2rem;
+        }
+
+        .verify-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .verify-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .verify-header p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .otp-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+
+        .otp-digit {
+            width: 60px;
+            height: 70px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            background: var(--bg-primary);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .otp-digit:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .verify-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        .verify-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .resend-link {
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .resend-link button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .resend-link button:hover {
+            color: var(--primary-light);
+        }
+
+        .error-message, .success-message {
+            display: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .error-message.show, .success-message.show {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .email-display {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-container">
+        <div class="verify-card">
+            <div class="verify-header">
+                <div class="verify-icon">📧</div>
+                <h1>Verify Your Email</h1>
+                <p>
+                    We've sent a 6-digit verification code to<br>
+                    <span class="email-display" id="emailDisplay"></span>
+                </p>
+            </div>
+
+            <div id="errorMessage" class="error-message">
+                <i data-lucide="alert-circle" style="width: 20px; height: 20px;"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <div id="successMessage" class="success-message">
+                <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                <span id="successText"></span>
+            </div>
+
+            <form id="verifyForm">
+                <div class="otp-input-container">
+                    <input type="text" maxlength="1" class="otp-digit" id="digit1" autocomplete="off">
+                    <input type="text" maxlength="1" class="otp-digit" id="digit2" autocomplete="off">
+                    <input type="text" maxlength="1" class="otp-digit" id="digit3" autocomplete="off">
+                    <input type="text" maxlength="1" class="otp-digit" id="digit4" autocomplete="off">
+                    <input type="text" maxlength="1" class="otp-digit" id="digit5" autocomplete="off">
+                    <input type="text" maxlength="1" class="otp-digit" id="digit6" autocomplete="off">
+                </div>
+
+                <button type="submit" class="verify-btn" id="verifyBtn">
+                    <span id="btnText">Verify Email</span>
+                    <div class="loader" id="btnLoader" style="display: none;"></div>
+                </button>
+            </form>
+
+            <div class="resend-link">
+                Didn't receive the code? <button type="button" onclick="resendOTP()">Resend</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Get email from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+
+        if (!email) {
+            window.location.href = '/login';
+        }
+
+        document.getElementById('emailDisplay').textContent = email;
+
+        // OTP input handling
+        const inputs = Array.from(document.querySelectorAll('.otp-digit'));
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').slice(0, 6);
+                pastedData.split('').forEach((char, i) => {
+                    if (inputs[i]) {
+                        inputs[i].value = char;
+                    }
+                });
+                inputs[Math.min(pastedData.length, inputs.length - 1)].focus();
+            });
+        });
+
+        // Focus first input
+        inputs[0].focus();
+
+        const form = document.getElementById('verifyForm');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const btnText = document.getElementById('btnText');
+        const btnLoader = document.getElementById('btnLoader');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const successMessage = document.getElementById('successMessage');
+        const successText = document.getElementById('successText');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Clear messages
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+
+            // Get OTP
+            const otp = inputs.map(input => input.value).join('');
+
+            if (otp.length !== 6) {
+                showError('Please enter the complete 6-digit code');
+                return;
+            }
+
+            // Show loading
+            verifyBtn.disabled = true;
+            btnText.textContent = 'Verifying...';
+            btnLoader.style.display = 'inline-block';
+
+            try {
+                const response = await fetch('/api/verify-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Email verified successfully! Redirecting to login...');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    showError(data.error || 'Verification failed. Please try again.');
+                    inputs.forEach(input => input.value = '');
+                    inputs[0].focus();
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showError('Network error. Please try again.');
+            } finally {
+                verifyBtn.disabled = false;
+                btnText.textContent = 'Verify Email';
+                btnLoader.style.display = 'none';
+            }
+        });
+
+        async function resendOTP() {
+            try {
+                const response = await fetch('/api/resend-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Verification code resent successfully!');
+                    inputs.forEach(input => input.value = '');
+                    inputs[0].focus();
+                } else {
+                    showError(data.error || 'Failed to resend code');
+                }
+            } catch (error) {
+                showError('Network error. Please try again.');
+            }
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.add('show');
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        function showSuccess(message) {
+            successText.textContent = message;
+            successMessage.classList.add('show');
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+    </script>
+</body>
+</html>

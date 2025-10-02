@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlsaTalk - Premium Interactive Demo Suite | CES 2026</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#06b6d4',
+            'primary-dark': '#0891b2',
+            'primary-light': '#67e8f9',
+            secondary: '#8b5cf6',
+            accent: '#f59e0b',
+            danger: '#ef4444',
+            success: '#10b981',
+            'bg-primary': '#0f172a',
+            'bg-secondary': '#1e293b',
+            'text-primary': '#f8fafc',
+            'text-secondary': '#cbd5e1',
+            'glass-border': 'rgba(255, 255, 255, 0.1)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+    }
+
+    .demo-card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .demo-card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
+    }
+
+    .demo-card-active {
+      border-color: #06b6d4 !important;
+      background: rgba(6, 182, 212, 0.1) !important;
+      box-shadow: 0 8px 32px rgba(6, 182, 212, 0.4) !important;
+    }
+
+    .status-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .slide-in {
+      animation: slideIn 0.6s ease forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .audio-bar {
+      animation: audioWave 1.2s ease-in-out infinite;
+    }
+
+    .audio-bar:nth-child(1) { animation-delay: 0s; }
+    .audio-bar:nth-child(2) { animation-delay: 0.1s; }
+    .audio-bar:nth-child(3) { animation-delay: 0.2s; }
+    .audio-bar:nth-child(4) { animation-delay: 0.3s; }
+    .audio-bar:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes audioWave {
+      0%, 100% { height: 10px; opacity: 0.5; }
+      50% { height: 32px; opacity: 1; }
+    }
+
+    .progress-bar {
+      transition: width 0.3s ease;
+    }
+
+    .voice-call-container {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+      backdrop-filter: blur(10px);
+    }
+
+    .continue-prompt {
+      animation: continuePromptPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes continuePromptPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.02);
+        opacity: 0.9;
+      }
+    }
+  </style>
+</head>
+<body class="text-text-primary">
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="logo-container">
+          <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="logo">
+          <div class="brand-text">
+            <h1>AlsaTalk</h1>
+            <span class="brand-subtitle">Demo Suite</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="/" class="nav-link">
+          <i data-lucide="home"></i>
+          <span>Home</span>
+        </a>
+        <a href="/#solutions" class="nav-link">
+          <i data-lucide="bot"></i>
+          <span>Solutions</span>
+        </a>
+        <a href="/#about" class="nav-link">
+          <i data-lucide="info"></i>
+          <span>About</span>
+        </a>
+      </div>
+
+      <div class="nav-actions">
+        <form action="/logout" method="POST" style="display: inline-block;">
+          <button type="submit" class="nav-btn-secondary">
+            <i data-lucide="log-out"></i>
+            <span>Logout</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container mx-auto px-4 py-8 max-w-7xl mt-20">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-bg-secondary/50 to-bg-primary/50 backdrop-blur-lg border border-glass-border rounded-3xl p-10 mb-8 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
+      <div class="relative z-10">
+        <h1 class="text-5xl font-black mb-3 bg-gradient-to-r from-primary-light via-primary to-secondary bg-clip-text text-transparent">
+          🚀 AlsaTalk Premium Demo Suite
+        </h1>
+        <p class="text-xl text-text-secondary mb-6">Enterprise AI Orchestration Platform | CES 2026</p>
+        <div class="inline-flex items-center gap-4 px-6 py-3 bg-primary/20 border border-primary/30 rounded-xl backdrop-blur-sm">
+          <span class="flex items-center gap-2">
+            <i data-lucide="keyboard" class="w-5 h-5"></i>
+            Press <kbd class="px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-sm">SPACE</kbd> or
+            <kbd class="px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-sm">ENTER</kbd> to advance steps
+          </span>
+          <span class="ml-4 flex items-center gap-2">
+            Press <kbd class="px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-sm">R</kbd> to reset
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Demo Selector -->
+    <div id="demoSelector" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10"></div>
+
+    <!-- Demo Screen -->
+    <div class="bg-gradient-to-br from-bg-secondary to-bg-primary rounded-2xl p-8 min-h-[600px] border-2 border-glass-border shadow-2xl">
+      <div id="demoContent"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex justify-center gap-6 my-10">
+      <button type="button" onclick="startDemo()" id="startBtn" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl shadow-lg hover:shadow-primary/50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+        <i data-lucide="play" class="w-5 h-5"></i>
+        Start Demo
+      </button>
+      <button type="button" onclick="resetDemo()" class="px-8 py-4 bg-bg-secondary border-2 border-glass-border text-text-primary font-bold rounded-xl hover:border-primary hover:bg-bg-secondary/80 transition-all duration-300 flex items-center gap-2">
+        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+        Reset
+      </button>
+    </div>
+
+    <!-- Metrics -->
+    <div id="demoMetrics" class="mt-10"></div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="fixed bottom-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary progress-bar" id="progressBar" style="width: 0%; box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); z-index: 9999;"></div>
+
+  <!-- Step Counter -->
+  <div id="stepCounter" class="fixed top-24 right-6 bg-bg-secondary/95 backdrop-blur-lg px-5 py-3 rounded-xl border border-glass-border font-mono text-sm hidden shadow-lg">
+    Step <span id="currentStep">0</span> of <span id="totalSteps">0</span>
+  </div>
+
+  <script>
+    let currentDemo = 'workflow';
+    let demoRunning = false;
+    let currentStepIndex = 0;
+
+    const demos = {
+      workflow: {
+        title: 'Cross-Department Workflow',
+        icon: '⚡',
+        traditional: '48 hours',
+        alsatalk: '8 minutes',
+        saved: '99%',
+        description: 'Multi-system contract approval across Legal, Finance, Procurement with AI coordination',
+        steps: [
+          { type: 'header', content: '<h2 class="text-3xl font-bold text-primary mb-6">⚡ Scenario: VP Says "Process Contract Approval for Acme Corp $500K Deal"</h2>' },
+          { type: 'step', content: '<div class="bg-bg-secondary/50 border-l-4 border-primary rounded-lg p-6 mb-6 slide-in"><strong class="text-lg text-primary block mb-2">STEP 1: Voice Command Processing</strong><p class="text-text-secondary mb-4">AI interprets complex multi-department request</p><div class="bg-primary/10 rounded-lg p-5 border border-primary/30"><p class="font-semibold mb-2">Command Received</p><p class="text-sm">Speaker: Sarah Chen (VP Sales)</p><p class="text-sm">Command: "Process the contract approval for Acme Corp. $500K annual deal."</p><div class="mt-3 text-sm text-success space-y-1"><p>✓ Voice authenticated</p><p>✓ Intent: CONTRACT_APPROVAL_WORKFLOW</p><p>✓ Value: $500,000 ARR</p></div></div></div>' },
+          { type: 'result', content: '<div class="bg-gradient-to-br from-success/20 to-primary/20 border-2 border-success rounded-2xl p-8"><h3 class="text-2xl font-bold text-success mb-4">✅ WORKFLOW COMPLETE</h3><p class="text-lg mb-6"><strong>Total Time:</strong> 8 minutes</p><div class="grid grid-cols-4 gap-4"><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">99%</div><div class="text-sm text-text-secondary">Time Saved</div></div><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">8</div><div class="text-sm text-text-secondary">Systems</div></div><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">0%</div><div class="text-sm text-text-secondary">Errors</div></div><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">360×</div><div class="text-sm text-text-secondary">Faster</div></div></div></div>' }
+        ]
+      },
+      inventory: {
+        title: 'Inventory Crisis Management',
+        icon: '📦',
+        traditional: '4 hours',
+        alsatalk: '90 seconds',
+        saved: '98%',
+        description: 'AI finds alternatives across 12 warehouses in real-time',
+        steps: [
+          { type: 'header', content: '<h2 class="text-3xl font-bold text-primary mb-6">📦 Customer Emergency - Critical Part Out of Stock</h2>' },
+          { type: 'step', content: '<div class="bg-bg-secondary/50 border-l-4 border-danger rounded-lg p-6 mb-6 slide-in"><strong class="text-lg text-danger block mb-2">STEP 1: Inbound Customer Call</strong><p class="text-text-secondary mb-4">Emergency call detected - production line down</p><div class="bg-danger/10 rounded-lg p-5 border border-danger/30"><p class="font-semibold mb-2 text-danger">URGENT CALL</p><p class="text-sm">Customer: Tom Chen (Production Manager)</p><p class="text-sm italic">"We need part #A8472 immediately! Our assembly line is down!"</p></div></div>' },
+          { type: 'result', content: '<div class="bg-gradient-to-br from-success/20 to-primary/20 border-2 border-success rounded-2xl p-8"><h3 class="text-2xl font-bold text-success mb-4">✅ CRISIS AVERTED</h3><p class="text-lg mb-6"><strong>Resolution Time:</strong> 90 seconds</p><div class="grid grid-cols-3 gap-4"><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">$180K</div><div class="text-sm text-text-secondary">Loss Prevented</div></div><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">98%</div><div class="text-sm text-text-secondary">Time Saved</div></div><div class="text-center p-6 bg-success/20 rounded-xl"><div class="text-4xl font-black text-success">12</div><div class="text-sm text-text-secondary">Warehouses</div></div></div></div>' }
+        ]
+      }
+    };
+
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        if (demoRunning && currentStepIndex < demos[currentDemo].steps.length) {
+          advanceStep();
+        } else if (!demoRunning) {
+          startDemo();
+        }
+      } else if (e.key === 'r' || e.key === 'R') {
+        resetDemo();
+      }
+    });
+
+    function advanceStep() {
+      if (currentStepIndex >= demos[currentDemo].steps.length) return;
+
+      const oldPrompt = document.querySelector('.continue-prompt');
+      if (oldPrompt) oldPrompt.remove();
+
+      const step = demos[currentDemo].steps[currentStepIndex];
+      const demoContent = document.getElementById('demoContent');
+
+      demoContent.innerHTML += step.content;
+
+      if (currentStepIndex < demos[currentDemo].steps.length - 1) {
+        demoContent.innerHTML += '<div class="continue-prompt text-center p-5 my-8 max-w-xl mx-auto bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/40 rounded-2xl font-semibold">Press <kbd class="px-3 py-2 bg-white/15 border border-white/30 rounded-lg font-mono mx-1">SPACE</kbd> or <kbd class="px-3 py-2 bg-white/15 border border-white/30 rounded-lg font-mono mx-1">ENTER</kbd> to continue →</div>';
+      }
+
+      demoContent.scrollTop = demoContent.scrollHeight;
+      currentStepIndex++;
+      updateProgress();
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+
+      if (currentStepIndex >= demos[currentDemo].steps.length) {
+        demoRunning = false;
+        setTimeout(() => showMetrics(demos[currentDemo]), 1000);
+      }
+    }
+
+    function updateProgress() {
+      const progress = (currentStepIndex / demos[currentDemo].steps.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      document.getElementById('currentStep').textContent = currentStepIndex;
+      document.getElementById('totalSteps').textContent = demos[currentDemo].steps.length;
+    }
+
+    function startDemo() {
+      if (demoRunning) return;
+      demoRunning = true;
+      currentStepIndex = 0;
+
+      document.getElementById('demoContent').innerHTML = '';
+      document.getElementById('stepCounter').classList.remove('hidden');
+      document.getElementById('totalSteps').textContent = demos[currentDemo].steps.length;
+
+      advanceStep();
+    }
+
+    function resetDemo() {
+      demoRunning = false;
+      currentStepIndex = 0;
+
+      const demo = demos[currentDemo];
+      document.getElementById('demoContent').innerHTML = `
+        <div class="text-center py-20 px-8">
+          <div class="text-7xl mb-6">${demo.icon}</div>
+          <h3 class="text-3xl font-bold text-text-primary mb-4">${demo.title}</h3>
+          <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">${demo.description}</p>
+          <div class="grid grid-cols-2 gap-6 max-w-3xl mx-auto mb-10">
+            <div class="p-8 bg-danger/10 rounded-2xl border-2 border-danger/30">
+              <div class="text-sm text-text-secondary mb-3">Traditional</div>
+              <div class="text-5xl font-black text-danger mb-2">${demo.traditional}</div>
+            </div>
+            <div class="p-8 bg-success/10 rounded-2xl border-2 border-success/30">
+              <div class="text-sm text-text-secondary mb-3">AlsaTalk</div>
+              <div class="text-5xl font-black text-success mb-2">${demo.alsatalk}</div>
+            </div>
+          </div>
+          <div class="inline-flex items-center gap-3 px-8 py-4 bg-primary/10 border-2 border-primary/30 rounded-xl">
+            <span>Press <kbd class="px-3 py-2 bg-white/15 border border-white/30 rounded-lg font-mono mx-1">SPACE</kbd> to begin</span>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('stepCounter').classList.add('hidden');
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('demoMetrics').innerHTML = '';
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+
+    function showMetrics(demo) {
+      document.getElementById('demoMetrics').innerHTML = `
+        <div class="grid grid-cols-4 gap-6">
+          <div class="bg-bg-secondary border-2 border-glass-border rounded-2xl p-8 shadow-xl">
+            <div class="text-text-secondary text-sm mb-3">Traditional</div>
+            <div class="text-5xl font-black text-danger mb-3">${demo.traditional}</div>
+          </div>
+          <div class="bg-bg-secondary border-2 border-success/30 rounded-2xl p-8 shadow-xl">
+            <div class="text-text-secondary text-sm mb-3">AlsaTalk</div>
+            <div class="text-5xl font-black text-success mb-3">${demo.alsatalk}</div>
+          </div>
+          <div class="bg-bg-secondary border-2 border-success/30 rounded-2xl p-8 shadow-xl">
+            <div class="text-text-secondary text-sm mb-3">Time Saved</div>
+            <div class="text-5xl font-black text-success mb-3">${demo.saved}</div>
+          </div>
+          <div class="bg-bg-secondary border-2 border-primary/30 rounded-2xl p-8 shadow-xl">
+            <div class="text-text-secondary text-sm mb-3">ROI Impact</div>
+            <div class="text-5xl font-black text-primary mb-3">$250M+</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectDemo(name) {
+      currentDemo = name;
+      document.querySelectorAll('.demo-card-hover').forEach(c => {
+        c.classList.remove('demo-card-active');
+      });
+      document.getElementById('card-' + name).classList.add('demo-card-active');
+      resetDemo();
+    }
+
+    // Initialize
+    window.addEventListener('load', function() {
+      const selector = document.getElementById('demoSelector');
+      const demoCards = Object.keys(demos).map((key, index) => {
+        const demo = demos[key];
+        const isActive = index === 0 ? 'demo-card-active' : '';
+        return `
+          <div class="demo-card-hover ${isActive} bg-bg-secondary border-2 border-glass-border rounded-2xl p-6 cursor-pointer relative overflow-hidden shadow-lg" onclick="selectDemo('${key}')" id="card-${key}">
+            <h3 class="text-xl font-bold text-primary mb-3 flex items-center gap-2">
+              <span class="text-3xl">${demo.icon}</span>
+              <span>${demo.title}</span>
+            </h3>
+            <p class="text-text-secondary text-sm mb-4">${demo.description}</p>
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-success/20 border border-success/30 rounded-lg text-sm">
+              <strong class="text-success">${demo.saved} saved</strong>
+              <span>|</span>
+              <span>${demo.traditional} → ${demo.alsatalk}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      selector.innerHTML = demoCards;
+      resetDemo();
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

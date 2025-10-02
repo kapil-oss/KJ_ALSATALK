@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AlsaTalk</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Register Page Specific Styles */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .register-container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .brand h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .register-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .register-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .register-header p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-field {
+            grid-column: span 2;
+        }
+
+        .form-field.half {
+            grid-column: span 1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .required {
+            color: var(--error);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            font-family: inherit;
+            transition: all var(--transition-fast);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .toggle-password svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .register-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        .register-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            display: none;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--error);
+            border-radius: var(--radius-md);
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-message.show {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .success-message {
+            display: none;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--success);
+            border-radius: var(--radius-md);
+            color: var(--success);
+            font-size: 0.9375rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition-fast);
+        }
+
+        .login-link a:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-field.half {
+                grid-column: span 1;
+            }
+            .register-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <!-- Logo and Brand -->
+        <div class="brand">
+            <div class="logo-wrapper">
+                <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="logo">
+            </div>
+            <h1>AlsaTalk</h1>
+            <p>Voice Intelligence Platform</p>
+        </div>
+
+        <div class="register-card">
+            <div class="register-header">
+                <h2>Create Your Account</h2>
+                <p>Experience next-generation AI voice technology</p>
+            </div>
+
+            <div id="errorMessage" class="error-message">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="errorText"></span>
+            </div>
+
+            <div id="successMessage" class="success-message">
+                <strong>✅ Registration Successful!</strong><br>
+                Your account has been created. Please check your email for the verification code.
+            </div>
+
+            <form id="registerForm">
+                <div class="form-grid">
+                    <!-- Full Name -->
+                    <div class="form-field">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="form-field half">
+                        <label class="form-label">Username <span class="required">*</span></label>
+                        <input type="text" id="username" class="form-input" placeholder="Choose a username" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-field half">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-field half">
+                        <label class="form-label">Password <span class="required">*</span></label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" class="form-input" placeholder="Choose a password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')" aria-label="Toggle password visibility">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-field half">
+                        <label class="form-label">Confirm Password <span class="required">*</span></label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')" aria-label="Toggle password visibility">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-field half">
+                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phoneNumber" class="form-input" placeholder="+971-XXX-XXXXX" required>
+                    </div>
+
+                    <!-- WhatsApp Number -->
+                    <div class="form-field half">
+                        <label class="form-label">WhatsApp Number</label>
+                        <input type="tel" id="whatsappNumber" class="form-input" placeholder="+971-XXX-XXXXX">
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-field">
+                        <label class="form-label">Address <span class="required">*</span></label>
+                        <textarea id="address" class="form-textarea" placeholder="Enter your complete address" required></textarea>
+                    </div>
+
+                    <!-- User Type -->
+                    <div class="form-field half">
+                        <label class="form-label">Account Type <span class="required">*</span></label>
+                        <select id="userType" class="form-select" required>
+                            <option value="">Select account type</option>
+                            <option value="individual">Individual</option>
+                            <option value="firm">Company/Firm</option>
+                        </select>
+                    </div>
+
+                    <!-- Company Name -->
+                    <div class="form-field half">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" id="companyName" class="form-input" placeholder="Optional">
+                    </div>
+                </div>
+
+                <button type="submit" class="register-btn" id="submitBtn">
+                    <span id="btnText">Create Account</span>
+                    <div class="loader" id="btnLoader" style="display: none;"></div>
+                </button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="/login">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registerForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnLoader = document.getElementById('btnLoader');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const successMessage = document.getElementById('successMessage');
+
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            field.type = field.type === 'password' ? 'text' : 'password';
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Clear previous messages
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+
+            // Get form data
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            // Validate password length
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+
+            const formData = {
+                fullName: document.getElementById('fullName').value.trim(),
+                username: document.getElementById('username').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: password,
+                phoneNumber: document.getElementById('phoneNumber').value.trim(),
+                whatsappNumber: document.getElementById('whatsappNumber').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                userType: document.getElementById('userType').value,
+                companyName: document.getElementById('companyName').value.trim()
+            };
+
+            // Validate
+            if (!formData.fullName || !formData.username || !formData.email || !formData.password || !formData.phoneNumber || !formData.address || !formData.userType) {
+                showError('Please fill in all required fields');
+                return;
+            }
+
+            // Show loading
+            submitBtn.disabled = true;
+            btnText.textContent = 'Creating Account...';
+            btnLoader.style.display = 'inline-block';
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Redirect to email verification page
+                    if (data.redirectTo) {
+                        window.location.href = data.redirectTo;
+                    } else {
+                        window.location.href = `/verify-email?email=${encodeURIComponent(formData.email)}`;
+                    }
+                } else {
+                    showError(data.error || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showError('Network error. Please check your connection and try again.');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Create Account';
+                btnLoader.style.display = 'none';
+            }
+        });
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.add('show');
+        }
+    </script>
+</body>
+</html>

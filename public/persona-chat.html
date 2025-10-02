@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlsaTalk - AI Persona Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Icon styles */
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .chat-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 10rem;
+        }
+
+        .persona-header {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .persona-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .persona-icon-large {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .persona-details h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-details .persona-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .persona-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-top: 1rem;
+        }
+
+        .chat-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .control-btn-circular {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .control-btn-circular:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn-circular:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .control-btn-circular:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .stop-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .control-btn-circular svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .control-label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1.25rem;
+        }
+
+        /* Pulse animation for active button */
+        .control-btn-circular.active {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 60px rgba(239, 68, 68, 0.5);
+            }
+        }
+
+        /* Voice wave animation */
+        .voice-waves-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            margin-top: 1rem;
+            height: 60px;
+        }
+
+        .voice-wave {
+            width: 4px;
+            background: var(--primary);
+            border-radius: 4px;
+            animation: wave 1.2s ease-in-out infinite;
+        }
+
+        .voice-wave:nth-child(1) { animation-delay: 0s; }
+        .voice-wave:nth-child(2) { animation-delay: 0.1s; }
+        .voice-wave:nth-child(3) { animation-delay: 0.2s; }
+        .voice-wave:nth-child(4) { animation-delay: 0.3s; }
+        .voice-wave:nth-child(5) { animation-delay: 0.4s; }
+        .voice-wave:nth-child(6) { animation-delay: 0.3s; }
+        .voice-wave:nth-child(7) { animation-delay: 0.2s; }
+        .voice-wave:nth-child(8) { animation-delay: 0.1s; }
+
+        @keyframes wave {
+            0%, 100% {
+                height: 10px;
+                opacity: 0.5;
+            }
+            50% {
+                height: 50px;
+                opacity: 1;
+            }
+        }
+
+        .voice-waves-container.hidden {
+            display: none;
+        }
+
+        /* Speaking indicator animation */
+        .speaking-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius-lg);
+            margin-top: 1rem;
+        }
+
+        .speaking-indicator.hidden {
+            display: none;
+        }
+
+        .speaking-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: speaking-pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes speaking-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.6;
+            }
+        }
+
+        .speaking-text {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-container">
+                    <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="logo">
+                    <div class="brand-text">
+                        <h1>AlsaTalk</h1>
+                        <span class="brand-subtitle">Voice Intelligence</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <a href="/" class="nav-btn-secondary">
+                    <svg class="icon"><use href="icons.svg#icon-arrow-left"/></svg>
+                    <span>Back to Home</span>
+                </a>
+                <span id="userWelcome" style="color: var(--text-primary); font-size: 0.875rem; font-weight: 500;"></span>
+                <form action="/logout" method="POST" style="display: inline-block;">
+                    <button type="submit" class="nav-btn-secondary">
+                        <svg class="icon"><use href="icons.svg#icon-log-out"/></svg>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+        <!-- Persona Header -->
+        <div class="persona-header">
+            <div class="persona-info">
+                <div class="persona-icon-large" id="personaIcon"></div>
+                <div class="persona-details">
+                    <h1 id="personaName">Loading...</h1>
+                    <span class="persona-tag" id="personaTag"></span>
+                </div>
+            </div>
+            <p class="persona-description" id="personaDescription"></p>
+
+            <!-- Chat Controls -->
+            <div class="chat-controls">
+                <button class="control-btn-circular start-btn" id="controlBtn" onclick="toggleSession()">
+                    <svg class="icon" id="controlIcon" style="width: 48px; height: 48px;"><use href="icons.svg#icon-play"/></svg>
+                </button>
+                <span class="control-label" id="controlLabel">Start Conversation</span>
+
+                <!-- Voice Waves Animation -->
+                <div class="voice-waves-container hidden" id="voiceWaves">
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                </div>
+
+                <!-- Speaking Indicator -->
+                <div class="speaking-indicator hidden" id="speakingIndicator">
+                    <div class="speaking-dot"></div>
+                    <span class="speaking-text">AI is speaking...</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Get persona ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const personaId = urlParams.get('persona');
+
+        // Persona configurations
+        const personaConfigs = {
+            'astrologer': {
+                name: 'Gold Astrologer',
+                tag: 'Mystical Guidance',
+                icon: 'moon-star',
+                color: '#f59e0b',
+                description: 'Mystical wisdom and cosmic guidance through symbolic messages of the stars. Inspiring insights for self-reflection and life journey illumination.'
+            },
+            'health': {
+                name: 'Health & Dietitian',
+                tag: 'Wellness Expert',
+                icon: 'apple',
+                color: '#10b981',
+                description: 'Science-based nutrition advice and fitness guidance. Empowering healthy lifestyle changes with practical, achievable wellness strategies.'
+            },
+            'counselor': {
+                name: 'Emotional Support Friend',
+                tag: 'Compassionate Care',
+                icon: 'heart',
+                color: '#ef4444',
+                description: 'Warm, non-judgmental emotional support through empathy and validation. A safe space to process feelings and find gentle encouragement.'
+            },
+            'windows-sales': {
+                name: 'Windows Sales Specialist',
+                tag: 'Home Solutions',
+                icon: 'square',
+                color: '#3b82f6',
+                description: 'Expert guidance on aluminum and wooden windows. Trusted advice on design, energy efficiency, and the perfect match for your home\'s needs.'
+            },
+            'car-sales': {
+                name: 'Car Sales Consultant',
+                tag: 'Automotive Expert',
+                icon: 'car-front',
+                color: '#8b5cf6',
+                description: 'Enthusiastic automotive consultant helping you find the perfect vehicle. Expert guidance on safety, performance, and lifestyle fit.'
+            },
+            'general': {
+                name: 'General Conversationalist',
+                tag: 'Versatile Partner',
+                icon: 'users',
+                color: '#06b6d4',
+                description: 'Versatile conversational partner for casual chat, business brainstorming, and light mentorship. Adapts seamlessly to any context.'
+            }
+        };
+
+        // Load persona details
+        function loadPersonaDetails() {
+            const persona = personaConfigs[personaId];
+            if (!persona) {
+                window.location.href = '/';
+                return;
+            }
+
+            document.getElementById('personaName').textContent = persona.name;
+            document.getElementById('personaTag').textContent = persona.tag;
+            document.getElementById('personaDescription').textContent = persona.description;
+
+            const iconElement = document.getElementById('personaIcon');
+            iconElement.style.background = persona.color;
+            iconElement.innerHTML = `<svg class="icon" style="width: 40px; height: 40px; color: white;"><use href="icons.svg#icon-${persona.icon}"/></svg>`;
+
+            document.title = `AlsaTalk - ${persona.name}`;
+        }
+
+        // Check user auth
+        async function checkUserAuth() {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+
+                if (data.authenticated && data.user) {
+                    document.getElementById('userWelcome').textContent = `Welcome, ${data.user.fullName || data.user.username}!`;
+                } else {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error checking auth:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        let isSessionActive = false;
+
+        // Toggle session (start/stop)
+        async function toggleSession() {
+            if (!isSessionActive) {
+                await startSession();
+            } else {
+                stopSession();
+            }
+        }
+
+        // Start session
+        async function startSession() {
+            const controlBtn = document.getElementById('controlBtn');
+            const controlIcon = document.getElementById('controlIcon');
+            const controlLabel = document.getElementById('controlLabel');
+            const voiceWaves = document.getElementById('voiceWaves');
+            const speakingIndicator = document.getElementById('speakingIndicator');
+
+            controlBtn.disabled = true;
+
+            // Initialize AI chat
+            if (typeof personaManager !== 'undefined' && typeof window.aiPersonaChat !== 'undefined') {
+                personaManager.selectPersona(personaId);
+                const selectedPersona = personaManager.getPersonaById(personaId);
+
+                if (selectedPersona) {
+                    window.aiPersonaChat.currentPersona = selectedPersona;
+                    await window.aiPersonaChat.startSession();
+
+                    // Change button to stop with animations
+                    controlBtn.classList.remove('start-btn');
+                    controlBtn.classList.add('stop-btn', 'active');
+                    controlIcon.querySelector('use').setAttribute('href', 'icons.svg#icon-square');
+                    controlLabel.textContent = 'End Conversation';
+
+                    // Show animations
+                    voiceWaves.classList.remove('hidden');
+                    speakingIndicator.classList.remove('hidden');
+
+                    isSessionActive = true;
+                    controlBtn.disabled = false;
+                }
+            } else {
+                controlBtn.disabled = false;
+            }
+        }
+
+        // Stop session
+        function stopSession() {
+            const controlBtn = document.getElementById('controlBtn');
+            const controlIcon = document.getElementById('controlIcon');
+            const controlLabel = document.getElementById('controlLabel');
+            const voiceWaves = document.getElementById('voiceWaves');
+            const speakingIndicator = document.getElementById('speakingIndicator');
+
+            if (typeof window.aiPersonaChat !== 'undefined' && window.aiPersonaChat.isConnected) {
+                window.aiPersonaChat.stopSession();
+            }
+
+            // Change button back to start
+            controlBtn.classList.remove('stop-btn', 'active');
+            controlBtn.classList.add('start-btn');
+            controlIcon.querySelector('use').setAttribute('href', 'icons.svg#icon-play');
+            controlLabel.textContent = 'Start Conversation';
+
+            // Hide animations
+            voiceWaves.classList.add('hidden');
+            speakingIndicator.classList.add('hidden');
+
+            isSessionActive = false;
+        }
+
+        // Initialize on page load
+        checkUserAuth();
+        loadPersonaDetails();
+    </script>
+
+    <!-- Include persona scripts -->
+    <script src="persona-manager.js"></script>
+    <script src="ai-persona-chat.js"></script>
+</body>
+</html>

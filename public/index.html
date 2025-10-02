@@ -3,170 +3,1336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Persona Hub - Real-time Conversations</title>
+    <title>AlsaTalk - Enterprise Voice Intelligence</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Note: Lucide icons loaded from CDN for home page icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <nav class="navbar">
-                <div class="nav-brand">
-                    <h1>🤖 AI Persona Hub</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="#personas">Personas</a>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1>🤖 AI Persona Hub</h1>
-                <p>Experience real-time voice conversations with specialized AI personalities for every aspect of your life</p>
-                <div class="hero-cta">
-                    <button class="cta-button" onclick="document.getElementById('personas').scrollIntoView()">Choose Your AI Companion</button>
-                    <span class="demo-badge">🎙️ Real-time Voice Conversations!</span>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-container">
+                    <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="logo">
+                    <div class="brand-text">
+                        <h1>AlsaTalk</h1>
+                        <span class="brand-subtitle">Voice Intelligence</span>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <main class="main-content">
-            <!-- Personas Section -->
-            <section id="personas" class="personas-section">
-                <h2>Choose Your AI Persona</h2>
-                <div class="persona-grid">
-                    <div class="persona-card" data-persona="astrologer">
-                        <span class="persona-icon">🔮</span>
-                        <h3>Gold Astrologer</h3>
-                        <p>Mystical wisdom, cosmic guidance, and inspiring insights about your life path</p>
-                        <button class="connect-btn" data-persona="astrologer">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="health">
-                        <span class="persona-icon">🍎</span>
-                        <h3>Health & Dietitian</h3>
-                        <p>Science-based nutrition advice, fitness guidance, and healthy lifestyle tips</p>
-                        <button class="connect-btn" data-persona="health">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="counselor">
-                        <span class="persona-icon">💝</span>
-                        <h3>Emotional Support Friend</h3>
-                        <p>Warm, non-judgmental support to help you process emotions and feel heard</p>
-                        <button class="connect-btn" data-persona="counselor">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="windows-sales">
-                        <span class="persona-icon">🪟</span>
-                        <h3>Windows Sales Specialist</h3>
-                        <p>Expert guidance on aluminum & wooden windows, design, and energy efficiency</p>
-                        <button class="connect-btn" data-persona="windows-sales">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="car-sales">
-                        <span class="persona-icon">🚗</span>
-                        <h3>Car Sales Consultant</h3>
-                        <p>Enthusiastic help finding the perfect vehicle for your lifestyle and needs</p>
-                        <button class="connect-btn" data-persona="car-sales">Connect</button>
-                    </div>
-                    <div class="persona-card" data-persona="general">
-                        <span class="persona-icon">💬</span>
-                        <h3>General Conversationalist</h3>
-                        <p>Versatile partner for casual chat, business brainstorming, and mentorship</p>
-                        <button class="connect-btn" data-persona="general">Connect</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- About Section -->
-            <section id="about" class="about-section">
-                <h2>About AI Persona Hub</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>Welcome to AI Persona Hub - your gateway to meaningful conversations with specialized AI personalities. Each persona is carefully crafted to provide authentic, helpful interactions tailored to specific aspects of your life and interests.</p>
-                        <div class="features">
-                            <div class="feature">
-                                <span class="feature-icon">🎙️</span>
-                                <span>Real-time Voice Conversations</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">🧠</span>
-                                <span>6 Specialized AI Personalities</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">🔒</span>
-                                <span>Private & Secure Conversations</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="contact-section">
-                <h2>Contact Us</h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <span class="contact-icon">📧</span>
-                            <span>support@aipersonahub.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <span class="contact-icon">💬</span>
-                            <span>Chat with any AI Persona 24/7</span>
-                        </div>
-                        <div class="contact-item">
-                            <span class="contact-icon">🛡️</span>
-                            <span>Privacy-first conversations</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- AI Persona Chat Widget -->
-        <div id="persona-chatbot-widget" class="chatbot-widget persona-widget" style="display: none;">
-            <div class="chatbot-toggle" id="persona-chatbot-toggle">
-                <span class="chatbot-icon" id="persona-avatar">🤖</span>
-                <span class="chatbot-notification" id="persona-chat-notification" style="display: none;">1</span>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">
+                    <i data-lucide="home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#solutions" class="nav-link">
+                    <i data-lucide="bot"></i>
+                    <span>Solutions</span>
+                </a>
+                <a href="#pricing" class="nav-link">
+                    <i data-lucide="credit-card"></i>
+                    <span>Pricing</span>
+                </a>
+                <a href="#about" class="nav-link">
+                    <i data-lucide="info"></i>
+                    <span>About</span>
+                </a>
             </div>
 
-            <div class="chatbot-window" id="persona-chatbot-window">
-                <div class="chatbot-header persona-header">
-                    <div class="chatbot-info">
-                        <span class="chatbot-avatar" id="persona-avatar-header">🤖</span>
-                        <div>
-                            <h4 id="persona-name">AI Assistant</h4>
-                            <span class="chatbot-status" id="persona-connection-status">Offline</span>
-                        </div>
-                    </div>
-                    <div class="chatbot-controls">
-                        <button id="persona-start-chat" class="btn btn-primary btn-sm">Connect</button>
-                        <button id="persona-stop-chat" class="btn btn-secondary btn-sm" disabled>Disconnect</button>
-                        <button id="persona-switch-chat" class="btn btn-tertiary btn-sm">Switch Persona</button>
-                        <button id="persona-minimize-chat" class="btn-minimize">−</button>
-                    </div>
-                </div>
+            <div class="nav-actions">
+                <span id="userWelcome" style="color: var(--text-primary); font-size: 0.875rem; font-weight: 500;"></span>
+                <!-- <a href="/admin" id="adminLink" class="nav-btn-secondary" style="display: none;">
+                    <i data-lucide="shield"></i>
+                    <span>Admin Panel</span>
+                </a> -->
+                <form action="/logout" method="POST" style="display: inline-block;">
+                    <button type="submit" class="nav-btn-secondary">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
 
-                <div class="chatbot-messages" id="persona-chat-messages">
-                    <div class="message bot-message" id="persona-welcome-message">
-                        <div class="message-avatar" id="persona-welcome-avatar">🤖</div>
-                        <div class="message-content" id="persona-welcome-content">
-                            <p>Choose a persona from the cards above to start a conversation!</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
 
-                <div class="chatbot-input">
-                    <div class="voice-indicator" id="persona-voice-indicator">
-                        <span class="mic-icon">🎤</span>
-                        <div class="voice-level" id="persona-voice-level"></div>
-                        <span class="voice-status" id="persona-voice-status">Ready to listen...</span>
-                    </div>
-                </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-nav-link">
+                <i data-lucide="home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#solutions" class="mobile-nav-link">
+                <i data-lucide="bot"></i>
+                <span>Solutions</span>
+            </a>
+            <a href="#pricing" class="mobile-nav-link">
+                <i data-lucide="credit-card"></i>
+                <span>Pricing</span>
+            </a>
+            <a href="#about" class="mobile-nav-link">
+                <i data-lucide="info"></i>
+                <span>About</span>
+            </a>
+            <div class="mobile-menu-actions">
+                <button class="mobile-btn-secondary">Sign In</button>
+                <button class="mobile-btn-primary">Get Started</button>
             </div>
         </div>
     </div>
 
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-pattern"></div>
+        </div>
+
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <div class="status-dot"></div>
+                    <span>AI-Powered Voice Intelligence</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Transform Your Business with
+                    <span class="hero-gradient-text">AlsaTalk</span>
+                </h1>
+
+                <p class="hero-description">
+                    Enterprise-grade AI voice automation that revolutionizes customer interactions,
+                    streamlines sales processes, and enhances internal communications.
+                    Built for scale, security, and seamless integration.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">&lt;150ms</span>
+                            <span class="stat-label">Response Time</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="globe"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">127+</span>
+                            <span class="stat-label">Languages</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <button class="hero-btn-primary" onclick="document.getElementById('solutions').scrollIntoView()">
+                        <span>Explore Solutions</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button class="hero-btn-demo" onclick="window.location.href='/demo-suite-premium.html'">
+                        <span class="demo-badge">NEW</span>
+                        <i data-lucide="play-circle"></i>
+                        <span>Watch Interactive Demo</span>
+                        <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="voice-visualizer">
+                    <!-- Particles Background -->
+                    <div class="particle-field">
+                        <div class="particle" style="--x: 20%; --y: 30%; --delay: 0s; --duration: 3s;"></div>
+                        <div class="particle" style="--x: 80%; --y: 20%; --delay: 0.5s; --duration: 4s;"></div>
+                        <div class="particle" style="--x: 50%; --y: 60%; --delay: 1s; --duration: 3.5s;"></div>
+                        <div class="particle" style="--x: 30%; --y: 80%; --delay: 1.5s; --duration: 4.5s;"></div>
+                        <div class="particle" style="--x: 70%; --y: 70%; --delay: 2s; --duration: 3.8s;"></div>
+                        <div class="particle" style="--x: 15%; --y: 50%; --delay: 0.8s; --duration: 4.2s;"></div>
+                    </div>
+
+                    <!-- 3D Card Display -->
+                    <div class="voice-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="mic-container">
+                                <i data-lucide="mic"></i>
+                                <div class="sound-rings">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="voice-text">
+                                <h3>Voice AI Active</h3>
+                                <p>Listening & Processing</p>
+                            </div>
+                            <div class="waveform">
+                                <span style="--i: 1;"></span>
+                                <span style="--i: 2;"></span>
+                                <span style="--i: 3;"></span>
+                                <span style="--i: 4;"></span>
+                                <span style="--i: 5;"></span>
+                                <span style="--i: 6;"></span>
+                                <span style="--i: 7;"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orbiting Icons -->
+                    <div class="orbit-container">
+                        <div class="orbit-icon" style="--angle: 0deg;">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 120deg;">
+                            <i data-lucide="brain"></i>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 240deg;">
+                            <i data-lucide="message-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="solutions-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">AI Voice Solutions</h2>
+                <p class="section-description">
+                    Choose from our specialized AI agents designed for different business needs
+                </p>
+            </div>
+
+            <div class="solutions-grid">
+                <!-- Gold Astrologer -->
+                <div class="solution-card" data-solution="astrologer">
+                    <div class="solution-header">
+                        <div class="solution-icon astrologer">
+                            <i data-lucide="moon-star"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Gold Astrologer</h3>
+                            <span class="solution-tag">Mystical Guidance</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Mystical wisdom and cosmic guidance through symbolic messages of the stars.
+                        Inspiring insights for self-reflection and life journey illumination.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Zodiac Interpretation</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Life Guidance</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Compatibility Readings</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=astrologer'">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-astrologer">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Astrologer Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn" onclick="startDemoChat('astrologer')">Start</button>
+                                <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('astrologer')">×</button> -->
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="moon-star"></i>
+                                </div>
+                                <div class="message-content">
+                                    Welcome, seeker of light — let us look to the heavens and see what wisdom they offer you today.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health & Dietitian -->
+                <div class="solution-card" data-solution="health">
+                    <div class="solution-header">
+                        <div class="solution-icon health">
+                            <i data-lucide="apple"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Health & Dietitian</h3>
+                            <span class="solution-tag">Wellness Expert</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Science-based nutrition advice and fitness guidance. Empowering healthy lifestyle
+                        changes with practical, achievable wellness strategies.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Nutrition Planning</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Fitness Guidance</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Habit Building</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=health'">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-health">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Health Expert Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn" onclick="startDemoChat('health')">Start</button>
+                                <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('health')">×</button> -->
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="apple"></i>
+                                </div>
+                                <div class="message-content">
+                                    Healthy living isn't about perfection — it's about progress. Let's take it step by step!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emotional Support Friend -->
+                <div class="solution-card" data-solution="counselor">
+                    <div class="solution-header">
+                        <div class="solution-icon counselor">
+                            <i data-lucide="heart"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Emotional Support Friend</h3>
+                            <span class="solution-tag">Compassionate Care</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Warm, non-judgmental emotional support through empathy and validation.
+                        A safe space to process feelings and find gentle encouragement.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Active Listening</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Emotional Validation</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Gentle Guidance</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=counselor'">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-counselor">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Support Friend Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn" onclick="startDemoChat('counselor')">Start</button>
+                                <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('counselor')">×</button> -->
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="heart"></i>
+                                </div>
+                                <div class="message-content">
+                                    I'm really glad you're here. This is a safe space where you can share whatever's on your mind.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Windows Sales Specialist -->
+                <div class="solution-card" data-solution="windows-sales">
+                    <div class="solution-header">
+                        <div class="solution-icon windows-sales">
+                            <i data-lucide="square"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Windows Sales Specialist</h3>
+                            <span class="solution-tag">Home Solutions</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Expert guidance on aluminum and wooden windows. Trusted advice on design,
+                        energy efficiency, and the perfect match for your home's needs.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Material Comparison</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Energy Efficiency</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Design Consultation</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=windows-sales'">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-windows-sales">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Windows Expert Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn" onclick="startDemoChat('windows-sales')">Start</button>
+                                <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('windows-sales')">×</button> -->
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="square"></i>
+                                </div>
+                                <div class="message-content">
+                                    Windows aren't just glass — they're how you frame your view of the world. Do you prefer timeless warmth or modern elegance?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Sales Consultant -->
+                <div class="solution-card" data-solution="car-sales">
+                    <div class="solution-header">
+                        <div class="solution-icon car-sales">
+                            <i data-lucide="car-front"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Car Sales Consultant</h3>
+                            <span class="solution-tag">Automotive Expert</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Enthusiastic automotive consultant helping you find the perfect vehicle.
+                        Expert guidance on safety, performance, and lifestyle fit.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Model Comparison</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Safety Features</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Lifestyle Matching</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=car-sales'">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-car-sales">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Car Expert Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn" onclick="startDemoChat('car-sales')">Start</button>
+                                <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('car-sales')">×</button> -->
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="car-front"></i>
+                                </div>
+                                <div class="message-content">
+                                    Imagine a car that fits your life like a glove — tell me, what matters most for you in a car?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Conversationalist -->
+                <div class="solution-card" data-solution="general">
+                    <div class="solution-header">
+                        <div class="solution-icon general">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>General Conversationalist</h3>
+                            <span class="solution-tag">Versatile Partner</span>
+                        </div>
+                    </div>
+
+                    <p class="solution-description">
+                        Versatile conversational partner for casual chat, business brainstorming,
+                        and light mentorship. Adapts seamlessly to any context.
+                    </p>
+
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Business Discussions</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Casual Conversations</span>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="check"></i>
+                            <span>Light Mentorship</span>
+                        </div>
+                    </div>
+
+                    <div class="solution-actions">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=general'">
+                            <span>Try Demo</span>
+                            <i data-lucide="play-circle"></i>
+                        </button>
+                        <button class="solution-btn-secondary">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Demo Interface -->
+                    <div class="demo-interface" id="demo-general">
+                        <div class="demo-header">
+                            <div class="demo-status">
+                                <div class="status-dot active"></div>
+                                <span>Conversationalist Active</span>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-btn start-btn" onclick="startDemoChat('general')">Start</button>
+                                <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('general')">×</button> -->
+                            </div>
+                        </div>
+
+                        <div class="demo-chat">
+                            <div class="chat-message ai-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <div class="message-content">
+                                    That's a fascinating point — what inspired that thought? I'd love to hear more about your perspective.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-voice-controls">
+                            <div class="voice-indicator">
+                                <i data-lucide="mic"></i>
+                            </div>
+                            <div class="voice-level">
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="voice-status">Ready to listen...</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose AlsaTalk?</h2>
+                <p class="section-description">
+                    Built for enterprise-grade performance, security, and scalability
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Sub-150ms response times with edge computing and optimized AI models</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>SOC2 compliant with end-to-end encryption and data privacy protection</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="globe"></i>
+                    </div>
+                    <h3>Global Scale</h3>
+                    <p>127+ languages with 99.9% uptime across worldwide data centers</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="puzzle"></i>
+                    </div>
+                    <h3>Easy Integration</h3>
+                    <p>RESTful APIs and SDKs for seamless integration with existing systems</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo_large_1024.png" alt="AlsaTalk Logo" class="footer-logo-img">
+                        <div>
+                            <h3>AlsaTalk</h3>
+                            <span>by Alsatronix Solutions DMCC</span>
+                        </div>
+                    </div>
+                    <p>Next-generation AI voice technology for sales conversations, customer support, personal companionship, and intelligent assistance.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Contact Us</h4>
+                        <p style="margin: 0.5rem 0; line-height: 1.8;">
+                            <strong>Alsatronix Solutions DMCC</strong><br>
+                            2507 The Dome Tower, Cluster N<br>
+                            Jumeirah Lake Towers<br>
+                            P.O.Box 502432, Dubai<br>
+                            United Arab Emirates
+                        </p>
+                        <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                            <a href="tel:+971-443-32348" style="color: var(--text-secondary); text-decoration: none;">+971-443-32348</a>
+                        </p>
+                        <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                            <a href="mailto:info@alsatalk.com" style="color: var(--text-secondary); text-decoration: none;">info@alsatalk.com</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 AlsaTalk by Alsatronix Solutions DMCC. All rights reserved.</p>
+                <div class="footer-links-bottom">
+                    <a href="javascript:void(0)" onclick="openLegalModal('copyright')">Copyright</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('license')">License</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('disclaimer')">Disclaimer</a>
+                    <a href="javascript:void(0)" onclick="openLegalModal('legal')">Legal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Legal Information Modal -->
+    <div id="legalModal" class="legal-modal">
+        <div class="legal-modal-content">
+            <div class="legal-modal-header">
+                <h2 id="legalModalTitle">Legal Information</h2>
+                <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+            </div>
+            <div class="legal-modal-body" id="legalModalBody">
+                <!-- Content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .legal-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .legal-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .legal-modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-2xl);
+            animation: slideUp 0.3s ease;
+        }
+
+        .legal-modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .legal-modal-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .legal-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color var(--transition-fast);
+            line-height: 1;
+        }
+
+        .legal-modal-close:hover {
+            color: var(--primary);
+        }
+
+        .legal-modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .legal-modal-body h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .legal-modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .legal-modal-body h4 {
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.75rem 0;
+        }
+
+        .legal-modal-body p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .legal-modal-body ul {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        .legal-modal-body ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-modal-body strong {
+            color: var(--text-primary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .legal-modal {
+                padding: 1rem;
+            }
+            .legal-modal-content {
+                max-height: 90vh;
+            }
+            .legal-modal-header {
+                padding: 1rem 1.5rem;
+            }
+            .legal-modal-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Check user auth status and display user info
+        async function checkUserAuth() {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+
+                if (data.authenticated && data.user) {
+                    const userWelcome = document.getElementById('userWelcome');
+                    userWelcome.textContent = `Welcome, ${data.user.fullName || data.user.username}!`;
+
+                    // Show admin link if user is admin
+                    if (data.user.isAdmin) {
+                        const adminLink = document.getElementById('adminLink');
+                        adminLink.style.display = 'flex';
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking auth:', error);
+            }
+        }
+
+        function showTokenWarning(remaining) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: rgba(251, 146, 60, 0.95);
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: start; gap: 1rem;">
+                    <i data-lucide="alert-triangle" style="width: 24px; height: 24px; flex-shrink: 0;"></i>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Token Limit Warning</div>
+                        <div style="font-size: 0.875rem;">You have ${remaining.toLocaleString()} tokens remaining. Please contact <a href="mailto:administrator@alsatronix.com" style="color: white; text-decoration: underline;">administrator@alsatronix.com</a> to increase your limit.</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => alertDiv.remove(), 300);
+            }, 8000);
+        }
+
+        function showTokenLimitAlert() {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                padding: 1.5rem;
+                background: rgba(239, 68, 68, 0.95);
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: start; gap: 1rem;">
+                    <i data-lucide="x-circle" style="width: 24px; height: 24px; flex-shrink: 0;"></i>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Token Limit Exceeded</div>
+                        <div style="font-size: 0.875rem;">You have exceeded your token limit. Voice features are disabled. Please contact <a href="mailto:administrator@alsatronix.com" style="color: white; text-decoration: underline;">administrator@alsatronix.com</a> to increase your limit.</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Call on page load
+        checkUserAuth();
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Demo toggle functionality
+        function toggleDemo(solution) {
+            const demoInterface = document.getElementById(`demo-${solution}`);
+            const solutionCard = document.querySelector(`[data-solution="${solution}"]`);
+
+            // Close all other demos
+            document.querySelectorAll('.demo-interface').forEach(demo => {
+                if (demo.id !== `demo-${solution}`) {
+                    demo.classList.remove('active');
+                }
+            });
+
+            // Toggle current demo
+            demoInterface.classList.toggle('active');
+            solutionCard.classList.toggle('demo-active');
+        }
+
+        // Voice level animation
+        function animateVoiceLevel() {
+            const voiceBars = document.querySelectorAll('.voice-bar');
+            voiceBars.forEach(bar => {
+                const randomWidth = Math.random() * 100;
+                bar.style.width = randomWidth + '%';
+            });
+        }
+
+        // Start voice level animation
+        setInterval(animateVoiceLevel, 200);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+
+                // If clicking home, scroll to top
+                if (href === '#home') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    // For other links, scroll to the section
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+                // Close mobile menu if open
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Demo chat functionality
+        function startDemoChat(personaId) {
+            console.log('Starting demo chat with persona:', personaId);
+
+            // Check if persona manager is available
+            if (typeof personaManager !== 'undefined' && personaManager) {
+                // Select the persona
+                personaManager.selectPersona(personaId);
+
+                // Start the AI chat session directly
+                setTimeout(() => {
+                    if (window.aiPersonaChat && personaManager) {
+                        const selectedPersona = personaManager.getPersonaById(personaId);
+                        if (selectedPersona) {
+                            window.aiPersonaChat.currentPersona = selectedPersona;
+                            window.aiPersonaChat.startSession();
+                            console.log('Demo chat started with', personaId);
+                        }
+                    }
+                }, 500);
+            } else {
+                console.error('Persona manager not available');
+            }
+        }
+
+        function stopDemoChat() {
+            console.log('Stopping demo chat');
+
+            // Check if AI chat is available
+            if (typeof window.aiPersonaChat !== 'undefined' && window.aiPersonaChat) {
+                if (window.aiPersonaChat.isConnected) {
+                    window.aiPersonaChat.stopSession();
+                    console.log('Demo chat stopped');
+                }
+            }
+
+            // Close the currently active demo modal
+            const activeDemo = document.querySelector('.demo-interface.active');
+            if (activeDemo) {
+                const demoId = activeDemo.id.replace('demo-', '');
+                const solutionCard = document.querySelector(`[data-solution="${demoId}"]`);
+
+                activeDemo.classList.remove('active');
+                if (solutionCard) {
+                    solutionCard.classList.remove('demo-active');
+                }
+                console.log('Demo modal closed');
+            }
+        }
+
+        // Legal Modal Functions
+        const legalContent = {
+            copyright: {
+                title: 'Copyright Notice',
+                content: `
+                    <h3>Copyright Notice</h3>
+                    <p><strong>Copyright © 2025 Alsatronix Solutions DMCC</strong></p>
+                    <p>All rights reserved. No part of this website, including but not limited to text, graphics, images, logos, audio clips, digital downloads, data compilations, and software, may be reproduced, distributed, transmitted, cached, or otherwise used, except with the prior written permission of Alsatronix Solutions DMCC.</p>
+
+                    <h4>Intellectual Property Rights</h4>
+                    <p>AlsaTalk and all related marks, logos, and designs are trademarks or registered trademarks of Alsatronix Solutions DMCC. All other trademarks, service marks, and trade names are the property of their respective owners.</p>
+
+                    <h4>Technology Patents</h4>
+                    <p>The AI voice technology, algorithms, and methodologies described herein may be subject to patent protection. Use of this technology without explicit permission is strictly prohibited.</p>
+
+                    <h4>Fair Use</h4>
+                    <p>Limited use for non-commercial, educational, or review purposes may be permitted under fair use provisions, provided proper attribution is given to Alsatronix Solutions DMCC and AlsaTalk.</p>
+                `
+            },
+            license: {
+                title: 'Software License Agreement',
+                content: `
+                    <h3>Software License Agreement</h3>
+
+                    <h4>Grant of License</h4>
+                    <p>Subject to the terms and conditions of this Agreement, Alsatronix Solutions DMCC grants you a limited, non-exclusive, non-transferable license to use AlsaTalk software and services in accordance with the purchased subscription plan.</p>
+
+                    <h4>Permitted Uses</h4>
+                    <ul>
+                        <li>Use the software for legitimate business purposes</li>
+                        <li>Access features according to your subscription tier</li>
+                        <li>Integrate with approved third-party applications</li>
+                        <li>Generate voice interactions within usage limits</li>
+                    </ul>
+
+                    <h4>Restrictions</h4>
+                    <ul>
+                        <li>No reverse engineering, decompiling, or disassembly</li>
+                        <li>No redistribution or resale of the software</li>
+                        <li>No use for illegal or unauthorized purposes</li>
+                        <li>No attempt to circumvent usage limitations</li>
+                        <li>No use in violation of applicable laws or regulations</li>
+                    </ul>
+
+                    <h4>API Usage</h4>
+                    <p>API access is governed by separate terms and rate limits. Commercial API usage requires appropriate licensing and may incur additional fees.</p>
+
+                    <h4>Termination</h4>
+                    <p>This license is effective until terminated. Your rights under this license will terminate automatically without notice if you fail to comply with any term herein.</p>
+                `
+            },
+            disclaimer: {
+                title: 'Legal Disclaimer',
+                content: `
+                    <h3>Legal Disclaimer</h3>
+
+                    <h4>No Warranty</h4>
+                    <p>AlsaTalk is provided "as is" without warranty of any kind, either express or implied. Alsatronix Solutions DMCC disclaims all warranties, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+                    <h4>AI Technology Limitations</h4>
+                    <p>AI-generated responses may not always be accurate, appropriate, or suitable for your specific needs. Users are responsible for reviewing and validating AI outputs before use in critical applications.</p>
+
+                    <h4>Limitation of Liability</h4>
+                    <p>In no event shall Alsatronix Solutions DMCC be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.</p>
+
+                    <h4>Service Availability</h4>
+                    <p>We strive for high availability but do not guarantee uninterrupted service. Maintenance, updates, or technical issues may temporarily affect service availability.</p>
+
+                    <h4>User Responsibility</h4>
+                    <p>Users are solely responsible for their use of AlsaTalk and must ensure compliance with all applicable laws, regulations, and third-party rights.</p>
+
+                    <h4>Data Privacy</h4>
+                    <p>While we implement security measures to protect your data, we cannot guarantee absolute security. Users should review our privacy policy for detailed information about data handling practices.</p>
+                `
+            },
+            legal: {
+                title: 'Legal Information',
+                content: `
+                    <h3>Legal Information</h3>
+
+                    <h4>Governing Law</h4>
+                    <p>These terms and your use of AlsaTalk shall be governed by and construed in accordance with the laws of the United Arab Emirates, without regard to its conflict of law provisions.</p>
+
+                    <h4>Jurisdiction</h4>
+                    <p>Any disputes arising from or relating to this agreement shall be subject to the exclusive jurisdiction of the courts of Dubai, United Arab Emirates.</p>
+
+                    <h4>Compliance Requirements</h4>
+                    <ul>
+                        <li>GDPR compliance for European users</li>
+                        <li>CCPA compliance for California residents</li>
+                        <li>UAE Data Protection Law compliance</li>
+                        <li>Industry-specific regulations as applicable</li>
+                    </ul>
+
+                    <h4>Export Control</h4>
+                    <p>AlsaTalk may be subject to export control laws and regulations. Users are responsible for ensuring compliance with all applicable export control requirements.</p>
+
+                    <h4>Indemnification</h4>
+                    <p>You agree to indemnify, defend, and hold harmless Alsatronix Solutions DMCC from and against any claims, damages, losses, costs, and expenses arising from your use of AlsaTalk or violation of these terms.</p>
+
+                    <h4>Severability</h4>
+                    <p>If any provision of these terms is found to be unenforceable or invalid, the remaining provisions will remain in full force and effect.</p>
+
+                    <h4>Contact Information</h4>
+                    <p>For legal inquiries, please contact:</p>
+                    <p>
+                        <strong>AlsaTalk</strong><br>
+                        Email: info@alsatalk.com<br>
+                        Tel: +971-443-32348
+                    </p>
+                    <p>
+                        <strong>Legal Entity:</strong><br>
+                        Alsatronix Solutions DMCC<br>
+                        2507 The Dome Tower, Cluster N<br>
+                        Jumeirah Lake Towers, Dubai, UAE
+                    </p>
+                `
+            }
+        };
+
+        function openLegalModal(type) {
+            const modal = document.getElementById('legalModal');
+            const title = document.getElementById('legalModalTitle');
+            const body = document.getElementById('legalModalBody');
+
+            const content = legalContent[type];
+            if (content) {
+                title.textContent = content.title;
+                body.innerHTML = content.content;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeLegalModal() {
+            const modal = document.getElementById('legalModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('legalModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLegalModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLegalModal();
+            }
+        });
+    </script>
+
+    <!-- Include persona scripts -->
     <script src="persona-manager.js"></script>
     <script src="ai-persona-chat.js"></script>
 </body>
