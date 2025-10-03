@@ -14,7 +14,9 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(npm install:*)",
-      "Bash(dir)"
+      "Bash(dir)",
+      "Bash(psql:*)",
+      "Bash(npm start)"
     ],
     "deny": [],
     "ask": []

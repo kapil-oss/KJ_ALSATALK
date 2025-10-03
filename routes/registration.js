@@ -73,16 +73,16 @@ router.post('/api/register', async (req, res) => {
         const otp = generateOTP();
         const verificationExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
 
-        // Store OTP in database
+        // Store OTP in database (verification_token field stores the OTP)
         const { query } = require('../database/db');
         const { generateToken } = require('../services/emailService');
-        const verificationToken = generateToken();
+        const verificationToken = generateToken(); // For email link verification
 
         await query(`
             UPDATE users
             SET verification_token = $1, verification_expires = $2
             WHERE id = $3
-        `, [verificationToken, verificationExpires, user.id]);
+        `, [otp, verificationExpires, user.id]);
 
         // Send verification email with OTP and token
         await sendVerificationEmail(email, fullName, otp, verificationToken);
