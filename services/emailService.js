@@ -23,7 +23,11 @@ function generateToken() {
 }
 
 // Send verification OTP email
-async function sendVerificationEmail(email, fullName, otp) {
+async function sendVerificationEmail(email, fullName, otp, verificationToken) {
+    // Create direct verification link
+    const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+    const verifyLink = `${baseUrl}/verify-email?token=${verificationToken}&email=${encodeURIComponent(email)}`;
+
     const mailOptions = {
         from: `"AlsaTalk - Alsatronix Solutions" <${process.env.GMAIL_USER}>`,
         to: email,
@@ -95,6 +99,39 @@ async function sendVerificationEmail(email, fullName, otp) {
             font-size: 15px;
             margin: 20px 0;
         }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            color: #64748b;
+            font-size: 14px;
+            position: relative;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .divider::before {
+            left: 0;
+        }
+        .divider::after {
+            right: 0;
+        }
         .warning {
             background: rgba(239, 68, 68, 0.1);
             border-left: 4px solid #ef4444;
@@ -150,8 +187,21 @@ async function sendVerificationEmail(email, fullName, otp) {
                 This code will expire in <strong>15 minutes</strong>. Enter it on the verification page to activate your account.
             </p>
 
+            <div class="divider">OR</div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="${verifyLink}" class="cta-button">
+                    ✓ Verify Email & Login Directly
+                </a>
+            </div>
+
+            <p class="message" style="text-align: center; font-size: 13px; color: #94a3b8;">
+                Click the button above to verify your email and login automatically.<br>
+                No need to enter the code manually!
+            </p>
+
             <div class="warning">
-                ⚠️ <strong>Security Notice:</strong> Never share this code with anyone. AlsaTalk staff will never ask for your verification code.
+                ⚠️ <strong>Security Notice:</strong> Never share this code or link with anyone. AlsaTalk staff will never ask for your verification code or link.
             </div>
         </div>
 

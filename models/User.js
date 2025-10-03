@@ -222,6 +222,26 @@ class User {
         return result.rows[0];
     }
 
+    // Verify email using direct token link
+    static async verifyEmailWithToken(email, token) {
+        const sql = `
+            UPDATE users
+            SET email_verified = TRUE,
+                verification_token = NULL,
+                verification_expires = NULL
+            WHERE email = $1
+            AND verification_token = $2
+            AND verification_expires > NOW()
+            RETURNING id, email, full_name, email_verified
+        `;
+
+        const result = await query(sql, [email, token]);
+        if (result.rows.length === 0) {
+            return false;
+        }
+        return true;
+    }
+
     // Resend verification OTP
     static async resendOTP(email) {
         const otp = generateOTP();

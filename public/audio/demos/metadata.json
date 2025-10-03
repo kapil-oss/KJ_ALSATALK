@@ -1,0 +1,155 @@
+{
+  "generated": "2025-10-03T10:09:46.478Z",
+  "conversations": {
+    "astrologer": {
+      "segments": 4,
+      "voices": {
+        "user": "nova",
+        "ai": "shimmer"
+      },
+      "conversation": [
+        {
+          "speaker": "user",
+          "text": "Hi, I've been feeling a bit lost lately. Can you help me understand what the stars might be saying?"
+        },
+        {
+          "speaker": "ai",
+          "text": "Welcome, seeker of light. The cosmos has much to share with you. Tell me, what sign were you born under, and what weighs most heavily on your heart right now?"
+        },
+        {
+          "speaker": "user",
+          "text": "I'm a Leo, and I've been struggling with some career decisions."
+        },
+        {
+          "speaker": "ai",
+          "text": "Ah, Leo — the lion, bold and radiant. The stars suggest you're in a transformative phase. Jupiter's current alignment encourages you to trust your inner fire and take courageous steps forward."
+        }
+      ]
+    },
+    "health": {
+      "segments": 4,
+      "voices": {
+        "user": "nova",
+        "ai": "sage"
+      },
+      "conversation": [
+        {
+          "speaker": "user",
+          "text": "I want to start eating healthier, but I don't know where to begin."
+        },
+        {
+          "speaker": "ai",
+          "text": "That's wonderful! Healthy living starts with small, sustainable changes. Tell me, what does a typical day of eating look like for you right now?"
+        },
+        {
+          "speaker": "user",
+          "text": "Usually skip breakfast, grab fast food for lunch, and have a big dinner."
+        },
+        {
+          "speaker": "ai",
+          "text": "I appreciate your honesty! Let's start simple: adding a nutritious breakfast can boost your energy and metabolism. How about trying overnight oats or a smoothie? Small steps lead to big changes!"
+        }
+      ]
+    },
+    "counselor": {
+      "segments": 4,
+      "voices": {
+        "user": "nova",
+        "ai": "sage"
+      },
+      "conversation": [
+        {
+          "speaker": "user",
+          "text": "I've been feeling really overwhelmed with everything going on."
+        },
+        {
+          "speaker": "ai",
+          "text": "I hear you, and I'm really glad you're sharing this with me. It sounds like you're carrying a lot right now. What feels most overwhelming to you in this moment?"
+        },
+        {
+          "speaker": "user",
+          "text": "Just... everything. Work, relationships, trying to keep up with it all."
+        },
+        {
+          "speaker": "ai",
+          "text": "That makes complete sense. When everything feels heavy at once, it's natural to feel overwhelmed. You don't have to handle it all alone. Let's take this one piece at a time, together."
+        }
+      ]
+    },
+    "hospital-desk": {
+      "segments": 4,
+      "voices": {
+        "user": "nova",
+        "ai": "sage"
+      },
+      "conversation": [
+        {
+          "speaker": "user",
+          "text": "Hello, I need to schedule an appointment with a cardiologist."
+        },
+        {
+          "speaker": "ai",
+          "text": "Good morning! I'd be happy to help you schedule that appointment. Do you have a preferred doctor, or would you like me to recommend one of our cardiologists?"
+        },
+        {
+          "speaker": "user",
+          "text": "I'd like to see Dr. Martinez if possible."
+        },
+        {
+          "speaker": "ai",
+          "text": "Perfect! Dr. Martinez has availability next Tuesday at 2 PM or Thursday at 10 AM. Which time works better for you? I'll also need your insurance information to confirm the booking."
+        }
+      ]
+    },
+    "salon-desk": {
+      "segments": 4,
+      "voices": {
+        "user": "nova",
+        "ai": "shimmer"
+      },
+      "conversation": [
+        {
+          "speaker": "user",
+          "text": "Hi! I'm looking to get a haircut and maybe some highlights."
+        },
+        {
+          "speaker": "ai",
+          "text": "Welcome to our salon! How exciting! We'd love to give you a fresh new look. Do you have a preferred stylist, or would you like me to match you with someone who specializes in color?"
+        },
+        {
+          "speaker": "user",
+          "text": "I haven't been here before, so I'd appreciate a recommendation."
+        },
+        {
+          "speaker": "ai",
+          "text": "Perfect! I recommend Sarah — she's amazing with highlights and cuts. She has an opening this Saturday at 11 AM. The full service would take about 2 hours. Would that work for you?"
+        }
+      ]
+    },
+    "general": {
+      "segments": 4,
+      "voices": {
+        "user": "nova",
+        "ai": "cedar"
+      },
+      "conversation": [
+        {
+          "speaker": "user",
+          "text": "I'm thinking about starting my own business, but I'm not sure where to begin."
+        },
+        {
+          "speaker": "ai",
+          "text": "That's an exciting journey you're considering! Starting a business is both challenging and rewarding. What type of business are you thinking about, and what's driving this decision for you?"
+        },
+        {
+          "speaker": "user",
+          "text": "I want to open a coffee shop. I love coffee culture and community spaces."
+        },
+        {
+          "speaker": "ai",
+          "text": "What a wonderful vision! Coffee shops can be incredible community hubs. Have you thought about location, your unique selling point, or your target customers? These foundations will help shape your business plan."
+        }
+      ]
+    }
+  }
+}

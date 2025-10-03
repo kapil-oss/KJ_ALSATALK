@@ -9,6 +9,7 @@ require('dotenv').config();
 const { pool, initializeDatabase } = require('./database/db');
 const { passport, isAuthenticated, isAdmin } = require('./middleware/auth');
 const { checkTokenLimit } = require('./middleware/tokenTracking');
+const Settings = require('./models/Settings');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const registrationRoutes = require('./routes/registration');
@@ -97,29 +98,58 @@ app.get('/icons.svg', isAuthenticated, (req, res) => {
 app.use('/persona-manager.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'persona-manager.js')));
 app.use('/ai-persona-chat.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'ai-persona-chat.js')));
 app.use('/demo-data.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'demo-data.js')));
+app.use('/enterprise-demo-audio-player.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'enterprise-demo-audio-player.js')));
+app.use('/demo-audio-player.js', isAuthenticated, express.static(path.join(__dirname, 'public', 'demo-audio-player.js')));
 
 // Serve other dataset files with authentication
 app.get('/datasets/:filename', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'datasets', req.params.filename));
 });
 
+// Serve audio files with authentication
+app.use('/audio', isAuthenticated, express.static(path.join(__dirname, 'public', 'audio')));
+
 // Protected: Token endpoint for OpenAI Realtime API
-app.get('/token', isAuthenticated, checkTokenLimit, (req, res) => {
+app.get('/token', isAuthenticated, checkTokenLimit, async (req, res) => {
   const token = process.env.OPENAI_API_KEY;
 
   if (!token) {
-    console.warn('⚠️  Please set your OPENAI_API_KEY in the .env file');
+    console.warn('Warning: Please set your OPENAI_API_KEY in the .env file');
     return res.status(500).json({ error: 'OpenAI API key not configured' });
   }
 
-  const response = { value: token };
+  let modelName = Settings.getRealtimeModelDefault();
+  let modelMetadata = { isDefault: true };
 
-  // Add warning if user is near token limit
+  try {
+    const setting = await Settings.getOpenAIRealtimeModel();
+    if (setting && setting.value) {
+      modelName = setting.value;
+      modelMetadata = setting;
+    }
+  } catch (error) {
+    console.error('Failed to load OpenAI realtime model:', error);
+  }
+
+  const modelIsDefault = modelMetadata && typeof modelMetadata.isDefault === 'boolean'
+    ? modelMetadata.isDefault
+    : true;
+
+  const response = {
+    value: token,
+    model: modelName,
+    modelIsDefault,
+    defaultModel: Settings.getRealtimeModelDefault()
+  };
+
+  if (modelMetadata && modelMetadata.updated_at) {
+    response.modelUpdatedAt = modelMetadata.updated_at;
+  }
+
   if (req.tokenWarning) {
     response.warning = req.tokenWarning;
   }
 
-  // Add token status
   if (req.tokenStatus) {
     response.tokenStatus = {
       used: req.tokenStatus.tokensUsed,
@@ -131,7 +161,6 @@ app.get('/token', isAuthenticated, checkTokenLimit, (req, res) => {
 
   res.json(response);
 });
-
 // API endpoint to track token usage
 app.post('/api/track-tokens', isAuthenticated, async (req, res) => {
   try {
@@ -202,3 +231,4 @@ app.listen(PORT, () => {
   console.log('🔐 Authentication enabled - Login to access voice app');
   console.log('👤 Default admin credentials: username: admin, password: admin123');
 });
+

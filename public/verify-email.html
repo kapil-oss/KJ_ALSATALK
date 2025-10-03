@@ -220,15 +220,21 @@
     <script>
         lucide.createIcons();
 
-        // Get email from URL parameter
+        // Get email and token from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get('email');
+        const token = urlParams.get('token');
 
         if (!email) {
             window.location.href = '/login';
         }
 
         document.getElementById('emailDisplay').textContent = email;
+
+        // Auto-verify if token is provided (direct link from email)
+        if (token) {
+            autoVerifyWithToken(email, token);
+        }
 
         // OTP input handling
         const inputs = Array.from(document.querySelectorAll('.otp-digit'));
@@ -259,7 +265,63 @@
         });
 
         // Focus first input
-        inputs[0].focus();
+        if (!token) {
+            inputs[0].focus();
+        }
+
+        // Auto-verification function using token from email link
+        async function autoVerifyWithToken(email, token) {
+            const verifyBtn = document.getElementById('verifyBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successMessage = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+
+            try {
+                // Show loading state
+                verifyBtn.disabled = true;
+                btnText.textContent = 'Verifying...';
+                btnLoader.classList.remove('hidden');
+
+                // Disable OTP inputs
+                inputs.forEach(input => input.disabled = true);
+
+                const response = await fetch('/api/verify-email-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, token })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successText.textContent = data.message || 'Email verified successfully! Redirecting to login...';
+                    successMessage.classList.add('show');
+
+                    // Redirect to login after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    throw new Error(data.error || 'Invalid or expired verification link');
+                }
+            } catch (error) {
+                console.error('Auto-verification error:', error);
+                errorText.textContent = error.message || 'Invalid or expired verification link. Please enter the OTP manually.';
+                errorMessage.classList.add('show');
+
+                // Re-enable manual OTP entry
+                verifyBtn.disabled = false;
+                btnText.textContent = 'Verify Email';
+                btnLoader.classList.add('hidden');
+                inputs.forEach(input => input.disabled = false);
+                inputs[0].focus();
+            }
+        }
 
         const form = document.getElementById('verifyForm');
         const verifyBtn = document.getElementById('verifyBtn');

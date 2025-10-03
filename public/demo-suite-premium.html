@@ -108,9 +108,9 @@
           <i data-lucide="home"></i>
           <span>Home</span>
         </a>
-        <a href="/#solutions" class="nav-link">
+        <a href="/demo-suite-premium.html" class="nav-link active">
           <i data-lucide="bot"></i>
-          <span>Solutions</span>
+          <span>Solutions Demo</span>
         </a>
       </div>
       <div class="nav-actions">
@@ -286,6 +286,7 @@
   </div>
 
   <script src="demo-data.js"></script>
+  <script src="enterprise-demo-audio-player.js"></script>
   <script>
     let currentDemo = null;
     let currentTab = 'overview';
@@ -399,10 +400,29 @@
           </div>
         </div>
       `;
+
+      // Inject audio player after rendering - wait for it to be ready
+      const waitForAudioPlayer = () => {
+        if (window.enterpriseDemoAudioPlayer && window.enterpriseDemoAudioPlayer.metadata) {
+          console.log('Audio player ready, injecting for demo', currentDemo);
+          window.injectAudioPlayer(currentDemo);
+        } else {
+          console.log('Waiting for audio player to load...');
+          setTimeout(waitForAudioPlayer, 200);
+        }
+      };
+      setTimeout(waitForAudioPlayer, 100);
     }
 
     function renderSteps(demo) {
       if (!demo.steps) return;
+
+      // Find step with conversation (look for phone icon or "call" in title)
+      const conversationStepIndex = demo.steps.findIndex(step =>
+        step.icon === 'phone' || step.icon === 'phone-call' ||
+        step.title.toLowerCase().includes('call') ||
+        step.title.toLowerCase().includes('conversation')
+      );
 
       document.getElementById('tabSteps').innerHTML = `
         <div class="space-y-4">
@@ -422,6 +442,7 @@
               </div>
               <div class="accordion-content" id="content-${index}">
                 <div class="p-6 bg-${step.color}/5 border-t border-${step.color}/20">
+                  ${index === conversationStepIndex ? '<div id="audio-player-step-' + currentDemo + '" class="mb-4"></div>' : ''}
                   ${step.details.map(detail => `<p class="mb-2">${detail}</p>`).join('')}
                 </div>
               </div>
@@ -432,6 +453,18 @@
           <i data-lucide="info" class="w-4 h-4 inline"></i> Click on any step to expand/collapse details
         </div>
       `;
+
+      // Inject audio player in the specific step with conversation
+      if (conversationStepIndex >= 0) {
+        setTimeout(() => {
+          if (window.enterpriseDemoAudioPlayer && window.enterpriseDemoAudioPlayer.metadata) {
+            const hasAudio = window.enterpriseDemoAudioPlayer.metadata.demos[currentDemo];
+            if (hasAudio) {
+              window.enterpriseDemoAudioPlayer.injectIntoStep(currentDemo, conversationStepIndex);
+            }
+          }
+        }, 100);
+      }
     }
 
     function renderImpact(demo) {

@@ -7,6 +7,8 @@ class AIPersonaChat {
         this.audioElement = null;
         this.isConnected = false;
         this.ephemeralKey = null;
+        this.selectedModel = null;
+        this.modelIsDefault = true;
         this.currentPersona = null;
         this.isCreatingResponse = false;
 
@@ -65,6 +67,8 @@ class AIPersonaChat {
             const tokenResponse = await fetch('/token');
             const data = await tokenResponse.json();
             this.ephemeralKey = data.value;
+            this.selectedModel = data.model || data.defaultModel || 'gpt-realtime';
+            this.modelIsDefault = typeof data.modelIsDefault === 'boolean' ? data.modelIsDefault : true;
 
             if (!this.ephemeralKey || this.ephemeralKey === 'your-openai-api-key-here') {
                 throw new Error('Please set your OpenAI API key in the server environment');
@@ -124,7 +128,7 @@ class AIPersonaChat {
 
             // Send offer to OpenAI Realtime API
             const baseUrl = 'https://api.openai.com/v1/realtime/calls';
-            const model = 'gpt-realtime';
+            const model = this.selectedModel || 'gpt-realtime';
             const sdpResponse = await fetch(`${baseUrl}?model=${model}`, {
                 method: 'POST',
                 body: offer.sdp,
@@ -303,7 +307,7 @@ class AIPersonaChat {
             type: 'session.update',
             session: {
                 type: 'realtime',
-                model: 'gpt-realtime',
+                model: this.selectedModel || 'gpt-realtime',
                 output_modalities: ['audio'],
                 audio: {
                     input: {
@@ -530,3 +534,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+

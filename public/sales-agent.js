@@ -5,6 +5,8 @@ class SalesAIAgent {
         this.audioElement = null;
         this.isConnected = false;
         this.ephemeralKey = null;
+        this.selectedModel = null;
+        this.modelIsDefault = true;
         this.isWindowOpen = false;
         
         this.chatbotToggle = document.getElementById('sales-chatbot-toggle');
@@ -59,6 +61,8 @@ class SalesAIAgent {
             const tokenResponse = await fetch('/token');
             const data = await tokenResponse.json();
             this.ephemeralKey = data.value;
+            this.selectedModel = data.model || data.defaultModel || 'gpt-realtime';
+            this.modelIsDefault = typeof data.modelIsDefault === 'boolean' ? data.modelIsDefault : true;
             
             if (this.ephemeralKey === 'your-openai-api-key-here') {
                 throw new Error('Please set your OpenAI API key in the server environment');
@@ -106,7 +110,7 @@ class SalesAIAgent {
             
             // Send offer to OpenAI Realtime API
             const baseUrl = 'https://api.openai.com/v1/realtime/calls';
-            const model = 'gpt-realtime';
+            const model = this.selectedModel || 'gpt-realtime';
             const sdpResponse = await fetch(`${baseUrl}?model=${model}`, {
                 method: 'POST',
                 body: offer.sdp,
@@ -388,3 +392,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+

@@ -8,12 +8,8 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/login?error=1',
     failureFlash: false
 }), (req, res) => {
-    // Redirect admin users to admin panel, regular users to main app
-    if (req.user.is_admin) {
-        res.redirect('/admin');
-    } else {
-        res.redirect('/');
-    }
+    // Redirect all users (including admin) to homepage
+    res.redirect('/');
 });
 
 // Logout route
