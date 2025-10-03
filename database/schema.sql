@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
     approved_by INTEGER REFERENCES users(id),
     approved_at TIMESTAMP,
     tokens_used INTEGER DEFAULT 0,
-    token_limit INTEGER DEFAULT 1000000,
+    token_limit INTEGER DEFAULT 500,
     token_reset_date TIMESTAMP,
     is_admin BOOLEAN DEFAULT FALSE,
     is_active BOOLEAN DEFAULT TRUE,
@@ -82,3 +82,27 @@ $func$ language 'plpgsql';
 DROP TRIGGER IF EXISTS update_users_updated_at ON users;
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Application settings (key/value store)
+CREATE TABLE IF NOT EXISTS app_settings (
+    key VARCHAR(100) PRIMARY KEY,
+    value TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION update_app_settings_updated_at()
+RETURNS TRIGGER AS $func2$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$func2$ LANGUAGE 'plpgsql';
+
+DROP TRIGGER IF EXISTS update_app_settings_timestamp ON app_settings;
+CREATE TRIGGER update_app_settings_timestamp
+BEFORE UPDATE ON app_settings
+FOR EACH ROW EXECUTE FUNCTION update_app_settings_updated_at();
+
+INSERT INTO app_settings (key, value)
+VALUES ('openai_realtime_model', 'gpt-realtime')
+ON CONFLICT (key) DO NOTHING;

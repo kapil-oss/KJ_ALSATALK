@@ -143,7 +143,7 @@ const initializeDatabase = async () => {
     }
 
     try {
-        const schemaPath = path.join(__dirname, 'schema.sql');
+        const schemaPath = path.join(__dirname, 'complete_schema.sql');
         const schema = fs.readFileSync(schemaPath, 'utf8');
 
         // Execute the entire schema as one statement to handle functions properly

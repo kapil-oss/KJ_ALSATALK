@@ -4,6 +4,8 @@ const router = express.Router();
 const User = require('../models/User');
 const { isAdmin, isAdminAPI } = require('../middleware/auth');
 const { sendVerificationEmail, sendApprovalNotification } = require('../services/emailService');
+const Settings = require('../models/Settings');
+const { fetchRealtimeModelsFromOpenAI, DEFAULT_REALTIME_MODELS } = require('../services/openaiService');
 
 // Get all users (API)
 router.get('/api/admin/users', isAdminAPI, async (req, res) => {
@@ -181,8 +183,8 @@ router.post('/api/admin/users/:id/approve', isAdminAPI, async (req, res) => {
         // Send approval notification
         await sendApprovalNotification(user.email, user.full_name);
 
-        // Send verification email with OTP
-        await sendVerificationEmail(user.email, user.full_name, otp);
+        // Send verification email with OTP and token
+        await sendVerificationEmail(user.email, user.full_name, otp, user.verification_token);
 
         console.log(`✅ User approved: ${user.email} by admin ID: ${adminId}`);
 
@@ -219,4 +221,59 @@ router.post('/api/admin/users/:id/reject', isAdminAPI, async (req, res) => {
     }
 });
 
+// Admin-configurable OpenAI realtime model settings
+router.get('/api/admin/settings/openai-model', isAdminAPI, async (req, res) => {
+    try {
+        const modelSetting = await Settings.getOpenAIRealtimeModel();
+        const available = await fetchRealtimeModelsFromOpenAI();
+        const recommendedModels = (available.models && available.models.length)
+            ? available.models
+            : DEFAULT_REALTIME_MODELS;
+
+        res.json({
+            currentModel: modelSetting.value,
+            updatedAt: modelSetting.updated_at,
+            isDefault: modelSetting.isDefault,
+            recommendedModels,
+            modelsSource: available.source,
+            fallbackReason: available.error || available.warning || null,
+            defaultModel: Settings.getRealtimeModelDefault()
+        });
+    } catch (error) {
+        console.error('Error fetching OpenAI model settings:', error);
+        res.status(500).json({ error: 'Failed to load OpenAI model settings' });
+    }
+});
+
+router.put('/api/admin/settings/openai-model', isAdminAPI, async (req, res) => {
+    try {
+        const { model } = req.body;
+
+        if (!model || typeof model !== 'string' || !model.trim()) {
+            return res.status(400).json({ error: 'Model value is required' });
+        }
+
+        const trimmedModel = model.trim();
+        const updateResult = await Settings.setOpenAIRealtimeModel(trimmedModel);
+        const isRealtime = trimmedModel.toLowerCase().includes('realtime');
+
+        const responsePayload = {
+            success: true,
+            model: updateResult.value,
+            updatedAt: updateResult.updated_at,
+            isRealtime
+        };
+
+        if (!isRealtime) {
+            responsePayload.warning = 'The selected model name does not include "realtime". Confirm the model supports realtime voice before using it.';
+        }
+
+        res.json(responsePayload);
+    } catch (error) {
+        console.error('Error updating OpenAI model setting:', error);
+        res.status(500).json({ error: 'Failed to update OpenAI model setting' });
+    }
+});
+
 module.exports = router;
+

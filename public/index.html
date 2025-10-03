@@ -31,10 +31,7 @@
                     <i data-lucide="bot"></i>
                     <span>Solutions</span>
                 </a>
-                <a href="#pricing" class="nav-link">
-                    <i data-lucide="credit-card"></i>
-                    <span>Pricing</span>
-                </a>
+                
                 <a href="#about" class="nav-link">
                     <i data-lucide="info"></i>
                     <span>About</span>
@@ -43,10 +40,10 @@
 
             <div class="nav-actions">
                 <span id="userWelcome" style="color: var(--text-primary); font-size: 0.875rem; font-weight: 500;"></span>
-                <!-- <a href="/admin" id="adminLink" class="nav-btn-secondary" style="display: none;">
+                <a href="/admin" id="adminLink" class="nav-btn-secondary" style="display: none;">
                     <i data-lucide="shield"></i>
-                    <span>Admin Panel</span>
-                </a> -->
+                    <span>Admin Dashboard</span>
+                </a>
                 <form action="/logout" method="POST" style="display: inline-block;">
                     <button type="submit" class="nav-btn-secondary">
                         <i data-lucide="log-out"></i>
@@ -148,12 +145,28 @@
                         <span>Explore Solutions</span>
                         <i data-lucide="arrow-right"></i>
                     </button>
-                    <button class="hero-btn-demo" onclick="window.location.href='/demo-suite-premium.html'">
-                        <span class="demo-badge">NEW</span>
+                    <button class="hero-btn-demo pulse-glow" onclick="window.location.href='/demo-suite-premium.html'">
+                        
                         <i data-lucide="play-circle"></i>
                         <span>Watch Interactive Demo</span>
                         <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
                     </button>
+                </div>
+
+                <!-- Demo CTA Banner -->
+                <div class="demo-cta-banner" onclick="window.location.href='/demo-suite-premium.html'">
+                    <div class="demo-cta-content">
+                        <div class="demo-cta-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                        </div>
+                        <div class="demo-cta-text">
+                            <h3>🎬 See AI Agents in Action</h3>
+                            <p>Watch real enterprise workflows automated with voice AI • 8 interactive scenarios • Live transcripts</p>
+                        </div>
+                        <div class="demo-cta-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -161,40 +174,41 @@
                 <div class="voice-visualizer">
                     <!-- Particles Background -->
                     <div class="particle-field">
-                        <div class="particle" style="--x: 20%; --y: 30%; --delay: 0s; --duration: 3s;"></div>
-                        <div class="particle" style="--x: 80%; --y: 20%; --delay: 0.5s; --duration: 4s;"></div>
-                        <div class="particle" style="--x: 50%; --y: 60%; --delay: 1s; --duration: 3.5s;"></div>
-                        <div class="particle" style="--x: 30%; --y: 80%; --delay: 1.5s; --duration: 4.5s;"></div>
-                        <div class="particle" style="--x: 70%; --y: 70%; --delay: 2s; --duration: 3.8s;"></div>
-                        <div class="particle" style="--x: 15%; --y: 50%; --delay: 0.8s; --duration: 4.2s;"></div>
+                        <div class="particle" style="--x: 15%; --y: 25%; --delay: 0s; --duration: 3.2s;"></div>
+                        <div class="particle" style="--x: 85%; --y: 18%; --delay: 0.4s; --duration: 4.1s;"></div>
+                        <div class="particle" style="--x: 45%; --y: 65%; --delay: 0.9s; --duration: 3.7s;"></div>
+                        <div class="particle" style="--x: 28%; --y: 82%; --delay: 1.3s; --duration: 4.4s;"></div>
+                        <div class="particle" style="--x: 72%; --y: 68%; --delay: 1.8s; --duration: 3.9s;"></div>
+                        <div class="particle" style="--x: 12%; --y: 55%; --delay: 0.6s; --duration: 4.3s;"></div>
+                        <div class="particle" style="--x: 90%; --y: 40%; --delay: 1.1s; --duration: 3.6s;"></div>
+                        <div class="particle" style="--x: 55%; --y: 12%; --delay: 1.6s; --duration: 4.0s;"></div>
                     </div>
 
-                    <!-- 3D Card Display -->
-                    <div class="voice-card">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="mic-container">
-                                <i data-lucide="mic"></i>
-                                <div class="sound-rings">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div class="voice-text">
-                                <h3>Voice AI Active</h3>
-                                <p>Listening & Processing</p>
-                            </div>
-                            <div class="waveform">
-                                <span style="--i: 1;"></span>
-                                <span style="--i: 2;"></span>
-                                <span style="--i: 3;"></span>
-                                <span style="--i: 4;"></span>
-                                <span style="--i: 5;"></span>
-                                <span style="--i: 6;"></span>
-                                <span style="--i: 7;"></span>
-                            </div>
+                    <!-- Central Mic Circle -->
+                    <div class="mic-container">
+                        <i data-lucide="mic"></i>
+
+                        <!-- Sound Rings -->
+                        <div class="sound-rings">
+                            <span style="--ring-delay: 0s; --ring-duration: 2.5s; --ring-scale: 1.4;"></span>
+                            <span style="--ring-delay: 0.3s; --ring-duration: 2.8s; --ring-scale: 1.7;"></span>
+                            <span style="--ring-delay: 0.6s; --ring-duration: 3.1s; --ring-scale: 2.0;"></span>
+                            <span style="--ring-delay: 0.9s; --ring-duration: 2.6s; --ring-scale: 2.3;"></span>
+                            <span style="--ring-delay: 1.2s; --ring-duration: 2.9s; --ring-scale: 2.6;"></span>
+                            <span style="--ring-delay: 1.5s; --ring-duration: 3.2s; --ring-scale: 2.9;"></span>
+                            <span style="--ring-delay: 1.8s; --ring-duration: 2.7s; --ring-scale: 3.2;"></span>
                         </div>
+                    </div>
+
+                    <!-- Waveform Bars -->
+                    <div class="waveform">
+                        <span style="--i: 1;"></span>
+                        <span style="--i: 2;"></span>
+                        <span style="--i: 3;"></span>
+                        <span style="--i: 4;"></span>
+                        <span style="--i: 5;"></span>
+                        <span style="--i: 6;"></span>
+                        <span style="--i: 7;"></span>
                     </div>
 
                     <!-- Orbiting Icons -->
@@ -202,11 +216,14 @@
                         <div class="orbit-icon" style="--angle: 0deg;">
                             <i data-lucide="zap"></i>
                         </div>
-                        <div class="orbit-icon" style="--angle: 120deg;">
+                        <div class="orbit-icon" style="--angle: 90deg;">
                             <i data-lucide="brain"></i>
                         </div>
-                        <div class="orbit-icon" style="--angle: 240deg;">
+                        <div class="orbit-icon" style="--angle: 180deg;">
                             <i data-lucide="message-circle"></i>
+                        </div>
+                        <div class="orbit-icon" style="--angle: 270deg;">
+                            <i data-lucide="activity"></i>
                         </div>
                     </div>
                 </div>
@@ -225,14 +242,14 @@
             </div>
 
             <div class="solutions-grid">
-                <!-- Gold Astrologer -->
+                <!-- Astrologer -->
                 <div class="solution-card" data-solution="astrologer">
                     <div class="solution-header">
                         <div class="solution-icon astrologer">
                             <i data-lucide="moon-star"></i>
                         </div>
                         <div class="solution-info">
-                            <h3>Gold Astrologer</h3>
+                            <h3>Astrologer</h3>
                             <span class="solution-tag">Mystical Guidance</span>
                         </div>
                     </div>
@@ -465,40 +482,40 @@
                     </div>
                 </div>
 
-                <!-- Windows Sales Specialist -->
-                <div class="solution-card" data-solution="windows-sales">
+                <!-- Hospital Receptionist -->
+                <div class="solution-card" data-solution="hospital-desk">
                     <div class="solution-header">
-                        <div class="solution-icon windows-sales">
-                            <i data-lucide="square"></i>
+                        <div class="solution-icon hospital-desk">
+                            <i data-lucide="hospital"></i>
                         </div>
                         <div class="solution-info">
-                            <h3>Windows Sales Specialist</h3>
-                            <span class="solution-tag">Home Solutions</span>
+                            <h3>Hospital Receptionist</h3>
+                            <span class="solution-tag">Healthcare Desk</span>
                         </div>
                     </div>
 
                     <p class="solution-description">
-                        Expert guidance on aluminum and wooden windows. Trusted advice on design,
-                        energy efficiency, and the perfect match for your home's needs.
+                        Professional appointment scheduling and patient assistance for healthcare facilities.
+                        Compassionate service with efficiency and care.
                     </p>
 
                     <div class="solution-features">
                         <div class="feature-item">
                             <i data-lucide="check"></i>
-                            <span>Material Comparison</span>
+                            <span>Appointment Scheduling</span>
                         </div>
                         <div class="feature-item">
                             <i data-lucide="check"></i>
-                            <span>Energy Efficiency</span>
+                            <span>Patient Assistance</span>
                         </div>
                         <div class="feature-item">
                             <i data-lucide="check"></i>
-                            <span>Design Consultation</span>
+                            <span>Department Navigation</span>
                         </div>
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=windows-sales'">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=hospital-desk'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -509,26 +526,26 @@
                     </div>
 
                     <!-- Demo Interface -->
-                    <div class="demo-interface" id="demo-windows-sales">
+                    <div class="demo-interface" id="demo-hospital-desk">
                         <div class="demo-header">
                             <div class="demo-status">
                                 <div class="status-dot active"></div>
-                                <span>Windows Expert Active</span>
+                                <span>Hospital Desk Active</span>
                             </div>
                             <div class="demo-controls">
-                                <button class="demo-btn start-btn" onclick="startDemoChat('windows-sales')">Start</button>
+                                <button class="demo-btn start-btn" onclick="startDemoChat('hospital-desk')">Start</button>
                                 <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
-                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('windows-sales')">×</button> -->
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('hospital-desk')">×</button> -->
                             </div>
                         </div>
 
                         <div class="demo-chat">
                             <div class="chat-message ai-message">
                                 <div class="message-avatar">
-                                    <i data-lucide="square"></i>
+                                    <i data-lucide="hospital"></i>
                                 </div>
                                 <div class="message-content">
-                                    Windows aren't just glass — they're how you frame your view of the world. Do you prefer timeless warmth or modern elegance?
+                                    Good day! Welcome to our hospital. How may I assist you today?
                                 </div>
                             </div>
                         </div>
@@ -545,40 +562,40 @@
                     </div>
                 </div>
 
-                <!-- Car Sales Consultant -->
-                <div class="solution-card" data-solution="car-sales">
+                <!-- Salon Receptionist -->
+                <div class="solution-card" data-solution="salon-desk">
                     <div class="solution-header">
-                        <div class="solution-icon car-sales">
-                            <i data-lucide="car-front"></i>
+                        <div class="solution-icon salon-desk">
+                            <i data-lucide="scissors"></i>
                         </div>
                         <div class="solution-info">
-                            <h3>Car Sales Consultant</h3>
-                            <span class="solution-tag">Automotive Expert</span>
+                            <h3>Salon Receptionist</h3>
+                            <span class="solution-tag">Beauty Desk</span>
                         </div>
                     </div>
 
                     <p class="solution-description">
-                        Enthusiastic automotive consultant helping you find the perfect vehicle.
-                        Expert guidance on safety, performance, and lifestyle fit.
+                        Friendly appointment booking and service consultation for beauty salon.
+                        Helping you schedule the perfect pampering experience.
                     </p>
 
                     <div class="solution-features">
                         <div class="feature-item">
                             <i data-lucide="check"></i>
-                            <span>Model Comparison</span>
+                            <span>Service Booking</span>
                         </div>
                         <div class="feature-item">
                             <i data-lucide="check"></i>
-                            <span>Safety Features</span>
+                            <span>Stylist Matching</span>
                         </div>
                         <div class="feature-item">
                             <i data-lucide="check"></i>
-                            <span>Lifestyle Matching</span>
+                            <span>Package Recommendations</span>
                         </div>
                     </div>
 
                     <div class="solution-actions">
-                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=car-sales'">
+                        <button class="solution-btn-primary" onclick="window.location.href='/persona-chat?persona=salon-desk'">
                             <span>Try Demo</span>
                             <i data-lucide="play-circle"></i>
                         </button>
@@ -589,26 +606,26 @@
                     </div>
 
                     <!-- Demo Interface -->
-                    <div class="demo-interface" id="demo-car-sales">
+                    <div class="demo-interface" id="demo-salon-desk">
                         <div class="demo-header">
                             <div class="demo-status">
                                 <div class="status-dot active"></div>
-                                <span>Car Expert Active</span>
+                                <span>Salon Desk Active</span>
                             </div>
                             <div class="demo-controls">
-                                <button class="demo-btn start-btn" onclick="startDemoChat('car-sales')">Start</button>
+                                <button class="demo-btn start-btn" onclick="startDemoChat('salon-desk')">Start</button>
                                 <button class="demo-btn stop-btn" onclick="stopDemoChat()">Stop</button>
-                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('car-sales')">×</button> -->
+                                <!-- <button class="demo-btn close-btn" onclick="toggleDemo('salon-desk')">×</button> -->
                             </div>
                         </div>
 
                         <div class="demo-chat">
                             <div class="chat-message ai-message">
                                 <div class="message-avatar">
-                                    <i data-lucide="car-front"></i>
+                                    <i data-lucide="scissors"></i>
                                 </div>
                                 <div class="message-content">
-                                    Imagine a car that fits your life like a glove — tell me, what matters most for you in a car?
+                                    Welcome to our salon! How can I help you look and feel amazing today?
                                 </div>
                             </div>
                         </div>
@@ -977,13 +994,17 @@
 
                 if (data.authenticated && data.user) {
                     const userWelcome = document.getElementById('userWelcome');
-                    userWelcome.textContent = `Welcome, ${data.user.fullName || data.user.username}!`;
+                    if (userWelcome) {
+                        userWelcome.textContent = `Welcome, ${data.user.fullName || data.user.username}!`;
+                    }
 
                     // Show admin link if user is admin
                     if (data.user.isAdmin) {
                         const adminLink = document.getElementById('adminLink');
-                        adminLink.style.display = 'flex';
-                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                        if (adminLink) {
+                            adminLink.style.display = 'flex';
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                        }
                     }
                 }
             } catch (error) {
@@ -1117,7 +1138,7 @@
             });
         });
 
-        // Add scroll effect to navbar
+        // Add scroll effect to navbar and update active link
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 100) {
@@ -1125,7 +1146,47 @@
             } else {
                 navbar.classList.remove('scrolled');
             }
+
+            // Update active nav link based on scroll position
+            updateActiveNavLink();
         });
+
+        // Update active nav link based on current section
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            let currentSection = 'home';
+            const scrollPosition = window.scrollY + 150; // offset for navbar height
+
+            // If we're at the very top, home is active
+            if (window.scrollY < 200) {
+                currentSection = 'home';
+            } else {
+                // Find which section we're in
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+            }
+
+            // Update active class on nav links
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                link.classList.remove('active');
+
+                if (href === `#${currentSection}` || (href === '#home' && currentSection === 'home')) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Set initial active state on page load
+        document.addEventListener('DOMContentLoaded', updateActiveNavLink);
 
         // Demo chat functionality
         function startDemoChat(personaId) {
@@ -1335,5 +1396,6 @@
     <!-- Include persona scripts -->
     <script src="persona-manager.js"></script>
     <script src="ai-persona-chat.js"></script>
+    <script src="demo-audio-player.js"></script>
 </body>
 </html>

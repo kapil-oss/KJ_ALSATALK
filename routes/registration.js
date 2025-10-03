@@ -75,14 +75,17 @@ router.post('/api/register', async (req, res) => {
 
         // Store OTP in database
         const { query } = require('../database/db');
+        const { generateToken } = require('../services/emailService');
+        const verificationToken = generateToken();
+
         await query(`
             UPDATE users
             SET verification_token = $1, verification_expires = $2
             WHERE id = $3
-        `, [otp, verificationExpires, user.id]);
+        `, [verificationToken, verificationExpires, user.id]);
 
-        // Send verification email
-        await sendVerificationEmail(email, fullName, otp);
+        // Send verification email with OTP and token
+        await sendVerificationEmail(email, fullName, otp, verificationToken);
 
         console.log(`✅ New user registered: ${email} - OTP sent`);
 
@@ -100,6 +103,35 @@ router.post('/api/register', async (req, res) => {
         console.error('Registration error:', error);
         res.status(500).json({
             error: error.message || 'Registration failed. Please try again.'
+        });
+    }
+});
+
+// Verify email using token from direct link
+router.post('/api/verify-email-token', async (req, res) => {
+    try {
+        const { email, token } = req.body;
+
+        if (!email || !token) {
+            return res.status(400).json({ error: 'Email and token are required' });
+        }
+
+        // Verify token
+        const verified = await User.verifyEmailWithToken(email, token);
+
+        if (verified) {
+            console.log(`✅ Email verified via token: ${email}`);
+            res.json({
+                success: true,
+                message: 'Email verified successfully! You can now login.'
+            });
+        } else {
+            res.status(400).json({ error: 'Invalid or expired verification link' });
+        }
+    } catch (error) {
+        console.error('Token verification error:', error);
+        res.status(400).json({
+            error: error.message || 'Verification failed'
         });
     }
 });
@@ -148,7 +180,13 @@ router.post('/api/resend-otp', async (req, res) => {
 
         // Generate new OTP and send email
         const { user, otp } = await User.resendOTP(email);
-        await sendVerificationEmail(user.email, user.full_name, otp);
+
+        // Get verification token
+        const { query } = require('../database/db');
+        const result = await query('SELECT verification_token FROM users WHERE email = $1', [email]);
+        const verificationToken = result.rows[0]?.verification_token;
+
+        await sendVerificationEmail(user.email, user.full_name, otp, verificationToken);
 
         console.log(`✅ OTP resent to: ${email}`);
 
